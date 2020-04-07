@@ -17,3 +17,4 @@ class Pedidos(View):
     def post(request):
         return HttpResponse("<h1> no debiste llegar aqui </h1>")
         pass
+##Comentario solo para subirlo agit
