@@ -1,0 +1,16 @@
+{% load static %}
+{% block title %}Comida{% endblock title %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'comida/css/vercomida.css' %}">
+{% endblock css %}
+{% block body_content %}
+<body>
+    <div>       
+        <ol>
+            {% for comida in comidas  %}
+            <li>{{comida}}</a></li> 
+            {% endfor %}
+        </ol>
+        </div>        
+</body>
+{% endblock body_content %}
