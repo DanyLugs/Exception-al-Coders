@@ -12,7 +12,7 @@ from comida.forms import CategoryForm       #Cambiar por el nombre del form
 # Create your views here.
 class Categoria(View)
 
-    template = "comida/categorias/menu.html"
+    template = "comida/vercategorias.html"
 
     def get(self, request):
         """GET method."""

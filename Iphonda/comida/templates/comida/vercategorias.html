@@ -1,0 +1,17 @@
+{% load static %}
+{% block title %}Top Songs{% endblock title %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'comida/css/vercategorias.css' %}">
+{% endblock css %}
+{% block body_content %}
+<body>
+    <div class="list-type4">       
+        <ol>
+            {% for categoria in categorias  %}
+            <li>{{categoria}}</a></li> 
+            {% endfor %}
+        </ol>
+        </div>        
+</body>
+    {% endblock body_content %}
+    </html>

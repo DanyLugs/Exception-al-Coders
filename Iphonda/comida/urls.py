@@ -12,4 +12,4 @@ from comida import views
 
 app_name = "comida"
 urlpatterns = [
-    path('categorias', views-Categorias.as_view(), name = 'comida')
+    path('categorias', views-Categorias.as_view(), name = 'categorias')
