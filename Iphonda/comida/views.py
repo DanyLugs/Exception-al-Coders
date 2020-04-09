@@ -1,5 +1,5 @@
 """Views de Comida."""
-from django.shortcuts import render, redircet
+from django.shortcuts import render, redirect
 from django.views import View
 from django.http import HttpResponse
 from .models import Categoria
@@ -9,7 +9,7 @@ from .forms import Nueva_Categoria
 from comida.models import Comida
 
 #Forms
-from comida.forms import FoodForm       #Cambiar por el nombre del form
+from comida.forms import        #Cambiar por el nombre del form
 
 # Create your views here.
 class Comida(View):
