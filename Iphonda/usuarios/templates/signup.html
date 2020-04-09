@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro</title>
+</head>
+<body>
+    <h1><a href="/signup">Registro</a></h1>
+    <form action="." method="post">
+        {% csrf_token %}
+        <fieldset>
+            <legend>Registro de usuarios nuevos</legend>
+            <!-- {{ form.as_p }} -->
+            {% for field in form %}
+                <p>
+                    <label>
+                        {{ field.label }}
+                        {{ field }}
+                    </label>
+                </p>
+            {% endfor %}
+            <div>
+                {{ form.errors }}
+            </div>
+
+            <input type="submit" value="Enviar">
+        </fieldset>
+    </form>
+</body>
+</html>

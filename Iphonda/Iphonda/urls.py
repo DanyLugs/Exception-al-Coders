@@ -17,9 +17,13 @@ from django.contrib import admin
 from django.urls import path,include
 from django.conf.urls.static import static
 from django.conf import settings
+from django.urls import path
+from usuarios.views import *
 
 urlpatterns = [
     path('',include('usuario.urls')),
     path('admin/', admin.site.urls),
     path('comida/', include('comida.urls')),
+    path('login/', Login.as_view()),
+    path('signup/', Signup.as_view()),
 ]
