@@ -14,4 +14,5 @@ app_name = "comida"
 urlpatterns = [
     path('categorias/comida/', views.Comida.as_view(), name = 'comida'),
     path('agregar-categoria/', AgregarCategoria.as_view(), name='agregar-categoria'),
+     path('agregar-comida/', AgregarComida.as_view(), name='agregar-comida'),
 ]
