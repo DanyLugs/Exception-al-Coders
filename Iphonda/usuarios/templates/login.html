@@ -7,5 +7,30 @@
 </head>
 <body>
     <h1><a href="/login">Login</a></h1>
+    <form action="." method="post" novalidate>
+        {% csrf_token %}
+        <!-- <fieldset>
+            <legend>Inicio de sesión</legend>
+            <p>
+                <label>
+                    Usuario
+                    <input type="text" name="username">
+                </label>
+            </p>
+            <p>
+                <label>
+                    Contraseña
+                    <input type="password" name="password">
+                </label>
+            </p>
+            <input type="submit" value="Entrar">
+        </fieldset> -->
+
+        {{ form.as_p }}
+        <input type="submit" value="Entrar">
+
+    </form>
+
+    {{ user }} - <small><a href="/logout">Salir</a></small>
 </body>
 </html>
