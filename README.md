@@ -6,3 +6,5 @@ Nombre                       | No. Cta   | email                      | Encargad
 -----------------------------|-----------|----------------------------|-----------
 Careaga Carrillo Juan Manuel | 301137612 | jmcareaga@ciencias.unam.mx | Calidad
 Lugo Cano Daniel             | 315320015 | danylugo@ciencias.unam.mx  | Colaboración
+Figueroa Sandoval G. Emiliano| 315241774 | efs_070@ciencias.unam.mx   | Responsable Equipo
+
