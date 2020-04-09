@@ -4,23 +4,20 @@ from django.views import View
 from django.http import HttpResponse
 
 #Models
-from comida.models import Comida
-from .models import Categoria
+from .models import Comida, Categoria
 
 #Forms
 from .forms import Nueva_Categoria, Nueva_Comida
 
-
-
 # Create your views here.
-class Comida(View):
+class ComidaVista(View):
 
-    template = "comida/categorias/menu.html"
+    template = "comida/vercomida.html"
 
     def get(self, request):
         """GET method."""
-        comida = Comida.objects.all()
-        context = {"comida": comida}
+        comidas = Comida.objects.all()
+        context = {"comidas": comidas}
         return render(request, self.template, context)
 
 class AgregarCategoria(View):
@@ -58,4 +55,15 @@ class AgregarComida(View):
             return HttpResponse("<h1>Artista Agregado21!</h1>")
 
         context = {"form": form}
+        return render(request, self.template, context)
+
+
+class CategoriaVista(View):
+
+    template = "comida/vercategorias.html"
+
+    def get(self, request):
+        """GET method."""
+        categorias = Categoria.objects.all()
+        context = {"categorias": categorias}
         return render(request, self.template, context)
