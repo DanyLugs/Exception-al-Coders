@@ -20,5 +20,6 @@ from usuarios.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', Login.as_view()),
+    path('logout/', Logout.as_view()),
     path('signup/', Signup.as_view()),
 ]

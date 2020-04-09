@@ -1,11 +1,41 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from .forms import SignUpForm
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import authenticate, login, logout
+
 # Create your views here.
 class Login(View):
     def get(self, request):
-        context = {}
+        form = AuthenticationForm()
+        context = {
+            'form': form
+        }
         return render(request, "login.html", context)
+
+    def post(self, request):
+        username = request.POST['username'],
+        password = request.POST['password'],
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            print('Auth correct')
+            login(request, user)
+        else:
+            print('Login Failed')
+            print(username)
+            print(password)
+
+        form = AuthenticationForm(request.POST)
+        context = {
+            'form': form
+        }
+        return render(request, "login.html", context)
+
+class Logout(View):
+    def get(self, request):
+        logout(request)
+        return redirect('/login/')
 
 
 class Signup(View):
