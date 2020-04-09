@@ -11,7 +11,19 @@
         {% csrf_token %}
         <fieldset>
             <legend>Registro de usuarios nuevos</legend>
-            {{ form.as_p }}
+            <!-- {{ form.as_p }} -->
+            {% for field in form %}
+                <p>
+                    <label>
+                        {{ field.label }}
+                        {{ field }}
+                    </label>
+                </p>
+            {% endfor %}
+            <div>
+                {{ form.errors }}
+            </div>
+
             <input type="submit" value="Enviar">
         </fieldset>
     </form>
