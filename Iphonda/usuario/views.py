@@ -8,14 +8,15 @@ from django.template import loader
 
 class Pedidos(View):
     """docstring forPedidos."""
-    template=loader.get_template("usuario/pedidos.html")
-    lista_pedidos= Orden.objects.all()
+
     def get(self,request):
+        template=loader.get_template("usuario/pedidos.html")
+        lista_pedidos= Orden.objects.all()
         context={
         'lista_pedidos':lista_pedidos,
         }
 
-        return HttpResponse(template.render(context, request))
+        return render(request,"usuario/pedidos.html",context)
     def post(request):
         return HttpResponse("<h1> no debiste llegar aqui </h1>")
         pass
