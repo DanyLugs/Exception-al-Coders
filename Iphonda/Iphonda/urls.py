@@ -21,4 +21,5 @@ from django.conf import settings
 urlpatterns = [
     path('',include('usuario.urls')),
     path('admin/', admin.site.urls),
+    path('admin/categoria/', include('comida.urls')),
 ]

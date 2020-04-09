@@ -12,5 +12,6 @@ from comida import views
 
 app_name = "comida"
 urlpatterns = [
-    path('categorias/comida/', views.Comida.as_view(), name = 'comida')
+    path('categorias/comida/', views.Comida.as_view(), name = 'comida'),
+    path('agregar-categoria/', AgregarCategoria.as_view(), name='agregar-categoria'),
 ]
