@@ -1,0 +1,22 @@
+  <!DOCTYPE html>
+  <html lang="en" dir="ltr">
+
+
+    <head>
+      <meta charset="utf-8">
+      <title>Pedidos</title>
+    </head>
+    <body>
+      <h1>Pedidos</h1><br>
+      <h2>En esta sección vera los Pedidos que faltan</h2>
+      {% if lista_pedidos %}
+      <ul>
+        {% for pedido in lista_pedidos %}
+        <li> <a href="/IPHONDA/{{pedido.id}}">{{pedido.email}} </a></li>
+        {% endfor %}
+      </ul>
+      {%else%}
+      <p> No tienes ningun pedido :) </p>
+      {% endif %}
+    </body>
+  </html>
