@@ -16,7 +16,7 @@ class Login(View):
     def post(self, request):
         username = request.POST['username'],
         password = request.POST['password'],
-        user = authenticate(request, username=username, password=password)
+        user = authenticate(request, username=username[0], password=password[0])
 
         if user is not None:
             print('Auth correct')
