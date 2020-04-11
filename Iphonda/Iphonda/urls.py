@@ -21,10 +21,10 @@ from django.urls import path
 from usuarios.views import *
 
 urlpatterns = [
-    path('',include('usuario.urls')),
     path('admin/', admin.site.urls),
     path('comida/', include('comida.urls')),
     path('login/', Login.as_view()),
     path('logout/', Logout.as_view()),
     path('signup/', Signup.as_view()),
+    path('pedidos/', Pedidos.as_view()),
 ]
