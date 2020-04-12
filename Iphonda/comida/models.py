@@ -3,10 +3,10 @@ from django.db import models
 # Create your models here.
 class Comida(models.Model):
     """docstring for ."""
-    nombre=models.CharField(max_length=20)
-    descripcion=models.CharField(max_length=200)
-    imagen=models.ImageField(blank=True,null=True)
-    precio=models.DecimalField(max_digits=9,decimal_places=2)
+    nombre      = models.CharField(max_length = 20)
+    descripcion = models.CharField(max_length = 200)
+    imagen      = models.ImageField(upload_to = 'comida/static/images/')
+    precio      = models.DecimalField(max_digits=9,decimal_places=2)
         #Relacion :V
     categoria=models.ForeignKey('Categoria',on_delete= models.CASCADE)
     def __str__(self):

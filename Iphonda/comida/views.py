@@ -48,7 +48,7 @@ class AgregarComida(View):
         return render(request, self.template, context)
 
     def post(self, request):
-        form = Nueva_Comida(request.POST)
+        form = Nueva_Comida(request.POST, request.FILES)
         if form.is_valid():
             comida_nueva = form.save(commit=False)
             comida_nueva.save()

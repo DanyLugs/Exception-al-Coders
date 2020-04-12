@@ -44,13 +44,13 @@ class Pedidos(View):
     """docstring forPedidos."""
 
     def get(self,request):
-        template = loader.get_template("usuario/pedidos.html")
+        template = loader.get_template("pedidos.html")
         lista_pedidos = Orden.objects.all()
         context = {
             'lista_pedidos':lista_pedidos,
         }
 
-        return render(request,"usuario/pedidos.html",context)
+        return render(request,"pedidos.html",context)
 
     def post(self, request):
         return HttpResponse("<h1> no debiste llegar aqui </h1>")
