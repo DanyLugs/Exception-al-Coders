@@ -80,8 +80,10 @@ function css() {
     .pipe(rename({
       suffix: ".min"
     }))
+    .pipe(gulp.dest("../Iphonda/static/css"))
     .pipe(cleanCSS())
     .pipe(gulp.dest("./css"))
+    .pipe(gulp.dest("../Iphonda/static/css"))
     .pipe(browsersync.stream());
 }
 
