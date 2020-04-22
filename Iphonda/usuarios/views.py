@@ -18,21 +18,17 @@ class Login(View):
         return render(request, "login.html", context)
 
     def post(self, request):
+        form = AuthenticationForm(request.POST)
         username = request.POST['username'],
         password = request.POST['password'],
         user = authenticate(request, username=username[0], password=password[0])
 
         if user is not None:
-            print('Auth correct')
             login(request, user)
-        else:
-            print('Login Failed')
-            print(username)
-            print(password)
 
-        form = AuthenticationForm(request.POST)
         context = {
-            'form': form
+            'form': form,
+            'title': 'Inicio de sesión'
         }
         return render(request, "login.html", context)
 
@@ -73,6 +69,7 @@ class Signup(View):
             return redirect('/login/')
 
         context = {
-            'form': form
+            'form': form,
+            'title': 'Registro de usuarios'
         }
         return render(request, "signup.html", context)
