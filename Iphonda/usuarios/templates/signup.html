@@ -1,31 +1,69 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro</title>
-</head>
-<body>
-    <h1><a href="/signup">Registro</a></h1>
-    <form action="." method="post">
-        {% csrf_token %}
-        <fieldset>
-            <legend>Registro de usuarios nuevos</legend>
-            <!-- {{ form.as_p }} -->
-            {% for field in form %}
-                <p>
-                    <label>
+{% extends 'base.html' %}
+
+{% block main %}
+<!-- <div class="page-section cta">
+        <div class="container">
+            <form class="cta-inner" action="." method="post" novalidate>
+                {% csrf_token %}
+                <fieldset>
+                    <legend>Registro de usuarios nuevos</legend>
+
+                    {% for field in form %}
+                        <p>
+                            <label>
+                                {{ field.label }}
+                                {{ field }}
+                            </label>
+                        </p>
+                    {% endfor %}
+                    <div>
+                        {{ form.errors }}
+                    </div>
+
+                    <input type="submit" value="Enviar">
+                </fieldset>
+            </form>
+        </div>
+    </div> -->
+
+<div class="page-section cta">
+    <div class="container">
+        <form action="." method="post" novalidate class="cta-inner">
+            {% csrf_token %}
+            <fieldset>
+                <legend>Registro de usuarios nuevos</legend>
+
+                <!-- {% for field in form %}
+                    <div class="form-group row">
+                        <label for="{{ field.name }}" class="col-sm-2 col-form-label">
+                            {{ field.name }}
+                        </label>
+                        <div class="col-sm-10">
+                            <input class="form-control" type="text" id="{{ form.name }}" name="{{ form.name }}">
+                        </div>
+                    </div>
+                    {% if field.error is not None %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        El <strong>nombre se usuario</strong> es requerido
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endif %}
+                    {% endfor %} -->
+                {% for field in form %}
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">
                         {{ field.label }}
                         {{ field }}
                     </label>
-                </p>
-            {% endfor %}
-            <div>
-                {{ form.errors }}
-            </div>
+                </div>
+                {% endfor %}
 
-            <input type="submit" value="Enviar">
-        </fieldset>
-    </form>
-</body>
-</html>
+                <input class="btn btn-primary" type="submit" value="Entrar">
+            </fieldset>
+
+        </form>
+    </div>
+</div>
+{% endblock main %}

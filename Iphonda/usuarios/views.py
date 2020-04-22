@@ -12,7 +12,8 @@ class Login(View):
     def get(self, request):
         form = AuthenticationForm()
         context = {
-            'form': form
+            'form': form,
+            'title': 'Inicio de sesión'
         }
         return render(request, "login.html", context)
 
@@ -59,7 +60,8 @@ class Pedidos(View):
 class Signup(View):
     def get(self, request):
         context = {
-            'form': SignUpForm()
+            'form': SignUpForm(),
+            'title': 'Registro de usuarios'
         }
         return render(request, "signup.html", context)
 
