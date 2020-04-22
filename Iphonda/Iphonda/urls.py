@@ -19,8 +19,10 @@ from django.conf.urls.static import static
 from django.conf import settings
 from django.urls import path
 from usuarios.views import *
+from pages.views import HomePage
 
 urlpatterns = [
+    path('', HomePage.as_view()),
     path('admin/', admin.site.urls),
     path('comida/', include('comida.urls')),
     path('login/', Login.as_view()),
