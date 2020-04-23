@@ -5,18 +5,6 @@
 {% block title %}Categorias{% endblock title %}
 
 {% block main %}
-<body>
-    <div class="list-type4">       
-        <ol>
-            {% for categoria in categorias  %}
-            <li>{{categoria}}</a></li> 
-            {% endfor %}
-        </ol>
-        </div>        
-</body>
-{% endblock main %}
-
-
 <h2 id="demo11">Categorias</h2>
   <div class="hover11 column">
     <div class="crop"> 
@@ -25,3 +13,4 @@
       <span>{{categoria}}</span>
       {% endfor %}
     </div>
+{% endblock main %}
