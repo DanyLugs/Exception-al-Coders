@@ -16,4 +16,4 @@ urlpatterns = [
     path('agregar-categoria/', views.AgregarCategoria.as_view(), name='agregar-categoria'),
     path('agregar-comida/', views.AgregarComida.as_view(), name='agregar-comida'),
     path('categorias/', views.CategoriaVista.as_view(), name = 'categorias'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
