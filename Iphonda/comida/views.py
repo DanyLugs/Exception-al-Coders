@@ -2,6 +2,7 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from django.http import HttpResponse
+from django.contrib import messages
 
 #Models
 from .models import Comida, Categoria
@@ -35,8 +36,10 @@ class AgregarCategoria(View):
         if form.is_valid():
             categoria_nueva = form.save(commit=False)
             categoria_nueva.save()
-            return HttpResponse("<h>AQui debe de ir la reedireccion a comida</h1>")
-        form = Nueva_Comida(request.POST)
+            messages.success(request, 'Categoria Agregada !')
+
+        context = {"form": form}
+        return render(request, self.template, context)
 
 class AgregarComida(View):
 
@@ -52,7 +55,7 @@ class AgregarComida(View):
         if form.is_valid():
             comida_nueva = form.save(commit=False)
             comida_nueva.save()
-            return HttpResponse("<h1>Artista Agregado21!</h1>")
+            messages.success(request, 'Comida Agregada !')
 
         context = {"form": form}
         return render(request, self.template, context)
