@@ -24,10 +24,5 @@ class Nueva_Comida(forms.ModelForm):
             'descripcion' : forms.TextInput(
             attrs={'class' : 'form-group' , 'placeholder' : 'Justo como el de mama'}
             ),
-            'precio' : forms.TextInput(
-            attrs={'class' : 'form-group' }
-            ),
-            'categoria' : forms.TextInput(
-            attrs={'class' : 'form-group' }
-            )
+            
             }
