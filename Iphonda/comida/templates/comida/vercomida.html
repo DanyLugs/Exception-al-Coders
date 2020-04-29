@@ -3,20 +3,20 @@
 {% block title %}Comida{% endblock title %}
 
 {% block main %}
-{% endblock main %}
+
 
 {% for categoria in categorias %}
-<h2 style="text-align:center">{{nombre}}</h2>
-{% end for %}
+<h2 style="text-align:center">{{categoria.nombre}}</h2>
+{% endfor %}
 {% for comida in comidas %}
 <div class="hover11">
     <div class="card"> 
-        <img src="{{ image.model_pic.url }} style=width:100%" />
-        <h1>{{nombre}}</h1>
-        <p class="price">{{precio}}</p>
-        <p>{{descripcion}}</p>
+        <img src="{{ comida.image }}" style="width:100%" />
+        <h1>{{comida.nombre}}</h1>
+        <p class="price">{{comida.precio}}</p>
+        <p>{{comida.descripcion}}</p>
         <p><button>Add to Cart</button></p>
     </div>
 </div>  
-{% end for %} 
+{% endfor %} 
 {% endblock main %}
