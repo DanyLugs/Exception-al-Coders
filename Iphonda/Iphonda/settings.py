@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'pages',
     'comida',
     'usuarios',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -126,7 +127,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/static/img/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
@@ -135,4 +136,4 @@ STATICFILES_DIRS = [
 
 #Media files (mp3, mp4)
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = 'media/'
+MEDIA_URL = '/media/'

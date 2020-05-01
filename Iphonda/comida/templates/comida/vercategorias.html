@@ -4,13 +4,19 @@
 
 {% block title %}Categorias{% endblock title %}
 
+{% block css %}
+<link rel="stylesheet" href="{% static 'comida/css/vercategorias.css' %}">
+{% endblock css %}
+
 {% block main %}
-<h2 id="demo11">Categorias</h2>
-  <div class="hover11 column">
-    <div class="crop"> 
+<h2>Categorias</h2>
+   <div class="hover111 column">  
+    <div class="crop2">
       {% for categoria in categorias %}
-      <img src="" />
+      <a href="/comida">
+      <figure><img src="{% static '/comida/img/sopa.jpg' %}" /> </figure></a>
       <span>{{categoria.nombre}}</span>
+      <span>{{categoria.descripcion}}</span>
       {% endfor %}
     </div>
 {% endblock main %}
