@@ -15,9 +15,10 @@ class Comida(models.Model):
         return self.__str__()
 
 class Categoria(models.Model):
-    nombre=models.CharField(max_length=20)
-    descripcion=models.CharField(max_length=255)
-
+    nombre      = models.CharField(max_length=20)
+    descripcion = models.CharField(max_length=255)
+    imagen      = models.ImageField(upload_to = 'categoria/static/images')
+    
     def __str__(self):
         return self.nombre
     def __repr__(self):

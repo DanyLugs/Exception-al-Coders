@@ -4,7 +4,7 @@ from .models import Comida , Categoria
 class Nueva_Categoria(forms.ModelForm):
     class Meta:
         model = Categoria
-        fields = ['nombre','descripcion']
+        fields = ['nombre','descripcion','imagen']
         widgets = {
             'nombre' : forms.TextInput(
             attrs={'class' : 'form-group' , 'placeholder' : 'Sopa , ..'}
@@ -23,6 +23,5 @@ class Nueva_Comida(forms.ModelForm):
             ),
             'descripcion' : forms.TextInput(
             attrs={'class' : 'form-group' , 'placeholder' : 'Justo como el de mama'}
-            ),
-            
+            ),    
             }
