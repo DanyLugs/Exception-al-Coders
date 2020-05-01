@@ -14,7 +14,8 @@
 
 {% for comida in comidas %}
     <div class="card"> 
-        <figure><img src="{{ MEDIA_URL }}/{{ comida.imagen }}" style="width:100%"/> </figure> 
+        <!-- <figure><img src="{{ MEDIA_URL }}/{{ comida.imagen }}" style="width:100%"/> </figure>  -->
+        <figure><img src="{{ comida.imagen.url }}" style="width:100%"/> </figure> 
         <h1>{{comida.nombre}}</h1>
         <p class="price">${{comida.precio}}</p>
         <p>{{comida.descripcion}}</p>
