@@ -21,9 +21,15 @@
              
               {% if lista_pedidos %}
               <ul>
-                {% for pedido in lista_pedidos %}
-                <li>Este es el pedio {{pedido.id}} lo solicito, {{pedido.usuario}}, su orden fue  {{pedido.comida}},La fecha fue en {{pedido.fecha}} </li>
+                {% for pedido in lista_comida %}
+                
+                 <li>Este es el pedio {{pedido.id}} lo solicito, {{pedido.usuario}}, su orden fue  {{ pedido.comida}} ,de la categoria {{ pedido.comida.categoria}}  ,La fecha fue en {{pedido.fecha}} </li> -->
+                {{ comida.nombre }}
+                {% for comida in pedido.comidas %}
+                {{comida.nombre}} ,
                 {% endfor %}
+                {% endfor %}
+                
               </ul>
               {%else%}
               <p> No tienes ningun pedido :) </p>
@@ -36,3 +42,10 @@
     </div>
   </section>
   {% endblock main %}
+
+    def listaComida():
+      ordenes = Orden.object.all()
+      for oden in ordenes:
+        comidas= orden.comida.all()
+        for comida in comidas:
+          print(comida.nombre,comida.categoria)

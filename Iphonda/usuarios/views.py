@@ -43,8 +43,23 @@ class Pedidos(View):
     def get(self,request):
         template = loader.get_template("pedidos.html")
         lista_pedidos = Orden.objects.all()
+        pedidos=[] 
+        for pedido in lista_pedidos:
+            lisCom=[]
+            for comida in pedido.comida.all():
+                lisCom.append(comida)
+            diCo={
+                "id": pedido.id,
+                "fecha": pedido.fecha,
+                "usuario":pedido.usuario,
+                "comidas": lisCom
+            }
+            pedidos.append(diCo)
+       
+                    
         context = {
             'lista_pedidos':lista_pedidos,
+            'lista_comida':pedidos    
         }
 
         return render(request,"pedidos.html",context)
