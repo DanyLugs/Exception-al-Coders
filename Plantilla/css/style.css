@@ -165,6 +165,15 @@ p {
   padding-right: 2rem;
 }
 
+.btn-sm {
+  font-weight: 700;
+  font-size: 0.8rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
 .intro {
   position: relative;
 }

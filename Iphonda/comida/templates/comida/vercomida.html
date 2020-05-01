@@ -1,22 +1,27 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block title %}Comida{% endblock title %}
 
 {% block main %}
-{% endblock main %}
 
+<div>
 {% for categoria in categorias %}
-<h2 style="text-align:center">{{nombre}}</h2>
-{% end for %}
+<span>{{categoria.nombre}}</span>
+{% endfor %}
+</div>
+
 {% for comida in comidas %}
-<div class="hover11">
     <div class="card"> 
-        <img src="{{ image.model_pic.url }} style=width:100%" />
-        <h1>{{nombre}}</h1>
-        <p class="price">{{precio}}</p>
-        <p>{{descripcion}}</p>
+        <!-- <figure><img src="{{ MEDIA_URL }}/{{ comida.imagen }}" style="width:100%"/> </figure>  -->
+        <figure><img src="{{ comida.imagen.url }}" style="width:100%"/> </figure> 
+        <h1>{{comida.nombre}}</h1>
+        <p class="price">${{comida.precio}}</p>
+        <p>{{comida.descripcion}}</p>
         <p><button>Add to Cart</button></p>
     </div>
-</div>  
-{% end for %} 
+
+    
+{% endfor %} 
 {% endblock main %}
