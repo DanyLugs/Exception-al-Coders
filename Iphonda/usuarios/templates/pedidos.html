@@ -23,10 +23,14 @@
               <ul>
                 {% for pedido in lista_comida %}
                 
-                 <li>Este es el pedio {{pedido.id}} lo solicito, {{pedido.usuario}}, su orden fue  {{ pedido.comida}} ,de la categoria {{ pedido.comida.categoria}}  ,La fecha fue en {{pedido.fecha}} </li> -->
-                {{ comida.nombre }}
+                 <li>Este es el pedio {{pedido.id}} lo solicito, {{pedido.usuario}}, La fecha fue en {{pedido.fecha}} </li> 
+                  Su pedido es :
+                 {{ comida.nombre }}
+                
                 {% for comida in pedido.comidas %}
-                {{comida.nombre}} ,
+                <ul>
+                  <li> {{comida.nombre}} </li>
+                </ul> 
                 {% endfor %}
                 {% endfor %}
                 
