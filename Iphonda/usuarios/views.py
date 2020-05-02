@@ -25,6 +25,7 @@ class Login(View):
 
         if user is not None:
             login(request, user)
+            return redirect('/')
 
         context = {
             'form': form,

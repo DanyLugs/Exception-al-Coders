@@ -2,18 +2,6 @@
 
 {% block main %}
 
-<div class="card" style="width: 18rem; margin-top: 1rem;">
-    <div class="card-body">
-        <p class="card-text">
-            {% if user.is_authenticated %}
-            {{ user }} - <small><a href="/logout">Salir</a></small>
-            {% else %}
-            No has iniciado sesión
-            {% endif %}
-        </p>
-    </div>
-</div>
-
 <div class="page-section cta">
     <div class="container">
         <form action="." method="post" novalidate class="cta-inner">
