@@ -4,7 +4,7 @@ from django.template.defaultfilters import slugify
 # Create your models here.
 class Comida(models.Model):
     """docstring for ."""
-    nombre      = models.CharField(max_length = 40)
+    nombre      = models.CharField(max_length = 40, unique=True)
     descripcion = models.CharField(max_length = 200)
     imagen      = models.ImageField(upload_to = 'comida/static/images')
     precio      = models.DecimalField(max_digits=9,decimal_places=2)
@@ -16,8 +16,8 @@ class Comida(models.Model):
         return self.__str__()
 
 class Categoria(models.Model):
-    nombre      = models.CharField(max_length=40)
-    slug        = models.SlugField(max_length=40, null = True)
+    nombre      = models.CharField(max_length=40, unique=True)
+    slug        = models.SlugField(max_length=40, null = True, unique=True)
     descripcion = models.CharField(max_length=255)
     imagen      = models.ImageField(upload_to = 'categoria/static/images')
 
