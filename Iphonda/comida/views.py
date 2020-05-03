@@ -31,7 +31,7 @@ class AgregarCategoria(View):
         return render(request, self.template, context)
 
     def post(self, request):
-        form = Nueva_Categoria(request.POST)
+        form = Nueva_Categoria(request.POST, request.FILES)
 
         if form.is_valid():
             categoria_nueva = form.save(commit=False)
