@@ -1,38 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-</head>
-<body>
-    <h1><a href="/login">Login</a></h1>
-    <form action="." method="post" novalidate>
-        {% csrf_token %}
-        <fieldset>
-            <legend>Inicio de sesión</legend>
-            <p>
-                <label>
-                    Usuario
-                    <input type="text" name="username">
-                </label>
-            </p>
-            <p>
-                <label>
-                    Contraseña
-                    <input type="password" name="password">
-                </label>
-            </p>
-            <input type="submit" value="Entrar">
-        </fieldset>
-    </form>
+{% extends 'base.html' %}
 
-    <p>
-    {% if user.is_authenticated %}
-        {{ user }} - <small><a href="/logout">Salir</a></small>
-    {% else %}
-        No has iniciado sesión
-    {% endif %}
-    </p>
-</body>
-</html>
+{% block main %}
+
+<div class="page-section cta">
+    <div class="container">
+        <form action="." method="post" novalidate class="cta-inner">
+            {% csrf_token %}
+            <fieldset>
+                <legend>Inicio de sesión</legend>
+                <div class="form-group row">
+                    <label for="username" class="col-sm-2 col-form-label">
+                        Username
+                    </label>
+                    <div class="col-sm-10">
+                        <input class="form-control" type="text" id="username" name="username">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="password" class="col-sm-2 col-form-label">
+                        Password
+                    </label>
+                    <div class="col-sm-10">
+                        <input class="form-control" type="password" id="password" name="password">
+                    </div>
+                </div>
+                <input class="btn btn-primary" type="submit" value="Entrar">
+            </fieldset>
+            <div id="reg-link">
+                <small>
+                    ¿No tienes cuenta aún?
+                    <a href="/signup">¡Regístrate gratis!</a>
+                </small>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock main %}

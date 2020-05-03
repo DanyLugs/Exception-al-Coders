@@ -1,17 +1,18 @@
+{% extends 'base.html' %}
+
 {% load static %}
+
 {% block title %}Categorias{% endblock title %}
-{% block css %}
-<link rel="stylesheet" href="{% static 'comida/css/vercategorias.css' %}">
-{% endblock css %}
-{% block body_content %}
-<body>
-    <div class="list-type4">       
-        <ol>
-            {% for categoria in categorias  %}
-            <li>{{categoria}}</a></li> 
-            {% endfor %}
-        </ol>
-        </div>        
-</body>
-    {% endblock body_content %}
-    </html>
+
+{% block main %}
+<h2 class="demo11">Categorias</h2>
+  <div class="hover11 column">  
+      {% for categoria in categorias %}
+      <a href="/comida/categorias/{{ categoria.nombre | lower }}">
+      <div class="crop">  
+      <figure><img src="{{ categoria.imagen.url }}" /> </figure>
+      <span>{{categoria.nombre}} | {{categoria.descripcion}}</span></a>
+      </div>
+      {% endfor %}  
+  </div>    
+{% endblock main %}

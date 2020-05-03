@@ -5,6 +5,8 @@ from django.contrib import admin
 from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.staticfiles.urls import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 
 # Views
@@ -16,4 +18,5 @@ urlpatterns = [
     path('agregar-categoria/', views.AgregarCategoria.as_view(), name='agregar-categoria'),
     path('agregar-comida/', views.AgregarComida.as_view(), name='agregar-comida'),
     path('categorias/', views.CategoriaVista.as_view(), name = 'categorias'),
-]
+    path('categorias/<str:categoryName>/', views.ComidaVista.as_view(), name = 'comida'),
+] 
