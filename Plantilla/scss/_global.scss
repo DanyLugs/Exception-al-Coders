@@ -26,6 +26,7 @@ p {
   margin-top: 5rem;
   margin-bottom: 5rem;
   text-transform: uppercase;
+  text-shadow: 2px 2px 2px rgba(0,0,0,0.8);
   line-height: 1;
 
   @include heading-font;
