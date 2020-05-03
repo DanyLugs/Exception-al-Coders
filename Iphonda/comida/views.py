@@ -15,9 +15,11 @@ class ComidaVista(View):
 
     template = "comida/vercomida.html"
 
-    def get(self, request):
+    def get(self, request, categoryName):
         """GET method."""
-        comidas = Comida.objects.all()
+        id = Categoria.objects.filter(nombre = categoryName.capitalize()).first()
+        comidas = Comida.objects.filter(categoria = id)
+        print(id)
         context = {"comidas": comidas}
         return render(request, self.template, context)
 

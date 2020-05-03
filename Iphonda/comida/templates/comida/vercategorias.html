@@ -8,9 +8,9 @@
 <h2 class="demo11">Categorias</h2>
   <div class="hover11 column">  
       {% for categoria in categorias %}
-      <a href="/comida">
+      <a href="/comida/categorias/{{ categoria.nombre | lower }}">
       <div class="crop">  
-      <figure><img src="{% static '/comida/img/sopa.jpg' %}" /> </figure>
+      <figure><img src="{{ categoria.imagen.url }}" /> </figure>
       <span>{{categoria.nombre}} | {{categoria.descripcion}}</span></a>
       </div>
       {% endfor %}  
