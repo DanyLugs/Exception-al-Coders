@@ -17,7 +17,7 @@ class ComidaVista(View):
 
     def get(self, request, categoryName):
         """GET method."""
-        id = Categoria.objects.filter(nombre = categoryName.capitalize()).first()
+        id = Categoria.objects.filter(slug = categoryName).first()
         comidas = Comida.objects.filter(categoria = id)
         print(id)
         context = {"comidas": comidas}
