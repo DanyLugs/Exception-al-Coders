@@ -17,7 +17,7 @@ class Comida(models.Model):
 
 class Categoria(models.Model):
     nombre      = models.CharField(max_length=40, unique=True)
-    slug        = models.SlugField(max_length=40, null = True, unique=True)
+    slug        = models.SlugField(max_length=40, unique=True)
     descripcion = models.CharField(max_length=255)
     imagen      = models.ImageField(upload_to = 'categoria/static/images')
 
