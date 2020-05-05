@@ -3,6 +3,7 @@ from django.views import View
 from .forms import SignUpForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 from .models import Orden
 from django.template import loader
 from django.http import HttpResponse
@@ -23,15 +24,18 @@ class Login(View):
         password = request.POST['password'],
         user = authenticate(request, username=username[0], password=password[0])
 
-        if user is not None:
-            login(request, user)
-            return redirect('/')
-
         context = {
             'form': form,
             'title': 'Inicio de sesión'
         }
-        return render(request, "login.html", context)
+
+        if user is not None:
+            login(request, user)
+            return redirect('/')
+        else:
+            messages.error(request, 'Falló la autenticación de usuario. Intenta ingresar nuevamente.')
+            return render(request, "login.html", context)
+
 
 class Logout(View):
     def get(self, request):
@@ -44,7 +48,7 @@ class Pedidos(View):
     def get(self,request):
         template = loader.get_template("pedidos.html")
         lista_pedidos = Orden.objects.all()
-        pedidos=[] 
+        pedidos=[]
         for pedido in lista_pedidos:
             lisCom=[]
             for comida in pedido.comida.all():
@@ -56,11 +60,11 @@ class Pedidos(View):
                 "comidas": lisCom
             }
             pedidos.append(diCo)
-       
-                    
+
+
         context = {
             'lista_pedidos':lista_pedidos,
-            'lista_comida':pedidos    
+            'lista_comida':pedidos
         }
 
         return render(request,"pedidos.html",context)
