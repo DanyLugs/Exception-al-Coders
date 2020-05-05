@@ -35,13 +35,18 @@ class AgregarCategoria(View):
     def post(self, request):
         form = Nueva_Categoria(request.POST, request.FILES)
 
-        if form.is_valid():
-            categoria_nueva = form.save(commit=False)
-            categoria_nueva.save()
-            messages.success(request, 'Categoria Agregada !')
+        try:
+            if form.is_valid():
+                categoria_nueva = form.save(commit=False)
+                categoria_nueva.save()
+                messages.success(request, 'Categoria Agregada !')
 
-        context = {"form": form}
-        return render(request, self.template, context)
+            context = {"form": form}
+            return render(request, self.template, context)
+        except:
+            messages.success(request, 'Hubo un error agregando la Categoria')
+            context = {"form": form}
+            return render(request, self.template, context)
 
 class AgregarComida(View):
 
@@ -54,13 +59,19 @@ class AgregarComida(View):
 
     def post(self, request):
         form = Nueva_Comida(request.POST, request.FILES)
-        if form.is_valid():
-            comida_nueva = form.save(commit=False)
-            comida_nueva.save()
-            messages.success(request, 'Comida Agregada !')
 
-        context = {"form": form}
-        return render(request, self.template, context)
+        try:
+            if form.is_valid():
+                comida_nueva = form.save(commit=False)
+                comida_nueva.save()
+                messages.success(request, 'Comida Agregada !')
+
+            context = {"form": form}
+            return render(request, self.template, context)
+        except:
+            messages.success(request, 'Hubo un error agregando la Comida')
+            context = {"form": form}
+            return render(request, self.template, context)
 
 
 class CategoriaVista(View):
