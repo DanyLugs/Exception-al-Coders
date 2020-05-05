@@ -101,6 +101,6 @@ class CategoriaVista(View):
         categorias = Categoria.objects.all()
         context = {
             "categorias": categorias,
-            "title": "Explora nuetsro menú"
+            "title": "Explora nuestro menú"
         }
         return render(request, self.template, context)
