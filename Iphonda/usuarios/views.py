@@ -64,7 +64,8 @@ class Pedidos(View):
 
         context = {
             'lista_pedidos':lista_pedidos,
-            'lista_comida':pedidos
+            'lista_comida':pedidos,
+            "title": "Pedidos"
         }
 
         return render(request,"pedidos.html",context)

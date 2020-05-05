@@ -20,7 +20,10 @@ class ComidaVista(View):
         id = Categoria.objects.filter(slug = categoryName).first()
         comidas = Comida.objects.filter(categoria = id)
         print(id)
-        context = {"comidas": comidas}
+        context = {
+            "comidas": comidas,
+            "title": id.nombre
+        }
         return render(request, self.template, context)
 
 class AgregarCategoria(View):
@@ -29,11 +32,18 @@ class AgregarCategoria(View):
 
     def get(self,request):
         form = Nueva_Categoria()
-        context = {"form": form}
+        context = {
+            "form": form,
+            "title": "Agregar categorías"
+        }
         return render(request, self.template, context)
 
     def post(self, request):
         form = Nueva_Categoria(request.POST, request.FILES)
+        context = {
+            "form": form,
+            "title": "Agregar categorías"
+        }
 
         try:
             if form.is_valid():
@@ -41,11 +51,9 @@ class AgregarCategoria(View):
                 categoria_nueva.save()
                 messages.success(request, 'Categoria Agregada !')
 
-            context = {"form": form}
             return render(request, self.template, context)
         except:
             messages.success(request, 'Hubo un error agregando la Categoria')
-            context = {"form": form}
             return render(request, self.template, context)
 
 class AgregarComida(View):
@@ -54,7 +62,11 @@ class AgregarComida(View):
 
     def get(self,request):
         form = Nueva_Comida()
-        context = {"form": form}
+        context = {
+            "form": form,
+            "title": "Agregar comida"
+        }
+
         return render(request, self.template, context)
 
     def post(self, request):
@@ -66,11 +78,17 @@ class AgregarComida(View):
                 comida_nueva.save()
                 messages.success(request, 'Comida Agregada !')
 
-            context = {"form": form}
+            context = {
+                "form": form,
+                "title": "Agregar comida"
+            }
             return render(request, self.template, context)
         except:
             messages.success(request, 'Hubo un error agregando la Comida')
-            context = {"form": form}
+            context = {
+                "form": form,
+                "title": "Agregar comida"
+            }
             return render(request, self.template, context)
 
 
@@ -81,5 +99,8 @@ class CategoriaVista(View):
     def get(self, request):
         """GET method."""
         categorias = Categoria.objects.all()
-        context = {"categorias": categorias}
+        context = {
+            "categorias": categorias,
+            "title": "Explora nuetsro menú"
+        }
         return render(request, self.template, context)
