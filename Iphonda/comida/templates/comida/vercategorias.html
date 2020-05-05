@@ -5,7 +5,9 @@
 {% block title %}Categorias{% endblock title %}
 
 {% block main %}
-<h2 class="demo11">Categorias</h2>
+<h1 class="site-heading text-center text-white d-none d-lg-block">
+  <span class="site-heading-upper text-primary mb-3"> Categorias </span>
+</h1>
   <div class="hover11 column">
       {% for categoria in categorias %}
       <a href="/comida/categorias/{{ categoria.slug }}">
