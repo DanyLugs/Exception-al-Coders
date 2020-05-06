@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.http import HttpResponse
 from django.contrib import messages
+from django.template.defaultfilters import slugify
 
 #Models
 from .models import Comida, Categoria
@@ -110,7 +111,7 @@ class EliminarComida(View):
     def get(self,request,comida_id):
         print("Si llego aqui")
         comidaMod=Comida.objects.get(id=comida_id)
-        categoria=comidaMod.categoria
+        categoria = slugify(comidaMod.categoria)
         url="/comida/categorias/"+str(categoria)+"/"
         comidaMod.delete()
         print(url)
