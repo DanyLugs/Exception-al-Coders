@@ -29,6 +29,10 @@
                 <li class="nav-item {% if request.path == "/comida/agregar-comida/" %}active{% endif %} px-lg-4">
                     <a class="nav-link text-uppercase text-expanded" href="/comida/agregar-comida">Agregar Comida</a>
                 </li>
+
+                <li class="nav-item {% if request.path == "/pedidos/" %}active{% endif %} px-lg-4">
+                    <a class="nav-link text-uppercase text-expanded" href="/pedidos">Ver pedidos</a>
+                </li>
                 {% endif %}
             </ul>
             {% if user.is_authenticated %}

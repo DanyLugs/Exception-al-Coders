@@ -480,6 +480,7 @@ body .well-block .dish-price {
 .crop {
   width: 200px;
   height: 150px;
+  margin-bottom: 2.3rem;
 }
 
 .crop img {
