@@ -16,7 +16,7 @@
         <h2 class="section-heading mb-4">
           <span class="section-heading-upper"> -Comida- </span>
         </h2>
-        <form method="POST">
+        <form method="POST" enctype="multipart/form-data" novalidate>
             {{ form.as_p }}
             {% csrf_token %}
             <button type="submit">Editar</button>

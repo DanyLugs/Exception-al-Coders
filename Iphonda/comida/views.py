@@ -1,3 +1,4 @@
+
 """Views de Comida."""
 from django.shortcuts import render, redirect
 from django.views import View
@@ -152,7 +153,7 @@ class EditarComida(View):
 
     def post(self, request, comida_id):
         comidaMod  =Comida.objects.get(id = comida_id)
-        form = Nueva_Comida(request.POST, instance=comidaMod)
+        form = Nueva_Comida(request.POST, request.FILES , instance=comidaMod) ,
         context = {
             "form": form,
             "title": "Editar comida " + comidaMod.nombre
@@ -160,7 +161,8 @@ class EditarComida(View):
         if(form.is_valid()):
             comidaMod=form.save(commit=False)
             comidaMod.save()
-            return redirect("/comida/categorias/" + slugify(comidaMod.categoria) + "/")
+            return redirect("/comida/categorias/" )
+
         return render(request,"comida/editarComida.html", context)
 
 class EditarCategoria(View):
@@ -173,12 +175,9 @@ class EditarCategoria(View):
         }
         return render(request,"categoria/editarCategoria.html", context)
 
-def editarCategoria(request, categoria_id):
-    url="/comida/categorias/"
-    categoriaMod=Categoria.objects.get(id=categoria_id)
-    form= Nueva_Categoria(instance=categoriaMod)
-    if(request.method=='POST'):
-        form =Nueva_Categoria(request.POST, instance=categoriaMod)
+    def post(self, request, categoria_id):
+        categoriaMod=Categoria.objects.get(id=categoria_id)
+        form =Nueva_Categoria(request.POST, request.FILES, instance=categoriaMod)
         context = {
             "form": form,
             "title": "Editar categoría " + categoriaMod.nombre
@@ -186,3 +185,5 @@ def editarCategoria(request, categoria_id):
         if(form.is_valid()):
             categoriaMod=form.save(commit=False)
             categoriaMod.save()
+            return redirect("/comida/categorias/")
+        return render(request,"categoria/editarCategoria.html", context)
