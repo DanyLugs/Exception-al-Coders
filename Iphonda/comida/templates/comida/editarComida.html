@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block header %}
 <h1 class="site-heading text-center text-white d-none d-lg-block">
-  <span class="site-heading-upper text-primary mb-3">Agrega una nueva Comida !! </span>
+  <span class="site-heading-upper text-primary mb-3">Edita su platillo !! </span>
 </h1>
 {% endblock header %}
 {% block main %}
@@ -16,17 +16,12 @@
         <h2 class="section-heading mb-4">
           <span class="section-heading-upper"> -Comida- </span>
         </h2>
-        <form action="." method="POST" enctype="multipart/form-data" novalidate>
-          {% csrf_token %}
-          {% for field in form %}
-          <div class="agregar_comida_input">
-            {{ field.errors}}
-            {{ field.label_tag}}
-            {{ field}}
-          </div>
-          {% endfor %}
-          <input class="btn btn-primary btn-sm" value="Agregar" type="submit">
+        <form method="POST" enctype="multipart/form-data" novalidate>
+            {{ form.as_p }}
+            {% csrf_token %}
+            <button type="submit">Editar</button>
         </form>
+
       </div>
     </div>
   </div>
