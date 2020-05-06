@@ -139,6 +139,7 @@ def editarComida(request, comida_id):
     return render(request,"comida/editarComida.html",{'form':form})
 
 def editarCategoria(request, categoria_id):
+    print("entre")
     categoriaMod=Categoria.objects.get(id=categoria_id)
     form= Nueva_Categoria(instance=categoriaMod)
     if(request.method=='POST'):

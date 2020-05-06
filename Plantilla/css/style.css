@@ -484,7 +484,7 @@ body .well-block .dish-price {
   position: relative;
 }
 
-.crop .btn-delete-category {
+.crop .admin-category {
   position: absolute;
   bottom: 0;
   right: 0;

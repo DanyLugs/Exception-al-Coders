@@ -15,7 +15,10 @@
       <figure><img src="{{ categoria.imagen.url }}"/> </figure>
       <span>{{categoria.nombre}} | {{categoria.descripcion}}</span></a>
       {% if user.is_authenticated %}
-      <a class="btn btn-danger btn-delete-category" data-toggle="modal" data-target="#borrar-{{categoria.id}}" href="#">Eliminar</a>
+      <div class="admin-category">
+        <a class="btn btn-primary" href="/comida/editarCategoria/{{categoria.id}}">Editar</a>
+        <a class="btn btn-danger" data-toggle="modal" data-target="#borrar-{{categoria.id}}" href="#">Eliminar</a>
+      </div>
       {% endif %}
       </div>
 
