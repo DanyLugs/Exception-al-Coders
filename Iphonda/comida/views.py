@@ -118,6 +118,14 @@ class EliminarComida(View):
         return redirect(url)
 
 
+class EliminarCategoria(View):
+    def get(self,request,categoria_id):
+        categoriaMod=Categoria.objects.get(id=categoria_id)
+        url="/comida/categorias/"
+        categoriaMod.delete()
+        print(url)
+        return redirect(url)
+
 
 
 def editarComida(request, comida_id):
@@ -129,3 +137,13 @@ def editarComida(request, comida_id):
             comidaMod=form.save(commit=False)
             comidaMod.save()
     return render(request,"comida/editarComida.html",{'form':form})
+
+def editarCategoria(request, categoria_id):
+    categoriaMod=Categoria.objects.get(id=categoria_id)
+    form= Nueva_Categoria(instance=categoriaMod)
+    if(request.method=='POST'):
+        form =Nueva_Categoria(request.POST, instance=categoriaMod)
+        if(form.is_valid()):
+            categoriaMod=form.save(commit=False)
+            categoriaMod.save()
+    return render(request,"categoria/editarCategoria.html",{'form':form})

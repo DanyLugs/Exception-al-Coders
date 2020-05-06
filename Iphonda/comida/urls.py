@@ -20,5 +20,8 @@ urlpatterns = [
     path('categorias/', views.CategoriaVista.as_view(), name = 'categorias'),
     path('categorias/<str:categoryName>/', views.ComidaVista.as_view(), name = 'comida'),
     path('editarComida/<int:comida_id>',views.editarComida),
-    path('eliminarComida/<int:comida_id>',views.EliminarComida.as_view())
+    path('eliminarComida/<int:comida_id>',views.EliminarComida.as_view()),
+    path('editarCategoria/<int:comida_id>',views.editarCategoria),
+    path('eliminarCategoria/<int:categoria_id>',views.EliminarCategoria.as_view())
+
 ]
