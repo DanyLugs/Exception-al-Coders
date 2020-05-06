@@ -1,0 +1,76 @@
+
+{% extends 'base.html' %}
+{% block main %}
+
+<link href="https://fonts.googleapis.com/css2?family=Muli:wght@300&display=swap" rel="stylesheet">
+<h1 class="site-heading text-center text-white d-none d-lg-block">
+    <span class="site-heading-upper text-primary mb-3">Vea los pedidos que faltan</span>
+    <!--span class="site-heading-lower">Business Casual</span-->
+  </h1>
+ 
+  <section class="page-section about-heading">
+    <div class="container">
+      <img class="img-fluid rounded about-heading-img mb-3 mb-lg-0" src="img/pizza.jpg" alt="">
+      <div class="about-heading-content">
+        <div class="row">
+          <div class="col-xl-9 col-lg-10 mx-auto">
+            <div class="bg-faded rounded p-5">
+              <h2 class="section-heading mb-4 titulo-pedido">
+                <span class="section-head-ing-upper">Pedidos</span>
+              </h2>
+             
+              {% if lista_pedidos %}
+              <ul>
+                {% for pedido in lista_comida %}
+                <div class="pedido">
+                 <br>
+                  <li>Este es el pedio: {{pedido.id}}, lo solicito: {{pedido.usuario}}, La fecha fue en: {{pedido.fecha}}, 
+                  <b>su pedido es</b> :</li>
+                 {{ comida.nombre }}
+                
+                {% for comida in pedido.comidas %}
+                <div class="comida"> 
+                  <br>
+                  <ul>
+                    <li> {{comida.nombre}} </li>
+                  </ul>
+                
+                  <br>
+                </div>
+                {% endfor %}
+                
+              </div>
+              {% endfor %}
+              </ul>
+              {%else%}
+              <p> No tienes ningun pedido :) </p>
+              {% endif %}
+              <style type="text/css">
+               .comida{
+                 border-width: medium;
+                 border-style:solid; 
+                 border-color: tomato;
+                 margin-top: 5%;
+                 text-align: center;
+                 font-family: 'Muli', sans-serif;
+                 font-size: 1.5em; 
+               }
+
+               .pedido{
+                font-size: 1.2em;
+                 text-align: center;
+                 border-width: medium;
+                 border-style:solid; 
+                 margin-top: 5%;
+                 border-color: #C0C73C;
+               }
+              </style>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  {% endblock main %}
+

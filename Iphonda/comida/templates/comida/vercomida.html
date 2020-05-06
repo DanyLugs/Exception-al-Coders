@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Comida{% endblock title %}
+
+{% block main %}
+
+<div>
+    {% for categoria in categorias %}
+    <span>{{categoria.nombre}}</span>
+    {% endfor %}
+</div>
+
+{% for comida in comidas %}
+<div class="card">
+    <!-- <figure><img src="{{ MEDIA_URL }}/{{ comida.imagen }}" style="width:100%"/> </figure>  -->
+    <figure><img src="{{ comida.imagen.url }}" style="width:100%" /> </figure>
+    <h1>{{comida.nombre}}</h1>
+    <p class="price">${{comida.precio}}</p>
+    <p>{{comida.descripcion}}</p>
+
+    {% if user.is_authenticated %}
+    <div class="admin-options">
+        <a class="btn btn-primary" href="/comida/editarComida/{{comida.id}}">Editar</a>
+        <a class="btn btn-danger" data-toggle="modal" data-target="#borrar-{{comida.id}}" href="#">Eliminar</a>
+    </div>
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="borrar-{{comida.id}}">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-body">
+                    <p>¿Estas seguro de querer eliminar <strong>{{comida.nombre}}</strong>?</p>
+                    <p><img class="w-100" src="{{ comida.imagen.url }}" /></p>
+                    <p class="lead">No se puede deshacer esta acción.</p>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-primary btn-lg" data-dismiss="modal" href="#">No eliminar</a>
+                    <a class="btn btn-danger" href="/comida/eliminarComida/{{comida.id}}">Eliminar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <p><button>Añadir al carito</button></p>
+    {% endif %}
+</div>
+
+
+{% endfor %}
+{% endblock main %}
+
+{% block footer %}
+
+{% endblock footer %}

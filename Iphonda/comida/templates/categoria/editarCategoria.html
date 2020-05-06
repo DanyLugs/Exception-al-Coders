@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block header %}
+<h1 class="site-heading text-center text-white d-none d-lg-block">
+  <span class="site-heading-upper text-primary mb-3">Edita aqui tu  categoria !!  </span>
+</h1>
+{% endblock header %}
+{% block main %}
+  <!-- Navigation -->
+  <div class="page-section cta">
+    <div class="container">
+      <div class="intro">
+        <div class="cta-inner text-center rounded">
+          {% if messages %}
+          {% for message in messages %}
+              <div{% if message.tags == "success" %} class="alert alert-success" role="alert"{% endif %}> {{ message }}</div>
+              {% endfor %}
+              {% endif %}
+              <h2 class="section-heading mb-4">
+                <span class="section-heading-upper"> -Categoria- </span>
+              </h2>
+              <form method="POST" enctype="multipart/form-data" novalidate>
+                  {{ form.as_p }}
+                  {% csrf_token %}
+                  <button  type="submit">Editar</button>
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+{% endblock main %}
+
+
+
+<!---
+-->

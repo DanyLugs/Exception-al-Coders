@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Categorias{% endblock title %}
+
+{% block main %}
+<h1 class="site-heading text-center text-white d-none d-lg-block">
+  <span class="site-heading-upper text-primary mb-3"> Categorias </span>
+</h1>
+  <div class="hover11 column">
+      {% for categoria in categorias %}
+      <a href="/comida/categorias/{{ categoria.slug }}">
+      <div class="crop">
+      <figure><img src="{{ categoria.imagen.url }}"/> </figure>
+      <span>{{categoria.nombre}} | {{categoria.descripcion}}</span></a>
+      {% if user.is_authenticated %}
+      <div class="admin-category">
+        <a class="btn btn-primary" href="/comida/editarCategoria/{{categoria.id}}">Editar</a>
+        <a class="btn btn-danger" data-toggle="modal" data-target="#borrar-{{categoria.id}}" href="#">Eliminar</a>
+      </div>
+      {% endif %}
+      </div>
+
+      <div class="modal fade" tabindex="-1" role="dialog" id="borrar-{{categoria.id}}">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+
+              <div class="modal-body">
+                  <p>¿Estas seguro de querer eliminar <strong>{{categoria.nombre}}</strong>?</p>
+                  <p>Toma en cuenta que todas las comidas bajo esta categoría serán eliminadas también.</p>
+                  <p><img class="w-100" src="{{ categoria.imagen.url }}" /></p>
+                  <p class="lead">No se puede deshacer esta acción.</p>
+              </div>
+              <div class="modal-footer">
+                  <a class="btn btn-primary btn-lg" data-dismiss="modal" href="#">No eliminar</a>
+                  <a class="btn btn-danger" href="/comida/eliminarCategoria/{{categoria.id}}">Eliminar</a>
+              </div>
+            </div>
+          </div>
+      </div>
+      {% endfor %}
+  </div>
+{% endblock main %}

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+<!-- para agregar classes css a los inputs de django auth -->
+{% load widget_tweaks %}
+
+{% block main %}
+
+<div class="page-section cta">
+    <div class="container">
+        <form action="." method="post" novalidate class="cta-inner">
+            {% csrf_token %}
+            <fieldset>
+                <legend>Inicio de sesión</legend>
+                {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endfor %}
+                {% endif %}
+
+                {% for field in form %}
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label" for="id_{{ field.name }}">
+                        {{ field.label }}
+                    </label>
+                    {{ field | add_class:'form-control col-sm-10' }}
+                </div>
+
+                {% endfor %}
+
+                <input class="btn btn-primary" type="submit" value="Entrar">
+            </fieldset>
+            <div id="reg-link">
+                <small>
+                    ¿No tienes cuenta aún?
+                    <a href="/signup">¡Regístrate gratis!</a>
+                </small>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock main %}

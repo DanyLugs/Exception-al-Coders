@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+<!--Fuentes  -->
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+
+<div class="container">
+    <h1 class="site-heading text-center">
+      <span class="site-heading-upper text-primary mb-3">Bienvenidos</span>
+    </h1>
+    {% load static %}
+
+    <div class="descripcion">
+      Somos una restaurante nuevo,  el cual tiene la misión de llevarte todo a tu casa,
+      pensamos lograrlo a través del uso de esta aplición web.<br>
+      <br>
+      Esto con el objetivo de que no tenga contacto con el personal y no se infecte de una enfermedad
+      tal como  podría ser el covid
+    </div>
+
+    <div class="imagenes">
+      <div class="imagen1">
+        <img src="{% static 'img/comida1.jpg' %}" class="w-50" alt="Logo iPhonda">
+
+      </div>
+      <div class="imagen2">
+        <img src="{% static 'img/comida2.jpg' %}" class="w-50" alt="Logo iPhonda">
+
+      </div>
+
+      <div class="imagen3">
+        <img src="{% static 'img/comida3.jpg' %}" class="w-50" alt="Logo iPhonda">
+
+      </div>
+
+    </div>
+
+
+
+      <style media="screen">
+        .descripcion{
+          height: 70%;
+          width: 70%;
+          background: white;
+          text-align: center;
+          font-family: 'Fredoka One', cursive;
+          font-size: larger;
+          margin-left: 6em;
+          border: solid 1em #E6A756 ;
+        }
+
+        .imagenes{
+          margin-top:10%;
+
+          display: grid;
+          grid-template-columns: 1fr  1fr 1fr;
+        }
+        .imagen1{
+          display:flex;
+          margin-left:20%;
+          width: 100%; height: 100%;
+
+        }
+
+        .imagen2{
+          display:flex;
+          margin-left:20%;
+          width: 100%; height: 100%;
+
+        }
+
+        .imagen3{
+          display:flex;
+          margin-left:20%;
+          width: 100%; height: 100%;
+
+        }
+
+      </style>
+
+</div>
+{% endblock %}
