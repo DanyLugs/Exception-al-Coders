@@ -317,7 +317,7 @@ body .column::after {
   display: block;
 }
 
-body .column div {
+body .column > div:not(.modal) {
   text-align: center;
   float: left;
   width: 300px;
@@ -327,11 +327,11 @@ body .column div {
   padding: 0;
 }
 
-body .column div:first-child {
+body .column > div:first-child {
   margin-left: 0;
 }
 
-body .column div span {
+body .column > div span {
   text-align: center;
   bottom: -20px;
   left: 0;
@@ -481,6 +481,13 @@ body .well-block .dish-price {
   width: 200px;
   height: 150px;
   margin-bottom: 2.3rem;
+  position: relative;
+}
+
+.crop .btn-delete-category {
+  position: absolute;
+  bottom: 0;
+  right: 0;
 }
 
 .crop img {
