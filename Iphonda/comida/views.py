@@ -139,7 +139,7 @@ def editarComida(request, comida_id):
     return render(request,"comida/editarComida.html",{'form':form})
 
 def editarCategoria(request, categoria_id):
-    print("entre")
+    url="/comida/categorias/"
     categoriaMod=Categoria.objects.get(id=categoria_id)
     form= Nueva_Categoria(instance=categoriaMod)
     if(request.method=='POST'):
@@ -147,4 +147,5 @@ def editarCategoria(request, categoria_id):
         if(form.is_valid()):
             categoriaMod=form.save(commit=False)
             categoriaMod.save()
+            return redirect(url)
     return render(request,"categoria/editarCategoria.html",{'form':form})
