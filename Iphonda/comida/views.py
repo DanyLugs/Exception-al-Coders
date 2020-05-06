@@ -30,42 +30,53 @@ class ComidaVista(View):
 class AgregarCategoria(View):
 
     template ="categoria/agregar_categoria.html"
+    title = "Agregar categorías"
 
     def get(self,request):
         form = Nueva_Categoria()
         context = {
             "form": form,
-            "title": "Agregar categorías"
+            "title": self.title
         }
         return render(request, self.template, context)
 
     def post(self, request):
         form = Nueva_Categoria(request.POST, request.FILES)
-        context = {
-            "form": form,
-            "title": "Agregar categorías"
-        }
 
         try:
             if form.is_valid():
                 categoria_nueva = form.save(commit=False)
                 categoria_nueva.save()
                 messages.success(request, 'Categoria Agregada !')
+                context = {
+                    "form": Nueva_Categoria(),
+                    "title": self.title
+                }
+                return render(request, self.template, context)
 
+            context = {
+                "form": form,
+                "title": self.title
+            }
             return render(request, self.template, context)
         except:
             messages.success(request, 'Hubo un error agregando la Categoria')
+            context = {
+                "form": form,
+                "title": self.title
+            }
             return render(request, self.template, context)
 
 class AgregarComida(View):
 
     template ="comida/agregar_comida.html"
+    title = "Agregar comida"
 
     def get(self,request):
         form = Nueva_Comida()
         context = {
             "form": form,
-            "title": "Agregar comida"
+            "title": self.title
         }
 
         return render(request, self.template, context)
@@ -78,17 +89,23 @@ class AgregarComida(View):
                 comida_nueva = form.save(commit=False)
                 comida_nueva.save()
                 messages.success(request, 'Comida Agregada !')
+                context = {
+                    "form": Nueva_Comida(),
+                    "title": self.title
+                }
+                return render(request, self.template, context)
 
             context = {
                 "form": form,
-                "title": "Agregar comida"
+                "title": self.title
             }
             return render(request, self.template, context)
+
         except:
             messages.success(request, 'Hubo un error agregando la Comida')
             context = {
                 "form": form,
-                "title": "Agregar comida"
+                "title": self.title
             }
             return render(request, self.template, context)
 
@@ -107,44 +124,64 @@ class CategoriaVista(View):
         return render(request, self.template, context)
 
 class EliminarComida(View):
-
     def get(self,request,comida_id):
-        print("Si llego aqui")
-        comidaMod=Comida.objects.get(id=comida_id)
+        comidaMod = Comida.objects.get(id=comida_id)
         categoria = slugify(comidaMod.categoria)
-        url="/comida/categorias/"+str(categoria)+"/"
+        url = "/comida/categorias/" + str(categoria) + "/"
         comidaMod.delete()
-        print(url)
         return redirect(url)
 
 
 class EliminarCategoria(View):
     def get(self,request,categoria_id):
         categoriaMod=Categoria.objects.get(id=categoria_id)
-        url="/comida/categorias/"
+        url = "/comida/categorias/"
         categoriaMod.delete()
-        print(url)
         return redirect(url)
 
 
+class EditarComida(View):
+    def get(self, request, comida_id):
+        comidaMod = Comida.objects.get(id = comida_id)
+        form = Nueva_Comida(instance = comidaMod)
+        context = {
+            "form": form,
+            "title": "Editar comida " + comidaMod.nombre
+        }
+        return render(request, "comida/editarComida.html", context)
 
-def editarComida(request, comida_id):
-    comidaMod=Comida.objects.get(id=comida_id)
-    form=Nueva_Comida(instance=comidaMod)
-    if(request.method=='POST'):
-        form =Nueva_Comida(request.POST, instance=comidaMod)
+    def post(self, request, comida_id):
+        comidaMod  =Comida.objects.get(id = comida_id)
+        form = Nueva_Comida(request.POST, instance=comidaMod)
+        context = {
+            "form": form,
+            "title": "Editar comida " + comidaMod.nombre
+        }
         if(form.is_valid()):
             comidaMod=form.save(commit=False)
             comidaMod.save()
-    return render(request,"comida/editarComida.html",{'form':form})
+            return redirect("/comida/categorias/" + slugify(comidaMod.categoria) + "/")
+        return render(request,"comida/editarComida.html", context)
 
-def editarCategoria(request, categoria_id):
-    print("entre")
-    categoriaMod=Categoria.objects.get(id=categoria_id)
-    form= Nueva_Categoria(instance=categoriaMod)
-    if(request.method=='POST'):
+class EditarCategoria(View):
+    def get(self, request, categoria_id):
+        categoriaMod = Categoria.objects.get(id=categoria_id)
+        form = Nueva_Categoria(instance=categoriaMod)
+        context = {
+            "form": form,
+            "title": "Editar categoría " + categoriaMod.nombre
+        }
+        return render(request,"categoria/editarCategoria.html", context)
+
+    def post(self, request, categoria_id):
+        categoriaMod=Categoria.objects.get(id=categoria_id)
         form =Nueva_Categoria(request.POST, instance=categoriaMod)
+        context = {
+            "form": form,
+            "title": "Editar categoría " + categoriaMod.nombre
+        }
         if(form.is_valid()):
             categoriaMod=form.save(commit=False)
             categoriaMod.save()
-    return render(request,"categoria/editarCategoria.html",{'form':form})
+            return redirect("/comida/categorias/")
+        return render(request,"categoria/editarCategoria.html", context)
