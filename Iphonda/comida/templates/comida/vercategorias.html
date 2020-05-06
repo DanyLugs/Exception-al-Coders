@@ -15,6 +15,7 @@
       <figure><img src="{{ categoria.imagen.url }}"/> </figure>
       <span>{{categoria.nombre}} | {{categoria.descripcion}}</span></a>
       <a class="btn btn-danger" href="/comida/eliminarCategoria/{{categoria.id}}">Eliminar</a>
+      <a class="btn btn-primary" href="/comida/editarCategoria/{{categoria.id}}">Editar</a>
       </div>
       {% endfor %}
   </div>
