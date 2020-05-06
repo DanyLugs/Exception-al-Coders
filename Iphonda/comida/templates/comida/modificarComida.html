@@ -7,9 +7,8 @@
 {% block main %}
 
 <div>
-{% for categoria in categorias %}
-<span>{{categoria.nombre}}</span>
-{% endfor %}
+
+<span>Modifique las comidas</span>
 </div>
 
 {% for comida in comidas %}
@@ -19,10 +18,7 @@
         <h1>{{comida.nombre}}</h1>
         <p class="price">${{comida.precio}}</p>
         <p>{{comida.descripcion}}</p>
-        <a class="btn btn-primary" href="/comida/editarComida/{{comida.id}}">Editar</a>
-        <a class="btn btn-danger" href="/comida/eliminarComida/{{comida.id}}">Eliminar</a>
-        
-        <p><button>Añadir al carito</button></p>
+        <p><button>Add to Cart</button></p>
     </div>
 
 

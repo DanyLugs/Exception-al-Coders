@@ -83,3 +83,27 @@ class CategoriaVista(View):
         categorias = Categoria.objects.all()
         context = {"categorias": categorias}
         return render(request, self.template, context)
+
+class EliminarComida(View):
+
+    def get(self,request,comida_id):
+        print("Si llego aqui")
+        comidaMod=Comida.objects.get(id=comida_id)
+        categoria=comidaMod.categoria
+        url="/comida/categorias/"+str(categoria)+"/"
+        comidaMod.delete()
+        print(url)
+        return redirect(url)
+
+
+
+
+def editarComida(request, comida_id):
+    comidaMod=Comida.objects.get(id=comida_id)
+    form=Nueva_Comida(instance=comidaMod)
+    if(request.method=='POST'):
+        form =Nueva_Comida(request.POST, instance=comidaMod)
+        if(form.is_valid()):
+            comidaMod=form.save(commit=False)
+            comidaMod.save()
+    return render(request,"comida/editarComida.html",{'form':form})

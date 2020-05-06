@@ -23,5 +23,16 @@ class Nueva_Comida(forms.ModelForm):
             ),
             'descripcion' : forms.TextInput(
             attrs={'class' : 'form-group' , 'placeholder' : 'Justo como el de mama'}
-            ),    
+            ),
             }
+
+
+def editarComida(request, comida_id):
+    comidaMod=Comida.objects.get(id=comida_id)
+    form=Nueva_Comida(instance=comidaMod)
+    if(request.method=='POST'):
+        form =Nueva_Comida(request.POST, instance=comidaMod)
+        if(form.is_valid()):
+            comidaMod=form.save(commit=False)
+            comidaMod.save()
+    return render(request,"editarComida",{'form':form})

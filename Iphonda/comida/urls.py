@@ -19,4 +19,6 @@ urlpatterns = [
     path('agregar-comida/', views.AgregarComida.as_view(), name='agregar-comida'),
     path('categorias/', views.CategoriaVista.as_view(), name = 'categorias'),
     path('categorias/<str:categoryName>/', views.ComidaVista.as_view(), name = 'comida'),
-] 
+    path('editarComida/<int:comida_id>',views.editarComida),
+    path('eliminarComida/<int:comida_id>',views.EliminarComida.as_view())
+]
