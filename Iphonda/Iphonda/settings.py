@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '7g$nin#2mer9m$kaxoiw_4(!mm(egf#^b4=wo8y4gh@0idk+sz'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['.herokuapp.com']
 
 
 # Application definition
@@ -89,11 +89,11 @@ WSGI_APPLICATION = 'Iphonda.wsgi.application'
 #        'PORT':'5432'
 #    }
 #}
-import dj_databese_url
+import dj_database_url
 from decouple import config
 
 DATABASES = {
-    'default' : dj_databese_url.config(
+    'default' : dj_database_url.config(
         default=config('DATABASE_URL')
     )
 }
@@ -136,6 +136,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/img/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
