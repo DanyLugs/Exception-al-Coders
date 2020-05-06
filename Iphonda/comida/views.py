@@ -152,7 +152,7 @@ class EditarComida(View):
 
     def post(self, request, comida_id):
         comidaMod  =Comida.objects.get(id = comida_id)
-        form = Nueva_Comida(request.POST, request.FILES , instance=comidaMod) ,
+        form = Nueva_Comida(request.POST, request.FILES , instance=comidaMod)
         context = {
             "form": form,
             "title": "Editar comida " + comidaMod.nombre
