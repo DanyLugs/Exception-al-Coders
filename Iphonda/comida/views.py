@@ -153,7 +153,7 @@ class EditarComida(View):
 
     def post(self, request, comida_id):
         comidaMod  =Comida.objects.get(id = comida_id)
-        form = Nueva_Comida(request.POST, request.FILES , instance=comidaMod) ,
+        form = Nueva_Comida(request.POST, request.FILES,  instance=comidaMod) ,
         context = {
             "form": form,
             "title": "Editar comida " + comidaMod.nombre
@@ -161,7 +161,7 @@ class EditarComida(View):
         if(form.is_valid()):
             comidaMod=form.save(commit=False)
             comidaMod.save()
-            return redirect("/comida/categorias/" )
+            return redirect("/comida/categorias/" + slugify(comidaMod.categoria) + "/")
 
         return render(request,"comida/editarComida.html", context)
 
