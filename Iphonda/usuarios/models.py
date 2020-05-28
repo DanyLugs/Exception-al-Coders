@@ -6,7 +6,7 @@ class Orden(models.Model):
     """docstring forOrden."""
     id      = models.AutoField(primary_key=True)
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete = models.PROTECT)
-    comida  = models.ManyToManyField('comida.Comida')
+    comida  = models.ManyToManyField('comida.Comida', through="cantidadComidaOrden" )
     fecha   = models.DateField()
     estado  = models.CharField(max_length=10)
     califi  = models.IntegerField(null=True)
@@ -19,14 +19,14 @@ class Orden(models.Model):
     def __repr__(self):
         return self.__str__()
 
-class direccion():
-    id        = models.AutoField ()
-    email     = models.ForeignKey (settings.AUTH_USER_MODEL, on_delete = models.CASCADE )
-    dirrec    = models.TextField ()
-        
-        
-    """
-    class cantidadComidaOrden:
-        cantidadComida= models.IntegerField(limit=100)
+class direccion(models.Model):
+    id        = models.AutoField(primary_key=True)
+    email     = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete = models.CASCADE )
+    dirrec    = models.TextField()
 
-    """
+
+
+class cantidadComidaOrden(models.Model):
+    cantidadComida= models.IntegerField()
+    idComida = models.ForeignKey("comida.Comida",on_delete = models.CASCADE)
+    idOrden = models.ForeignKey("Orden", on_delete = models.CASCADE)
