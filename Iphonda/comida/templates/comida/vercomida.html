@@ -43,7 +43,7 @@
         </div>
     </div>
     {% else %}
-    <p><button>Añadir al carito</button></p>
+    <p><button><a href="{% 'cart_add' comida.id %}">Añadir al carito</a></button></p>
     {% endif %}
 </div>
 

@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from .forms import SignUpForm
 from django.contrib.auth.forms import AuthenticationForm
@@ -7,6 +7,11 @@ from django.contrib import messages
 from .models import Orden
 from django.template import loader
 from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+
+#Models
+from comida.models import Comida, Categoria
 
 # Create your views here.
 class Login(View):
@@ -94,3 +99,22 @@ class Signup(View):
             'title': 'Registro de usuarios'
         }
         return render(request, "signup.html", context)
+
+# Carrito
+def my_profile(request):
+    my_user_profile = Orden.objects.filter(usuario=request.user).first()
+    my_orders = Orden.objects.filter(is_ordered = True, owner = my_user_profile)
+    context = {
+        'my_orders': my_orders
+    }
+
+    return render(request, "carrito.html", context)
+
+
+@method_decorator(login_required, name='dispatch')
+class AddToCart(View):
+    def cart_add(request, idComida):
+        cart = Cart(request)
+        comida = Comida.objects.get(idComida=idComida)
+        cart.add(comida=comida)
+        return redirect("/cart")

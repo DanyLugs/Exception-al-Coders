@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'comida',
     'usuarios',
     'django_extensions',
+    'cart',
 ]
 
 MIDDLEWARE = [
@@ -137,3 +138,5 @@ STATICFILES_DIRS = [
 #Media files (mp3, mp4)
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+CART_SESSION_ID = 'cart'

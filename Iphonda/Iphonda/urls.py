@@ -29,6 +29,12 @@ urlpatterns = [
     path('logout/', Logout.as_view()),
     path('signup/', Signup.as_view()),
     path('pedidos/', Pedidos.as_view()),
+    path('cart/', AddToCart.as_view()),
+    # path('cart/item_clear/<int:id>/', views.item_clear, name='item_clear'),
+    # path('cart/item_increment/<int:id>/', views.item_increment, name='item_increment'),
+    # path('cart/item_decrement/<int:id>/', views.item_decrement, name='item_decrement'),
+    # path('cart/cart_clear/', views.cart_clear, name='cart_clear'),
+    # path('cart/cart-detail/',views.cart_detail,name='cart_detail'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:
