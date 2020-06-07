@@ -22,5 +22,6 @@ urlpatterns = [
     path('editarComida/<int:comida_id>',views.EditarComida.as_view()),
     path('eliminarComida/<int:comida_id>',views.EliminarComida.as_view()),
     path('editarCategoria/<int:categoria_id>',views.EditarCategoria.as_view()),
-    path('eliminarCategoria/<int:categoria_id>',views.EliminarCategoria.as_view())
+    path('eliminarCategoria/<int:categoria_id>',views.EliminarCategoria.as_view()),
+    path('add_to_cart/<int:comida_id>', view.AddToCart.as_view())
 ]
