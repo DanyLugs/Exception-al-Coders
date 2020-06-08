@@ -1,4 +1,3 @@
-
 """Views de Comida."""
 from django.shortcuts import render, redirect
 from django.views import View
@@ -153,7 +152,7 @@ class EditarComida(View):
 
     def post(self, request, comida_id):
         comidaMod  =Comida.objects.get(id = comida_id)
-        form = Nueva_Comida(request.POST, request.FILES,  instance=comidaMod) ,
+        form = Nueva_Comida(request.POST, request.FILES , instance=comidaMod)
         context = {
             "form": form,
             "title": "Editar comida " + comidaMod.nombre
@@ -162,7 +161,6 @@ class EditarComida(View):
             comidaMod=form.save(commit=False)
             comidaMod.save()
             return redirect("/comida/categorias/" + slugify(comidaMod.categoria) + "/")
-
         return render(request,"comida/editarComida.html", context)
 
 class EditarCategoria(View):
