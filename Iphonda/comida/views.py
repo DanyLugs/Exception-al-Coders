@@ -190,15 +190,16 @@ class EditarCategoria(View):
         return render(request,"categoria/editarCategoria.html", context)
 
 class AddToCart(View):
-    def add(self,request,comida_id):
+    def get(self,request,comida_id):
         user = request.user
         comida = Comida.objects.get(id= comida_id)
-        if user.id not in Orden.usuario.all():
-            orden = Orden.objects.create(usuario= user,fecha= datetime.datetime.now(),estado="carrito")
-            comida_ord ,status = cantidadComidaOrden.objects.get_or_create(idComida = comida_id,cantidadComida = 1,idOrden= orden.id)
-        else:
+        if Orden.objects.filter(usuario=user.id).exists():
             orden = Orden.objects.get(usuario= user.id)
-            comida_ord ,status = cantidadComidaOrden.objects.get_or_create(idComida = comida_id,cantidadComida = 1,idOrden= orden.id)
+            #EStoy pensando en hacer un if no se si aqui on en el template para que no cree otro si ya esta
+            comida_ord ,status = cantidadComidaOrden.objects.get_or_create(idComida = comida,cantidadComida = 1,idOrden= orden)
+        else:
+            orden = Orden.objects.create(usuario= user,fecha= datetime.datetime.now(),estado="carrito")
+            comida_ord ,status = cantidadComidaOrden.objects.get_or_create(idComida = comida,cantidadComida = 1,idOrden= orden)
         #DUda sobre si lo que agregamos a orden es la comida o la cantidad comida orden @.@
         #Por ahora hare la comida
         orden.comida.add(comida)
@@ -207,4 +208,4 @@ class AddToCart(View):
             comida_ord.save()
 
         messages.success(request, 'Categoria Agregada !')
-        return redirect(reverse('comida:comida'))
+        return redirect('comida:categorias')

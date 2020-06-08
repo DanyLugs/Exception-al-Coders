@@ -19,7 +19,7 @@
     <h1>{{comida.nombre}}</h1>
     <p class="price">${{comida.precio}}</p>
     <p>{{comida.descripcion}}</p>
-    <a href="comida/add_to_cart/{{comida.id}}" class="btn btn-warning">Add to cart</a>
+    <a href="/comida/add_to_cart/{{comida.id}}" class="btn btn-warning">Add to cart</a>
 
     {% if user.is_authenticated %}
     <div class="admin-options">
