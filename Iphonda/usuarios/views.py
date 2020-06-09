@@ -73,6 +73,40 @@ class Pedidos(View):
     def post(self, request):
         return HttpResponse("<h1> no debiste llegar aqui </h1>")
 
+class Pedidos_usuarios(View):
+    """docstring forPedidos."""
+
+    def get(self,request):
+
+        lista_pedidos = Orden.objects.all()
+        pedidos=[]
+        for pedido in lista_pedidos:
+            lisCom=[]
+            for comida in pedido.comida.all():
+                lisCom.append(comida)
+            diCo={
+                "id": pedido.id,
+                "fecha": pedido.fecha,
+                "usuario":pedido.usuario,
+                "comidas": lisCom
+            }
+            pedidos.append(diCo)
+
+
+        context = {
+            'lista_pedidos':lista_pedidos,
+            'lista_comida':pedidos,
+            "title": "Pedidos"
+        }
+
+        return render(request,"pedido_cliente.html",context)
+
+    def post(self, request):
+        return HttpResponse("<h1> no debiste llegar aqui </h1>")
+
+
+
+
 
 class Signup(View):
     def get(self, request):
