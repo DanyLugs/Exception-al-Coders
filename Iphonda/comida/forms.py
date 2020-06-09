@@ -25,3 +25,21 @@ class Nueva_Comida(forms.ModelForm):
             attrs={'class' : 'form-group' , 'placeholder' : 'Justo como el de mama'}
             ),
             }
+
+PRODUCT_QUANTITY_CHOICES = [(i, str(i)) for i in range(1, 21)]
+
+class CartAddProductForm(forms.Form):
+    """
+    Form para que el usuario elija la cantidad del prodcuto
+    quantity: permite al usuario elegir entre 1 - 20, usa TypeChoiceField con coerce = int para 
+            convertir el input del usuario a int.
+
+    update: (False) = permite indicar si la cantidad debe ser agregada a una cantidad ya existente en el carrito para ese producot           
+            (True) = la cantidad existente debe ser actualizada con la cantidad dada por el usuario
+    """
+    quantity = forms.TypedChoiceField(
+                                choices = PRODUCT_QUANTITY_CHOICES,
+                                coerce = int)
+    update = forms.BooleanField(required = False,
+                                initial = False,
+                                widget = forms.HiddenInput) # No queremos que el usuario vea el campo update

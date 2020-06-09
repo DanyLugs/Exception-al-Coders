@@ -10,7 +10,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 
 # Views
-from comida import views
+from . import views
 
 app_name = "comida"
 urlpatterns = [
@@ -23,5 +23,8 @@ urlpatterns = [
     path('eliminarComida/<int:comida_id>',views.EliminarComida.as_view()),
     path('editarCategoria/<int:categoria_id>',views.EditarCategoria.as_view()),
     path('eliminarCategoria/<int:categoria_id>',views.EliminarCategoria.as_view()),
-    path('add_to_cart/<int:comida_id>', views.AddToCart.as_view())
+    path('add_to_cart/<int:comida_id>', views.AddToCart.as_view()),
+    path('carrito/', views.cart_detail, name='cart_detail'),
+    path('add/<int:comida_id>/', views.cart_add, name = 'cart_add'),
+    path('remove/<int:comida_id>/', views.cart_remove, name = 'cart_remove'),
 ]

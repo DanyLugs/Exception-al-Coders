@@ -29,6 +29,7 @@ urlpatterns = [
     path('logout/', Logout.as_view()),
     path('signup/', Signup.as_view()),
     path('pedidos/', Pedidos.as_view()),
+    path('carrito/', include('comida.urls', namespace = 'cart')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:

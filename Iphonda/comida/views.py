@@ -1,11 +1,17 @@
 
 """Views de Comida."""
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.http import HttpResponse
 from django.contrib import messages
 from django.template.defaultfilters import slugify
 import datetime
+from django.views.decorators.http import require_POST
+from usuarios.models import Orden, cantidadComidaOrden
+from comida.models import Comida, Categoria
+from .cart import Cart
+from .forms import CartAddProductForm
+
 #Models
 from .models import Comida, Categoria
 from usuarios.models import cantidadComidaOrden, Orden
@@ -209,3 +215,53 @@ class AddToCart(View):
 
         messages.success(request, 'Categoria Agregada !')
         return redirect('comida:categorias')
+
+
+@require_POST
+def cart_add(request, comida_id):
+    """
+    Funcion que agrega productos al carrito o actualiza cantidades de productos existentes en el carrito
+    require_POST: se usa este decorador para solo admitir POST request, ya que esta view cambiará datos
+    Se recibe el id de la comida como parametro, se obtiene y se valida con el form, si el form es válido
+    se agrega o se actualiza el producto en el carrito
+    Esta view redirecciona a cart_detail URL
+    """
+    cart = Cart(request)
+    product = get_object_or_404(Comida, id = comida_id)
+    form = CartAddProductForm(request.POST)
+    if form.is_valid():
+        cd = form.cleaned_data
+        cart.add(product = product,
+                 quantity = cd['quantity'],
+                 update_quantity = cd['update'])
+    return redirect('cart: cart_detail')
+
+def cart_remove(request, comida_id):
+    """
+    Funcion que quita in producto del carrito
+    Recibe el id de la comida que serpa removida, se obtiene y se elimina del carrito.
+    Se redirecciona a la URL cart_detail
+    """
+    cart = Cart(request)
+    product = get_object_or_404(Comida, id = comida_id)
+    cart.remove(product)
+    return redirect('cart: cart_detail')
+
+def cart_detail(request):
+    """
+    View que despliega el carrito y sus elementos
+    """
+    cart = Cart(request)
+    return render(request, 'comida/carrito.html', {'cart':cart})
+
+
+def product_detail(request, id, slug):
+    product = get_object_or_404(Comida, id=id,
+                                        slug=slug,
+                                        available=True)
+    cart_product_form = CartAddProductForm()
+    context = {
+        'product': product, 
+        'cart_product_form': cart_product_form
+    }
+    return render(request, 'comida/vercomida.html', context)                                   

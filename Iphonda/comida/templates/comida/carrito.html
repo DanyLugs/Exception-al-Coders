@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Carrito{% endblock title %}
+
+
+{% block content %}
+<h1>Tu carrito de compras</h1>
+<table class="cart">
+    <thead>
+        <tr>
+            <th>Imagen</th>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Quitar</th>
+            <th>Precio unitario</th>
+            <th>Precio</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in cart %}
+         {% with product = item.product %}
+         <tr>
+             <td>
+                <a href="{{ comida.get_absolute_url }}">
+                    <img src="{{ comida.imagen.url }}">
+                </a>
+            </td>
+            <td>{{ product.nombre }}</td>
+            <td>{{ item.quantity }}</td>
+            <td> <a href="{% url 'cart:cart_remove' comida.id %}">Quitar</a></td>
+            <td class="num">${{ item.precio }}</td>
+            <td class="num">${{ item.precio_total }}</td>
+         </tr>
+         {% endwith %}
+        {% endfor %}
+        <tr class="total">
+            <td>Total</td>
+            <td colspan="4"></td>
+            <td class="num">${{ cart.get_total_price }}</td>
+        </tr> 
+    </tbody>
+</table>
+
+<p class="text-right">
+    <a href="{% url 'comida:categorias' %}" class="button light">Continuar comprando</a>
+    <a href="#" class="button">Ordenar</a>
+</p>
+
+{% endblock %}
