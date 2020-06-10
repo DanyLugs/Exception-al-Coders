@@ -14,7 +14,7 @@ from . import views
 
 app_name = "comida"
 urlpatterns = [
-    path('', views.ComidaVista.as_view(), name = 'comida'),
+    path('', views.ComidaVista.as_view(), name = 'comidaHome'),
     path('agregar-categoria/', views.AgregarCategoria.as_view(), name='agregar-categoria'),
     path('agregar-comida/', views.AgregarComida.as_view(), name='agregar-comida'),
     path('categorias/', views.CategoriaVista.as_view(), name = 'categorias'),
@@ -23,8 +23,10 @@ urlpatterns = [
     path('eliminarComida/<int:comida_id>',views.EliminarComida.as_view()),
     path('editarCategoria/<int:categoria_id>',views.EditarCategoria.as_view()),
     path('eliminarCategoria/<int:categoria_id>',views.EliminarCategoria.as_view()),
-    path('add_to_cart/<int:comida_id>', views.AddToCart.as_view()),
-    path('carrito/', views.cart_detail, name='cart_detail'),
-    path('add/<int:comida_id>/', views.cart_add, name = 'cart_add'),
-    path('remove/<int:comida_id>/', views.cart_remove, name = 'cart_remove'),
+    path('add_to_cart/<int:comida_id>', views.AddToCart.as_view(), name = 'add_to_cart'),
+    path('carrito/', views.CartView.as_view(), name = 'cart'),
+    path('delete-cart-food/<int:comida_id>', views.DeleteFromCart.as_view(), name = 'element_cart_delete'),
+    # path('carrito/', views.cart_detail, name='cart_detail'),
+    # path('add/<int:comida_id>/', views.cart_add, name = 'cart_add'),
+    # path('remove/<int:comida_id>/', views.cart_remove, name = 'cart_remove'),
 ]

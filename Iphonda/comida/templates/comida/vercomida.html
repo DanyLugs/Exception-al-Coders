@@ -20,9 +20,16 @@
     <p class="price">${{comida.precio}}</p>
     <p>{{comida.descripcion}}</p>
     <!-- <a href="/comida/add_to_cart/{{comida.id}}" class="btn btn-warning">Add to cart</a> -->
-    <form action="{% url 'comida:cart_add' comida.id %}" method="POST" enctype="multipart/form-data" novalidate>
-        {{ cart_product_form }}
+    <form action="{% url 'comida:add_to_cart' comida.id %}" method="POST">
         {% csrf_token %}
+
+        {% for field in form %}
+
+            {{ field.errors }}
+            {{ field.label_tag }}
+            {{ field }}
+
+        {% endfor %}    
         <input type="submit" value="Add to cart">
     </form>
 

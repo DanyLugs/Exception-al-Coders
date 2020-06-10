@@ -19,32 +19,30 @@
         </tr>
     </thead>
     <tbody>
-        {% for item in cart %}
-         {% with product = item.product %}
+        {% for idComida in object_list %}
          <tr>
              <td>
                 <a href="{{ comida.get_absolute_url }}">
                     <img src="{{ comida.imagen.url }}">
                 </a>
             </td>
-            <td>{{ product.nombre }}</td>
-            <td>{{ item.quantity }}</td>
-            <td> <a href="{% url 'cart:cart_remove' comida.id %}">Quitar</a></td>
-            <td class="num">${{ item.precio }}</td>
-            <td class="num">${{ item.precio_total }}</td>
+            <td>{{ comida.cantidadComidaOrden.nombre }}</td>
+            <td>{{ cantidadComidaOrden.quantity }}</td>
+            <td> <a href="{% url 'comida:element_cart_delete' comida.id %}">Quitar</a></td>
+            <td class="num">${{ comida.precio }}</td>
+            <td class="num">${{ cantidadComidaOrden.get_subtotal }}</td>
          </tr>
-         {% endwith %}
         {% endfor %}
         <tr class="total">
             <td>Total</td>
             <td colspan="4"></td>
-            <td class="num">${{ cart.get_total_price }}</td>
+            <td class="num">${{ cantidadComidaOrden.get_total_price }}</td>
         </tr> 
     </tbody>
 </table>
 
 <p class="text-right">
-    <a href="{% url 'comida:categorias' %}" class="button light">Continuar comprando</a>
+    <a href="{% url 'comida:comidaHome' %}" class="button light">Continuar comprando</a>
     <a href="#" class="button">Ordenar</a>
 </p>
 

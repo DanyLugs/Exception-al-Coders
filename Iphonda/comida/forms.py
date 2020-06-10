@@ -1,5 +1,6 @@
 from django import forms
 from .models import Comida , Categoria
+from usuarios.models import *
 
 class Nueva_Categoria(forms.ModelForm):
     class Meta:
@@ -31,13 +32,14 @@ PRODUCT_QUANTITY_CHOICES = [(i, str(i)) for i in range(1, 21)]
 class CartAddProductForm(forms.Form):
     """
     Form para que el usuario elija la cantidad del prodcuto
-    quantity: permite al usuario elegir entre 1 - 20, usa TypeChoiceField con coerce = int para 
+    cantidadComida: permite al usuario elegir entre 1 - 20, usa TypeChoiceField con coerce = int para 
             convertir el input del usuario a int.
 
     update: (False) = permite indicar si la cantidad debe ser agregada a una cantidad ya existente en el carrito para ese producot           
             (True) = la cantidad existente debe ser actualizada con la cantidad dada por el usuario
     """
-    quantity = forms.TypedChoiceField(
+    model = cantidadComidaOrden
+    cantidadComida = forms.TypedChoiceField(
                                 choices = PRODUCT_QUANTITY_CHOICES,
                                 coerce = int)
     update = forms.BooleanField(required = False,
