@@ -3,6 +3,7 @@ from django.views import View
 from .forms import SignUpForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import Group
 from django.contrib import messages
 from .models import Orden
 from django.template import loader
@@ -86,7 +87,11 @@ class Signup(View):
         form = SignUpForm(request.POST)
 
         if form.is_valid():
-            form.save()
+            user = form.save()
+            group = Group.objects.get(name='Clientes')
+
+            user.groups.add(group)
+
             return redirect('/login/')
 
         context = {
