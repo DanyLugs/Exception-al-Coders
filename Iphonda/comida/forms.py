@@ -32,10 +32,10 @@ PRODUCT_QUANTITY_CHOICES = [(i, str(i)) for i in range(1, 21)]
 class CartAddProductForm(forms.Form):
     """
     Form para que el usuario elija la cantidad del prodcuto
-    cantidadComida: permite al usuario elegir entre 1 - 20, usa TypeChoiceField con coerce = int para 
+    cantidadComida: permite al usuario elegir entre 1 - 20, usa TypeChoiceField con coerce = int para
             convertir el input del usuario a int.
 
-    update: (False) = permite indicar si la cantidad debe ser agregada a una cantidad ya existente en el carrito para ese producot           
+    update: (False) = permite indicar si la cantidad debe ser agregada a una cantidad ya existente en el carrito para ese producot
             (True) = la cantidad existente debe ser actualizada con la cantidad dada por el usuario
     """
     model = cantidadComidaOrden

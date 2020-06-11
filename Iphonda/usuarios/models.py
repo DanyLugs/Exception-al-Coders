@@ -26,7 +26,7 @@ class Orden(models.Model):
             idComida.cantidadComida = cantidadComida
         else:
             idComida.cantidadComida += cantidadComida
-        idComida.save()        
+        idComida.save()
     class Meta:
         verbose_name_plural = "Órdenes"
 
@@ -49,10 +49,10 @@ class cantidadComidaOrden(models.Model):
     idOrden = models.ForeignKey("Orden", on_delete = models.CASCADE, related_name = 'order_elems')
 
     def get_subtotal(self):
-        return self.cantidadComida * self.comida.precio
+        return self.cantidadComida * self.idComida.precio
 
     def get_total_price(self):
         """
         Calcula el precio total de todos los elementos del carrito
         """
-        return sum(Decimal(comida['precio']) * cantidadComidaOrden['cantidadComida'] for comida in self.cart.values())      
+        return sum(Decimal(comida['precio']) * cantidadComidaOrden['cantidadComida'] for comida in self.cart.values())

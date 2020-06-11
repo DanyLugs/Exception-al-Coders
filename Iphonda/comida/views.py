@@ -34,15 +34,6 @@ class ComidaVista(View):
     model = Comida
     login_url = 'users: login'
 
-    def get_queryset(self):
-        return super().get_queryset().filter(comida_id = self.kwargs.get('comida_id'))
-
-    def get_context_data(self, *args, **kwargs):
-        form = CartAddProductForm()
-        context = super(ComidaVista, self).get_context_data(*args, **kwargs)
-        context['nombre']=Comida.objects.get(id = self.kwargs.get('comida_id'))
-        return context    
-
     def get(self, request, categoryName):
         """GET method."""
         id = Categoria.objects.filter(slug = categoryName).first()
@@ -239,19 +230,19 @@ class EditarCategoria(View):
 
 
 class CartView(LoginRequiredMixin,ListView):
-    
+
     model = cantidadComidaOrden
-    template_name = 'comida/carrito.html'
-    login_url = 'users: login'
+    template= 'comida/carrito.html'
 
-    def get_queryset(self):
-        cart, is_new_cart = Orden.objects.get_or_create(usuario = self.request.user, estado = 'CT') # Se cambia el estado de orden a "EN CARRITO"
-        return super().get_queryset().filter(idOrden = cart)
-
-    def get_context_data(self, *args, **kwargs):
-        context = super(CartView, self).get_context_data(*args, **kwargs)    
-        return context
-
+    def get(self, request):
+        """GET method."""
+        user = request.user.id
+        orden = Orden.objects.filter(usuario= user).first()
+        objetos = cantidadComidaOrden.objects.filter(idOrden = orden)
+        context = {
+            "objetos": objetos
+        }
+        return render(request, self.template, context)
 
 class AddToCart(LoginRequiredMixin, View):
     template_name = 'comida/vercomida.html'
@@ -264,7 +255,7 @@ class AddToCart(LoginRequiredMixin, View):
         form = CartAddProductForm(request.POST)
         cart, is_new_cart = Orden.objects.get_or_create(usuario = self.request.user, estado = 'CT')
 
-        idComida = Comida.objects.get(id = self.kwargs.get('comida_id')) 
+        idComida = Comida.objects.get(id = self.kwargs.get('comida_id'))
         # comida = Comida.objects.get(id= comida_id)
 
         context = {}
@@ -275,7 +266,7 @@ class AddToCart(LoginRequiredMixin, View):
 
         context = {"form":form}
         comida_id = idComida.categoria.id
-        return redirect( reverse_lazy('comida:categorias'))  
+        return redirect( reverse_lazy('comida:categorias'))
 
 
 class DeleteFromCart(LoginRequiredMixin, DeleteView):
@@ -333,7 +324,7 @@ class DeleteFromCart(LoginRequiredMixin, DeleteView):
 #                                         available=True)
 #     cart_product_form = CartAddProductForm()
 #     context = {
-#         'product': product, 
+#         'product': product,
 #         'cart_product_form': cart_product_form
 #     }
-#     return render(request, 'comida/vercomida.html', context)                                   
+#     return render(request, 'comida/vercomida.html', context)

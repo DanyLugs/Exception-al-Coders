@@ -5,7 +5,7 @@
 {% block title %}Carrito{% endblock title %}
 
 
-{% block content %}
+{% block main %}
 <h1>Tu carrito de compras</h1>
 <table class="cart">
     <thead>
@@ -19,25 +19,25 @@
         </tr>
     </thead>
     <tbody>
-        {% for idComida in object_list %}
+        {% for comida in objetos %}
          <tr>
              <td>
-                <a href="{{ comida.get_absolute_url }}">
-                    <img src="{{ comida.imagen.url }}">
+                <a href="{{ comida.idComida.get_absolute_url }}">
+                    <img src="{{ comida.idComida.imagen.url }}">
                 </a>
             </td>
-            <td>{{ comida.cantidadComidaOrden.nombre }}</td>
-            <td>{{ cantidadComidaOrden.quantity }}</td>
+            <td>{{ comida.idComida }}</td>
+            <td>{{ comida.cantidades }}</td>
             <td> <a href="{% url 'comida:element_cart_delete' comida.id %}">Quitar</a></td>
-            <td class="num">${{ comida.precio }}</td>
-            <td class="num">${{ cantidadComidaOrden.get_subtotal }}</td>
+            <td class="num">${{ comida.idComida.precio }}</td>
+            <td class="num">${{ comida.get_subtotal }}</td>
          </tr>
         {% endfor %}
         <tr class="total">
             <td>Total</td>
             <td colspan="4"></td>
-            <td class="num">${{ cantidadComidaOrden.get_total_price }}</td>
-        </tr> 
+            <td class="num">${{ comida.get_total_price }}</td>
+        </tr>
     </tbody>
 </table>
 
@@ -46,4 +46,4 @@
     <a href="#" class="button">Ordenar</a>
 </p>
 
-{% endblock %}
+{% endblock main %}
