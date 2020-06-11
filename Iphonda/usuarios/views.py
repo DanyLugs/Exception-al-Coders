@@ -4,10 +4,10 @@ from .forms import SignUpForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .models import Orden
+from .models import Orden,cantidadComidaOrden
 from django.template import loader
 from django.http import HttpResponse
-
+from django.contrib.auth.models import User
 # Create your views here.
 class Login(View):
     def get(self, request):
@@ -48,24 +48,36 @@ class Pedidos(View):
     def get(self,request):
         template = loader.get_template("pedidos.html")
         lista_pedidos = Orden.objects.all()
+        lista_cantidad =cantidadComidaOrden.objects.all()
+
+
+        cantidades=[]
+        """
+        for cantidad in lista_cantidad:
+
+            cantidades.append(cantidad.cantidadComida)
+            print(cantidad.cantidadComida)
+        """
+        contador=0
         pedidos=[]
         for pedido in lista_pedidos:
             lisCom=[]
-            for comida in pedido.comida.all():
-                lisCom.append(comida)
+
+            cantidad=cantidadComidaOrden.objects.filter(idOrden=pedido.id)
             diCo={
                 "id": pedido.id,
                 "fecha": pedido.fecha,
                 "usuario":pedido.usuario,
-                "comidas": lisCom
+                "comidas": cantidad,
             }
             pedidos.append(diCo)
 
 
         context = {
-            'lista_pedidos':lista_pedidos,
-            'lista_comida':pedidos,
-            "title": "Pedidos"
+            'lista_pedidos':pedidos,
+            'lisCom':lista_cantidad,
+            "title": "Pedidos",
+
         }
 
         return render(request,"pedidos.html",context)
@@ -79,9 +91,12 @@ class Pedidos_usuarios(View):
     def get(self,request):
 
         lista_pedidos = Orden.objects.all()
+
         pedidos=[]
+
         for pedido in lista_pedidos:
             lisCom=[]
+            canCom=[]
             for comida in pedido.comida.all():
                 lisCom.append(comida)
             diCo={
@@ -92,6 +107,8 @@ class Pedidos_usuarios(View):
             }
             pedidos.append(diCo)
 
+            for cantidad in variable:
+                pass
 
         context = {
             'lista_pedidos':lista_pedidos,
