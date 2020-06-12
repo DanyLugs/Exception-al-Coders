@@ -1,13 +1,27 @@
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import Group
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
+
 from django.shortcuts import render, redirect
 from django.views import View
-from .forms import SignUpForm
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import Group
-from django.contrib import messages
-from .models import Orden
 from django.template import loader
 from django.http import HttpResponse
+
+from .forms import SignUpForm
+from .models import Orden
+from .mixins import *
+
+class Admin(LoginRequiredMixin,AdminMixin,View):
+    """ Home del administrador """
+    login_url = '/login/'
+
+    def get(self, request):
+        context = {
+            "title": "Administrador"
+        }
+        return render(request, "admin-dashboard.html", context)
 
 # Create your views here.
 class Login(View):
@@ -36,7 +50,6 @@ class Login(View):
         else:
             messages.error(request, 'Falló la autenticación de usuario. Intenta ingresar nuevamente.')
             return render(request, "login.html", context)
-
 
 class Logout(View):
     def get(self, request):

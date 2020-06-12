@@ -23,8 +23,9 @@ from pages.views import HomePage
 
 urlpatterns = [
     path('', HomePage.as_view()),
-    path('admin/', admin.site.urls),
+    path('django/', admin.site.urls),
     path('comida/', include('comida.urls')),
+    path('admin/', Admin.as_view()),
     path('login/', Login.as_view()),
     path('logout/', Logout.as_view()),
     path('signup/', Signup.as_view()),
@@ -33,7 +34,3 @@ urlpatterns = [
 
 if settings.DEBUG:
         urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-        
-
- 
-
