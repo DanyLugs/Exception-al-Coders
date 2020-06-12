@@ -150,7 +150,6 @@ p {
 
 #mainNav div a {
   text-decoration: none;
-  font-size: 20px;
   font-weight: bold;
   transition: all 500ms ease;
   text-decoration: none;
@@ -585,6 +584,20 @@ body .well-block .dish-price {
 
 .font-weight-light {
   font-weight: 100 !important;
+}
+
+.row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+#dashboard {
+  display: block;
+  margin-left: 0;
+  margin-top: 1.5rem;
+  max-width: none;
+  text-align: left;
+  width: 100%;
 }
 
 .c-error .c-validation {

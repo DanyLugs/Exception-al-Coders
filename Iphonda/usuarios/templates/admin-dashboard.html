@@ -1,9 +1,25 @@
 {% extends 'base.html' %}
 
 {% block main %}
-<div class="card">
-    <div class="card-title">
-        <h2>Este contenido es exclusivo del administrador</h2>
+<div class="container">
+    <div class="card" id="dashboard">
+        <h5 class="card-header">Bienvenido {{user}}</h5>
+        <div class="card-body">
+            <h5 class="card-title">Puedes realizar las siguientes acciones</h5>
+            <!-- <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> -->
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                  <a class="nav-link active" href="/comida/agregar-categoria">Nueva categoría</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/comida/agregar-comida">Nuevo platillo</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/agregar-repartidor">Nuevo repartidor</a>
+                </li>
+              </ul>
+            <a href="/pedidos" class="btn btn-primary mt-3">Ver pedidos</a>
+        </div>
     </div>
 </div>
 {% endblock main %}
