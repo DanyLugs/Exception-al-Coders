@@ -1,6 +1,8 @@
 from django.db import models
 from django.conf import settings
 from django.db.models import Field
+from decimal import Decimal
+
 # Create your models here.
 class Orden(models.Model):
     """docstring forOrden."""
@@ -51,8 +53,8 @@ class cantidadComidaOrden(models.Model):
     def get_subtotal(self):
         return self.cantidadComida * self.idComida.precio
 
-    def get_total_price(self):
-        """
-        Calcula el precio total de todos los elementos del carrito
-        """
-        return sum(Decimal(comida['precio']) * cantidadComidaOrden['cantidadComida'] for comida in self.cart.values())
+    # def get_total_price(self):
+    #     """
+    #     Calcula el precio total de todos los elementos del carrito
+    #     """
+    #     return sum(Decimal(item['objetos']) * item['quantity'] for item in self.idComida.precio())
