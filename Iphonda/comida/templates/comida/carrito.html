@@ -23,11 +23,13 @@
          <tr>
              <td>
                 <a href="{{ comida.idComida.get_absolute_url }}">
-                    <img src="{{ comida.idComida.imagen.url }}">
+                    <div class="crop">
+                    <img class="w-100" src="{{ comida.idComida.imagen.url }}">
+                    </div>
                 </a>
             </td>
             <td>{{ comida.idComida }}</td>
-            <td>{{ comida.cantidades }}</td>
+            <td>{{ comida.cantidadComida }}</td>
             <td> <a href="{% url 'comida:element_cart_delete' comida.id %}">Quitar</a></td>
             <td class="num">${{ comida.idComida.precio }}</td>
             <td class="num">${{ comida.get_subtotal }}</td>
