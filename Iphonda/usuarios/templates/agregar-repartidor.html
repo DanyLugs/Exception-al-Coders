@@ -12,8 +12,8 @@
             <ul class="list-group">
                 {% for repartidor in repartidores %}
                 <li class="list-group-item">
-                    <a href="/admin/revocar-repartidor/{{repartidor.id}}" class="btn btn-danger btn-sm">¡Revocar repartidor!</a>
                     {{repartidor}} &lt;<a href="mailto:{{repartidor.email}}">{{repartidor.email}}</a>&gt;
+                    <a href="/admin/revocar-repartidor/{{repartidor.id}}" class="btn btn-danger btn-sm float-right">¡Revocar repartidor!</a>
                 </li>
                 {% endfor %}
             </ul>
@@ -26,8 +26,8 @@
             <ul class="list-group">
                 {% for cliente in clientes %}
                 <li class="list-group-item">
-                    <a href="{{cliente.id}}" class="btn btn-primary btn-sm">¡Hazlo repartidor!</a>
                     {{cliente}} &lt;<a href="mailto:{{cliente.email}}">{{cliente.email}}</a>&gt;
+                    <a href="{{cliente.id}}" class="btn btn-primary btn-sm float-right">¡Hazlo repartidor!</a>
                 </li>
                 {% endfor %}
             </ul>
