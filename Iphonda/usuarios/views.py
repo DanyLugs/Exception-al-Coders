@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
@@ -22,6 +22,55 @@ class Admin(LoginRequiredMixin,AdminMixin,View):
             "title": "Administrador"
         }
         return render(request, "admin-dashboard.html", context)
+
+class AgregarRepartidor(LoginRequiredMixin,AdminMixin,View):
+    """ Vista para agregar un nuevo repartidor """
+    login_url = '/login/'
+
+    def get(self, request):
+
+        context = {
+            "repartidores": User.objects.filter(groups__name="repartidor"),
+            "clientes": User.objects.filter(groups__name="cliente"),
+            "title": "Agregar repartidor"
+        }
+        return render(request, "agregar-repartidor.html", context)
+
+class AgregarRepartidorConId(AdminMixin,View):
+    """ Actualiza el usuario con el id seleccionado para ser repartidor """
+
+    def get(self, request, idUser):
+        try:
+            usuario = User.objects.get(id=idUser)
+            grupoClientes = Group.objects.get(name="cliente")
+            grupoRepartidores = Group.objects.get(name="repartidor")
+            usuario.groups.remove(grupoClientes)
+            usuario.groups.add(grupoRepartidores)
+            msj = "Haz agregado a " + str(usuario.username) + " como repartidor."
+            messages.add_message(request,messages.SUCCESS, msj)
+        except:
+            msj = "El usuario seleccionado es inválido o no existe."
+            messages.add_message(request,messages.ERROR, msj)
+        finally:
+            return redirect('/admin')
+
+class QuitarRepartidorConId(AdminMixin,View):
+    """ Actualiza el usuario con el id seleccionado para ya no ser repartidor """
+
+    def get(self, request, idUser):
+        try:
+            usuario = User.objects.get(id=idUser)
+            grupoClientes = Group.objects.get(name="cliente")
+            grupoRepartidores = Group.objects.get(name="repartidor")
+            usuario.groups.add(grupoClientes)
+            usuario.groups.remove(grupoRepartidores)
+            msj = "Haz eliminado a " + str(usuario.username) + " como repartidor."
+            messages.add_message(request,messages.SUCCESS, msj)
+        except:
+            msj = "El usuario seleccionado es inválido o no existe."
+            messages.add_message(request,messages.ERROR, msj)
+        finally:
+            return redirect('/admin')
 
 # Create your views here.
 class Login(View):

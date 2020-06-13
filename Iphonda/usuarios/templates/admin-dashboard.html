@@ -5,6 +5,20 @@
     <div class="card" id="dashboard">
         <h5 class="card-header">Bienvenido {{user}}</h5>
         <div class="card-body">
+            {% if messages %}
+            {% for message in messages %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+            <div class="alert alert-success" role="alert">
+              {{message}}
+            </div>
+            {% endif %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+            <div class="alert alert-danger" role="alert">
+              {{message}}
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
             <h5 class="card-title">Puedes realizar las siguientes acciones</h5>
             <!-- <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> -->
             <ul class="nav flex-column">
@@ -15,7 +29,7 @@
                   <a class="nav-link" href="/comida/agregar-comida">Nuevo platillo</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="/agregar-repartidor">Nuevo repartidor</a>
+                  <a class="nav-link" href="/admin/agregar-repartidor">Nuevo repartidor</a>
                 </li>
               </ul>
             <a href="/pedidos" class="btn btn-primary mt-3">Ver pedidos</a>
