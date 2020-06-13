@@ -44,42 +44,28 @@ class Logout(View):
 
 class Pedidos(View):
     """docstring forPedidos."""
-
     def get(self,request):
-        template = loader.get_template("pedidos.html")
-        lista_pedidos = Orden.objects.all()
         lista_cantidad =cantidadComidaOrden.objects.all()
-
-
+        lista_entrega=Orden.objects.filter(estado="Preparando")
         cantidades=[]
-        """
-        for cantidad in lista_cantidad:
-
-            cantidades.append(cantidad.cantidadComida)
-            print(cantidad.cantidadComida)
-        """
-        contador=0
         pedidos=[]
-        for pedido in lista_pedidos:
+        for pedido in lista_entrega:
             lisCom=[]
-
             cantidad=cantidadComidaOrden.objects.filter(idOrden=pedido.id)
             diCo={
                 "id": pedido.id,
                 "fecha": pedido.fecha,
                 "usuario":pedido.usuario,
                 "comidas": cantidad,
+                "estado": pedido.estado,
             }
             pedidos.append(diCo)
-
-
         context = {
             'lista_pedidos':pedidos,
             'lisCom':lista_cantidad,
             "title": "Pedidos",
 
         }
-
         return render(request,"pedidos.html",context)
 
     def post(self, request):
@@ -89,31 +75,32 @@ class Pedidos_usuarios(View):
     """docstring forPedidos."""
 
     def get(self,request):
-
         lista_pedidos = Orden.objects.all()
-
+        lista_cantidad =cantidadComidaOrden.objects.all()
+        cantidades=[]
         pedidos=[]
-
-        for pedido in lista_pedidos:
+        cliente=request.user
+        print(cliente.id)
+        historial=Orden.objects.filter(usuario=cliente.id)
+        print(historial)
+        #pedido_cliente=lista_pedidos.objects.filter(id=)
+        for pedido in historial:
             lisCom=[]
-            canCom=[]
-            for comida in pedido.comida.all():
-                lisCom.append(comida)
+            cantidad=cantidadComidaOrden.objects.filter(idOrden=pedido.id)
             diCo={
                 "id": pedido.id,
                 "fecha": pedido.fecha,
                 "usuario":pedido.usuario,
-                "comidas": lisCom
+                "comidas": cantidad,
+                "estado": pedido.estado,
             }
             pedidos.append(diCo)
 
-            for cantidad in variable:
-                pass
 
         context = {
-            'lista_pedidos':lista_pedidos,
-            'lista_comida':pedidos,
-            "title": "Pedidos"
+            'lista_pedidos':pedidos,
+            'lisCom':lista_cantidad,
+            "title": "Pedidos",
         }
 
         return render(request,"pedido_cliente.html",context)

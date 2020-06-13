@@ -24,7 +24,8 @@
                 {% for pedido in lista_pedidos %}
                 <div class="pedido">
                  <br>
-                  <li>Este es el pedio: {{pedido.id}}, lo solicito: {{pedido.usuario}}, La fecha fue en: {{pedido.fecha}},
+                  <li>Este es el pedio: {{pedido.id}}, lo solicito: {{pedido.usuario}}, La fecha fue en: {{pedido.fecha}}, su estado es {{pedido.estado}} <br>
+
                   <b>su pedido es</b> :</li>
                   {%for comida in pedido.comidas %}
                   <div class="comida">
@@ -33,13 +34,23 @@
                       {{comida.idComida}}
                       {{comida.cantidadComida}}
                     </ul>
-
                     <br>
                   </div>
-
-
                 {% endfor %}
+              <form method="POST" action=".">
+                  {{ form }}
 
+                <select name="opciones">
+
+
+                  <option selected>Preparando</option>
+
+                  <option>Listo para enviar</option>
+
+                  <option >Entregado al repartidor</option>
+
+                  </select>
+                  </form>
               </div>
               {% endfor %}
               </ul>
