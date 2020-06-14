@@ -91,7 +91,7 @@
 
 <a href="{% url 'comida:categorias' %}" class="button button2">Continuar comprando</a>
 
-<a href="/comida/ordenar/{{orden.id}}" class="button button2">Ordenar</a>
+<a href="{% url 'comida:ordenar' orden.id %}" class="button button2">Ordenar</a>
 
 </p>
 

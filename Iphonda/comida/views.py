@@ -286,7 +286,7 @@ class Ordenar(View):
         orden = Orden.objects.get(id = orden_id)
         orden.estado = 'PD'
         orden.save()
-        return redirect( reverse_lazy('comida:comidaHome'))
+        return redirect( reverse_lazy('comida:categorias'))
 
 
 # @require_POST
