@@ -37,12 +37,12 @@
                     <br>
                   </div>
                 {% endfor %}
-                  <a href="{% url 'proceso' pedido.id %}" class="button button2">Listo para enviar</a>
+                  <a href="{% url 'entrega' pedido.id %}" class="button button2">Entregado al cliente</a>
               </div>
               {% endfor %}
               </ul>
               {%else%}
-              <p> No tienes ningun pedido :) </p>
+              <p> No hay pedidos en Fila :C </p>
               {% endif %}
               <style type="text/css">
                .comida{

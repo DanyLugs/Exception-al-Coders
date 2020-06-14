@@ -30,3 +30,4 @@ class cantidadComidaOrden(models.Model):
     cantidadComida= models.IntegerField()
     idComida = models.ForeignKey("comida.Comida",on_delete = models.CASCADE)
     idOrden = models.ForeignKey("Orden", on_delete = models.CASCADE)
+    

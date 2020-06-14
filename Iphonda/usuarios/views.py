@@ -8,6 +8,8 @@ from .models import Orden,cantidadComidaOrden
 from django.template import loader
 from django.http import HttpResponse
 from django.contrib.auth.models import User
+from django.urls import reverse_lazy
+
 # Create your views here.
 class Login(View):
     def get(self, request):
@@ -109,6 +111,35 @@ class Pedidos_usuarios(View):
         return HttpResponse("<h1> no debiste llegar aqui </h1>")
 
 
+class Pedidos_repartidor(View):
+    """docstring forPedidos."""
+    def get(self,request):
+        lista_cantidad =cantidadComidaOrden.objects.all()
+        lista_entrega=Orden.objects.filter(estado="LT")
+        cantidades=[]
+        pedidos=[]
+        for pedido in lista_entrega:
+            lisCom=[]
+            cantidad=cantidadComidaOrden.objects.filter(idOrden=pedido.id)
+            diCo={
+                "id": pedido.id,
+                "fecha": pedido.fecha,
+                "usuario":pedido.usuario,
+                "comidas": cantidad,
+                "estado": pedido.estado,
+            }
+            pedidos.append(diCo)
+        context = {
+            'lista_pedidos':pedidos,
+            'lisCom':lista_cantidad,
+            "title": "Pedidos",
+
+        }
+        return render(request,"pedidos_reapartidor.html",context)
+
+    def post(self, request):
+        return HttpResponse("<h1> no debiste llegar aqui </h1>")
+
 
 
 
@@ -132,3 +163,20 @@ class Signup(View):
             'title': 'Registro de usuarios'
         }
         return render(request, "signup.html", context)
+
+class Proceso(View):
+    """docstring forProceso."""
+    def get(self,request,ordenid):
+        orden = Orden.objects.get(id = ordenid)
+        orden.estado = 'LT'
+        orden.save()
+        return redirect( reverse_lazy('pedido_admin'))
+
+
+class Entrega(View):
+    """docstring forProceso."""
+    def get(self,request,ordenid):
+        orden = Orden.objects.get(id = ordenid)
+        orden.estado = 'Entregado'
+        orden.save()
+        return redirect(reverse_lazy('pedido_rep') )
