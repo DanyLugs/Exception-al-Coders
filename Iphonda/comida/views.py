@@ -274,12 +274,12 @@ class DeleteFromCart(LoginRequiredMixin, DeleteView):
 
     login_url = 'users:login'
     model = cantidadComidaOrden
-    succes_url = reverse_lazy('comida:carrito')
+    success_url = reverse_lazy('comida:cart')
     slug_url_kwarg = 'comida_id'
     pk_url_kwarg = 'comida_id'
 
     def get(self, request, *args, **kwargs):
-        return super().delete(request, *args, **kwargs)
+        return self.post(request, *args, **kwargs)
 
 class Ordenar(View):
     def get(self,request,orden_id):

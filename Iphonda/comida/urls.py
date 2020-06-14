@@ -25,7 +25,7 @@ urlpatterns = [
     path('eliminarCategoria/<int:categoria_id>',views.EliminarCategoria.as_view()),
     path('add_to_cart/<int:comida_id>', views.AddToCart.as_view(), name = 'add_to_cart'),
     path('carrito/', views.CartView.as_view(), name = 'cart'),
-    path('delete-cart-food/<int:comida_id>', views.DeleteFromCart.as_view(success_url=reverse_lazy('comida:carrito')), name = 'element_cart_delete'),
+    path('delete-cart-food/<int:comida_id>', views.DeleteFromCart.as_view(), name = 'element_cart_delete'),
     path('ordenar/<int:orden_id>', views.Ordenar.as_view(), name = 'ordenar'),
     # path('carrito/', views.cart_detail, name='cart_detail'),
     # path('add/<int:comida_id>/', views.cart_add, name = 'cart_add'),
