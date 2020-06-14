@@ -237,12 +237,20 @@ class CartView(LoginRequiredMixin,ListView):
     def get(self, request):
         """GET method."""
         user = request.user.id
-        orden = Orden.objects.filter(usuario= user).first()
-        objetos = cantidadComidaOrden.objects.filter(idOrden = orden)
-        context = {
-            "objetos": objetos,
-            "orden" : orden
-        }
+        objetos = []
+        if Orden.objects.filter(usuario= user, estado = 'CT').exists():
+            orden = Orden.objects.get(usuario= user, estado = 'CT')
+            objetos = cantidadComidaOrden.objects.filter(idOrden = orden)
+
+            context = {
+                "objetos": objetos,
+                "orden" : orden
+                }
+        else:
+            context = {
+                "objectos": objetos
+            }
+
         return render(request, self.template, context)
 
 class AddToCart(LoginRequiredMixin, View):
@@ -285,6 +293,7 @@ class Ordenar(View):
     def get(self,request,orden_id):
         orden = Orden.objects.get(id = orden_id)
         orden.estado = 'PD'
+        orden.fecha = datetime.datetime.now()
         orden.save()
         return redirect( reverse_lazy('comida:categorias'))
 

@@ -63,35 +63,40 @@
     </tr>
 </thead>
 <tbody>
-    {% for comida in objetos %}
-     <tr>
-         <td>
-            <a href="{{ comida.idComida.get_absolute_url }}">
-                <div>
-                <img class="crop" src="{{ comida.idComida.imagen.url }}" style="width: 100px">
-                </div>
-            </a>
-        </td>
-        <td>{{ comida.idComida }}</td>
-        <td>{{ comida.cantidadComida }}</td>
-        <td> <a href="{% url 'comida:element_cart_delete' comida.id %}" class="button1 button3">Quitar</a></td>
-        <td class="num">${{ comida.idComida.precio }}</td>
-        <td class="num">${{ comida.get_subtotal }}</td>
-     </tr>
-    <tr class="total">
-        <td>Total</td>
-        <td colspan="4"></td>
-        <td class="num">${{ comida.get_total_price }}</td>
-    </tr>
-    {% endfor %}
+    {% if objetos %}
+      {% for comida in objetos %}
+       <tr>
+           <td>
+              <a href="{{ comida.idComida.get_absolute_url }}">
+                  <div>
+                  <img class="crop" src="{{ comida.idComida.imagen.url }}" style="width: 100px">
+                  </div>
+              </a>
+          </td>
+          <td>{{ comida.idComida }}</td>
+          <td>{{ comida.cantidadComida }}</td>
+          <td> <a href="{% url 'comida:element_cart_delete' comida.id %}" class="button1 button3">Quitar</a></td>
+          <td class="num">${{ comida.idComida.precio }}</td>
+          <td class="num">${{ comida.get_subtotal }}</td>
+       </tr>
+      <tr class="total">
+          <td>Total</td>
+          <td colspan="4"></td>
+          <td class="num">${{ comida.get_total_price }}</td>
+      </tr>
+      {% endfor %}
+    {% endif %}
 </tbody>
 </table>
 
 <p class="text-right">
 
 <a href="{% url 'comida:categorias' %}" class="button button2">Continuar comprando</a>
-
+{% if objetos %}
 <a href="{% url 'comida:ordenar' orden.id %}" class="button button2">Ordenar</a>
+{% else %}
+
+{% endif %}
 
 </p>
 
