@@ -88,8 +88,11 @@
 </table>
 
 <p class="text-right">
+
 <a href="{% url 'comida:categorias' %}" class="button button2">Continuar comprando</a>
-<a href="#" class="button button2">Ordenar</a>
+
+<a href="/comida/ordenar/{{orden.id}}" class="button button2">Ordenar</a>
+
 </p>
 
 {% endblock main %}

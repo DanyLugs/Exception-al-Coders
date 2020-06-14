@@ -240,7 +240,8 @@ class CartView(LoginRequiredMixin,ListView):
         orden = Orden.objects.filter(usuario= user).first()
         objetos = cantidadComidaOrden.objects.filter(idOrden = orden)
         context = {
-            "objetos": objetos
+            "objetos": objetos,
+            "orden" : orden
         }
         return render(request, self.template, context)
 
@@ -280,6 +281,12 @@ class DeleteFromCart(LoginRequiredMixin, DeleteView):
     def get(self, request, *args, **kwargs):
         return super().delete(request, *args, **kwargs)
 
+class Ordenar(View):
+    def get(self,request,orden_id):
+        orden = Orden.objects.get(id = orden_id)
+        orden.estado = 'PD'
+        orden.save()
+        return redirect( reverse_lazy('comida:comidaHome'))
 
 
 # @require_POST
