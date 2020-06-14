@@ -29,6 +29,12 @@ class Orden(models.Model):
         else:
             idComida.cantidadComida += cantidadComida
         idComida.save()
+
+    def get_total_price(self):
+        total = 0
+        for item in self.order_elems.all():
+            total += item.get_subtotal()
+        return total      
     class Meta:
         verbose_name_plural = "Órdenes"
 
@@ -53,8 +59,4 @@ class cantidadComidaOrden(models.Model):
     def get_subtotal(self):
         return self.cantidadComida * self.idComida.precio
 
-    # def get_total_price(self):
-    #     """
-    #     Calcula el precio total de todos los elementos del carrito
-    #     """
-    #     return sum(Decimal(item['objetos']) * item['quantity'] for item in self.idComida.precio())
+    

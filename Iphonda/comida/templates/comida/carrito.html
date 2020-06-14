@@ -79,12 +79,12 @@
           <td class="num">${{ comida.idComida.precio }}</td>
           <td class="num">${{ comida.get_subtotal }}</td>
        </tr>
-      <tr class="total">
-          <td>Total</td>
-          <td colspan="4"></td>
-          <td class="num">${{ comida.get_total_price }}</td>
-      </tr>
       {% endfor %}
+      <tr class="total">
+        <td>Total</td>
+        <td colspan="4"></td>
+        <td class="num">${{ orden.get_total_price }}</td>
+    </tr>
     {% endif %}
 </tbody>
 </table>
