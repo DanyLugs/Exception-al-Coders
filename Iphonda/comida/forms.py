@@ -39,7 +39,7 @@ class CartAddProductForm(forms.Form):
             (True) = la cantidad existente debe ser actualizada con la cantidad dada por el usuario
     """
     model = cantidadComidaOrden
-    cantidad = forms.TypedChoiceField(
+    cantidadComida = forms.TypedChoiceField(
                                 choices = PRODUCT_QUANTITY_CHOICES,
                                 coerce = int)
     update = forms.BooleanField(required = False,
