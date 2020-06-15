@@ -48,7 +48,7 @@ class Pedidos(View):
     """docstring forPedidos."""
     def get(self,request):
         lista_cantidad =cantidadComidaOrden.objects.all()
-        lista_entrega=Orden.objects.filter(estado="Preparando")
+        lista_entrega=Orden.objects.filter(estado="PD")
         cantidades=[]
         pedidos=[]
         for pedido in lista_entrega:
@@ -177,6 +177,6 @@ class Entrega(View):
     """docstring forProceso."""
     def get(self,request,ordenid):
         orden = Orden.objects.get(id = ordenid)
-        orden.estado = 'Entregado'
+        orden.estado = 'ET'
         orden.save()
         return redirect(reverse_lazy('pedido_rep') )
