@@ -23,8 +23,9 @@ from pages.views import HomePage
 
 urlpatterns = [
     path('', HomePage.as_view()),
-    path('admin/', admin.site.urls),
+    path('django/', admin.site.urls),
     path('comida/', include('comida.urls')),
+    path('admin/', include('usuarios.admin-urls')),
     path('login/', Login.as_view()),
     path('logout/', Logout.as_view()),
     path('signup/', Signup.as_view()),
