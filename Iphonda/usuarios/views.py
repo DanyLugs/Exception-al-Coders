@@ -4,9 +4,11 @@ from .forms import SignUpForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .models import Orden
+from .models import Orden,cantidadComidaOrden
 from django.template import loader
 from django.http import HttpResponse
+from django.contrib.auth.models import User
+from django.urls import reverse_lazy
 
 # Create your views here.
 class Login(View):
@@ -44,34 +46,101 @@ class Logout(View):
 
 class Pedidos(View):
     """docstring forPedidos."""
-
     def get(self,request):
-        template = loader.get_template("pedidos.html")
-        lista_pedidos = Orden.objects.all()
+        lista_cantidad =cantidadComidaOrden.objects.all()
+        lista_entrega=Orden.objects.filter(estado="Preparando")
+        cantidades=[]
         pedidos=[]
-        for pedido in lista_pedidos:
+        for pedido in lista_entrega:
             lisCom=[]
-            for comida in pedido.comida.all():
-                lisCom.append(comida)
+            cantidad=cantidadComidaOrden.objects.filter(idOrden=pedido.id)
             diCo={
                 "id": pedido.id,
                 "fecha": pedido.fecha,
                 "usuario":pedido.usuario,
-                "comidas": lisCom
+                "comidas": cantidad,
+                "estado": pedido.estado,
+            }
+            pedidos.append(diCo)
+        context = {
+            'lista_pedidos':pedidos,
+            'lisCom':lista_cantidad,
+            "title": "Pedidos",
+
+        }
+        return render(request,"pedidos.html",context)
+
+    def post(self, request):
+        return HttpResponse("<h1> no debiste llegar aqui </h1>")
+
+class Pedidos_usuarios(View):
+    """docstring forPedidos."""
+
+    def get(self,request):
+        lista_pedidos = Orden.objects.all()
+        lista_cantidad =cantidadComidaOrden.objects.all()
+        cantidades=[]
+        pedidos=[]
+        cliente=request.user
+        print(cliente.id)
+        historial=Orden.objects.filter(usuario=cliente.id)
+        print(historial)
+        #pedido_cliente=lista_pedidos.objects.filter(id=)
+        for pedido in historial:
+            lisCom=[]
+            cantidad=cantidadComidaOrden.objects.filter(idOrden=pedido.id)
+            diCo={
+                "id": pedido.id,
+                "fecha": pedido.fecha,
+                "usuario":pedido.usuario,
+                "comidas": cantidad,
+                "estado": pedido.estado,
             }
             pedidos.append(diCo)
 
 
         context = {
-            'lista_pedidos':lista_pedidos,
-            'lista_comida':pedidos,
-            "title": "Pedidos"
+            'lista_pedidos':pedidos,
+            'lisCom':lista_cantidad,
+            "title": "Pedidos",
         }
 
-        return render(request,"pedidos.html",context)
+        return render(request,"pedido_cliente.html",context)
 
     def post(self, request):
         return HttpResponse("<h1> no debiste llegar aqui </h1>")
+
+
+class Pedidos_repartidor(View):
+    """docstring forPedidos."""
+    def get(self,request):
+        lista_cantidad =cantidadComidaOrden.objects.all()
+        lista_entrega=Orden.objects.filter(estado="LT")
+        cantidades=[]
+        pedidos=[]
+        for pedido in lista_entrega:
+            lisCom=[]
+            cantidad=cantidadComidaOrden.objects.filter(idOrden=pedido.id)
+            diCo={
+                "id": pedido.id,
+                "fecha": pedido.fecha,
+                "usuario":pedido.usuario,
+                "comidas": cantidad,
+                "estado": pedido.estado,
+            }
+            pedidos.append(diCo)
+        context = {
+            'lista_pedidos':pedidos,
+            'lisCom':lista_cantidad,
+            "title": "Pedidos",
+
+        }
+        return render(request,"pedidos_reapartidor.html",context)
+
+    def post(self, request):
+        return HttpResponse("<h1> no debiste llegar aqui </h1>")
+
+
 
 
 class Signup(View):
@@ -94,3 +163,20 @@ class Signup(View):
             'title': 'Registro de usuarios'
         }
         return render(request, "signup.html", context)
+
+class Proceso(View):
+    """docstring forProceso."""
+    def get(self,request,ordenid):
+        orden = Orden.objects.get(id = ordenid)
+        orden.estado = 'LT'
+        orden.save()
+        return redirect( reverse_lazy('pedido_admin'))
+
+
+class Entrega(View):
+    """docstring forProceso."""
+    def get(self,request,ordenid):
+        orden = Orden.objects.get(id = ordenid)
+        orden.estado = 'Entregado'
+        orden.save()
+        return redirect(reverse_lazy('pedido_rep') )

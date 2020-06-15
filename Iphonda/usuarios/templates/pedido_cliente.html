@@ -1,4 +1,3 @@
-
 {% extends 'base.html' %}
 {% block main %}
 
@@ -16,7 +15,7 @@
           <div class="col-xl-9 col-lg-10 mx-auto">
             <div class="bg-faded rounded p-5">
               <h2 class="section-heading mb-4 titulo-pedido">
-                <span class="section-head-ing-upper">Pedidos</span>
+                <span class="section-head-ing-upper">Historial</span>
               </h2>
 
               {% if lista_pedidos %}
@@ -37,12 +36,13 @@
                     <br>
                   </div>
                 {% endfor %}
-                  <a href="{% url 'proceso' pedido.id %}" class="button button2">Listo para enviar</a>
+
               </div>
               {% endfor %}
               </ul>
               {%else%}
-              <p> No tienes ningun pedido :) </p>
+
+              <p> No has hecho ningun pedido :) </p>
               {% endif %}
               <style type="text/css">
                .comida{
