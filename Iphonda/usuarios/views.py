@@ -150,7 +150,7 @@ class Signup(View):
 
         if form.is_valid():
             user = form.save()
-            group = Group.objects.get(name='Clientes')
+            group = Group.objects.get(name='cliente')
 
             user.groups.add(group)
 
