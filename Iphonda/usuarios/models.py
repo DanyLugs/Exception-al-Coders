@@ -6,7 +6,6 @@ from decimal import Decimal
 # Create your models here.
 class Orden(models.Model):
     """docstring forOrden."""
-
     ORDER_STATES = [
         ('CT','EN CARRITO'),
         ('PD','PENDIENTE'),
@@ -22,7 +21,7 @@ class Orden(models.Model):
     fecha   = models.DateField(null=True)
     estado  = models.CharField(choices=ORDER_STATES, max_length=2)
     califi  = models.IntegerField(null=True)
-
+    dirr    = models.ForeignKey('direccion',on_delete=models.PROTECT)
     def add_item(self, new_item, cantidadComida):
         """
         Funcion que agrega la comida seleccionada de la visa de comida al carrito
@@ -56,7 +55,6 @@ class direccion(models.Model):
     id        = models.AutoField(primary_key=True)
     email     = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete = models.CASCADE )
     dirrec    = models.TextField()
-
 
 
 class cantidadComidaOrden(models.Model):
