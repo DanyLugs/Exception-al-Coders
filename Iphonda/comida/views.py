@@ -207,29 +207,13 @@ class EditarCategoria(View):
             return redirect("/comida/categorias/")
         return render(request,"categoria/editarCategoria.html", context)
 
-# class AddToCart(View):
-#     def get(self,request,comida_id):
-#         user = request.user
-#         comida = Comida.objects.get(id= comida_id)
-#         if Orden.objects.filter(usuario=user.id).exists():
-#             orden = Orden.objects.get(usuario= user.id)
-#             #EStoy pensando en hacer un if no se si aqui on en el template para que no cree otro si ya esta
-#             comida_ord ,status = cantidadComidaOrden.objects.get_or_create(idComida = comida,cantidadComida = 1,idOrden= orden)
-#         else:
-#             orden = Orden.objects.create(usuario= user,fecha= datetime.datetime.now(),estado="carrito")
-#             comida_ord ,status = cantidadComidaOrden.objects.get_or_create(idComida = comida,cantidadComida = 1,idOrden= orden)
-#         #DUda sobre si lo que agregamos a orden es la comida o la cantidad comida orden @.@
-#         #Por ahora hare la comida
-#         orden.comida.add(comida)
-#         if status:
-#             orden.save()
-#             comida_ord.save()
 
-#         messages.success(request, 'Categoria Agregada !')
-#         return redirect('comida:categorias')
-
+# INICIA clases de la vista carrito
 
 class CartView(LoginRequiredMixin,ListView):
+    """
+    Clase CartView, regresa la vista del carrito.
+    """
 
     model = cantidadComidaOrden
     template= 'comida/carrito.html'
@@ -254,6 +238,9 @@ class CartView(LoginRequiredMixin,ListView):
         return render(request, self.template, context)
 
 class AddToCart(LoginRequiredMixin, View):
+    """
+    Clase AddToCart, se encarga de la cantidad del alimento en la vista de las comidas
+    """
     template_name = 'comida/vercomida.html'
     login_url = 'user:login'
 
@@ -265,13 +252,12 @@ class AddToCart(LoginRequiredMixin, View):
         cart, is_new_cart = Orden.objects.get_or_create(usuario = self.request.user, estado = 'CT')
 
         idComida = Comida.objects.get(id = self.kwargs.get('comida_id'))
-        # comida = Comida.objects.get(id= comida_id)
 
         context = {}
 
         if form.is_valid():
             cantidadComida = form.cleaned_data.get("cantidadComida")
-            cart.add_element(idComida,cantidadComida)
+            cart.add_item(idComida,cantidadComida)
 
         context = {"form":form}
         comida_id = idComida.categoria.id
@@ -279,6 +265,11 @@ class AddToCart(LoginRequiredMixin, View):
 
 
 class DeleteFromCart(LoginRequiredMixin, DeleteView):
+    """
+    Clase DeleteFromCart que elimina un solo elemento del carrito,
+    implementado mediante un botón que borra todos los atributos de ese item
+    por lo tanto lo elimina de la tabla del carrito
+    """
 
     login_url = 'users:login'
     model = cantidadComidaOrden
@@ -289,6 +280,8 @@ class DeleteFromCart(LoginRequiredMixin, DeleteView):
     def get(self, request, *args, **kwargs):
         return self.post(request, *args, **kwargs)
 
+# FIN clases de la vista carrito        
+
 class Ordenar(View):
     def get(self,request,orden_id):
         orden = Orden.objects.get(id = orden_id)
@@ -298,51 +291,4 @@ class Ordenar(View):
         return redirect( reverse_lazy('comida:categorias'))
 
 
-# @require_POST
-# def cart_add(request, comida_id):
-#     """
-#     Funcion que agrega productos al carrito o actualiza cantidades de productos existentes en el carrito
-#     require_POST: se usa este decorador para solo admitir POST request, ya que esta view cambiará datos
-#     Se recibe el id de la comida como parametro, se obtiene y se valida con el form, si el form es válido
-#     se agrega o se actualiza el producto en el carrito
-#     Esta view redirecciona a cart_detail URL
-#     """
-#     cart = Cart(request)
-#     product = get_object_or_404(Comida, id = comida_id)
-#     form = CartAddProductForm(request.POST)
-#     if form.is_valid():
-#         cd = form.cleaned_data
-#         cart.add(product = product,
-#                  quantity = cd['quantity'],
-#                  update_quantity = cd['update'])
-#     return redirect('cart: cart_detail')
 
-# def cart_remove(request, comida_id):
-#     """
-#     Funcion que quita in producto del carrito
-#     Recibe el id de la comida que serpa removida, se obtiene y se elimina del carrito.
-#     Se redirecciona a la URL cart_detail
-#     """
-#     cart = Cart(request)
-#     product = get_object_or_404(Comida, id = comida_id)
-#     cart.remove(product)
-#     return redirect('cart: cart_detail')
-
-# def cart_detail(request):
-#     """
-#     View que despliega el carrito y sus elementos
-#     """
-#     cart = Cart(request)
-#     return render(request, 'comida/carrito.html', {'cart':cart})
-
-
-# def product_detail(request, id, slug):
-#     product = get_object_or_404(Comida, id=id,
-#                                         slug=slug,
-#                                         available=True)
-#     cart_product_form = CartAddProductForm()
-#     context = {
-#         'product': product,
-#         'cart_product_form': cart_product_form
-#     }
-#     return render(request, 'comida/vercomida.html', context)

@@ -8,11 +8,12 @@ class Orden(models.Model):
     """docstring forOrden."""
 
     ORDER_STATES = [
-        ('CT','CARRITO'),
+        ('CT','EN CARRITO'),
         ('PD','PENDIENTE'),
         ('LT','LISTA'),
         ('EC','EN CAMINO'),
         ('ET','ENTREGADO'),
+        ('CF','CALIFICADO')
     ]
 
     id      = models.AutoField(primary_key=True)
@@ -22,8 +23,11 @@ class Orden(models.Model):
     estado  = models.CharField(choices=ORDER_STATES, max_length=2)
     califi  = models.IntegerField(null=True)
 
-    def add_element(self, new_element, cantidadComida):
-        idComida, is_new = self.order_elems.get_or_create(idComida = new_element)
+    def add_item(self, new_item, cantidadComida):
+        """
+        Funcion que agrega la comida seleccionada de la visa de comida al carrito
+        """
+        idComida, is_new = self.order_id.get_or_create(idComida = new_item)
         if is_new:
             idComida.cantidadComida = cantidadComida
         else:
@@ -31,8 +35,12 @@ class Orden(models.Model):
         idComida.save()
 
     def get_total_price(self):
+        """
+        Funcion que calcula el total del carrito, toma en cuenta la funcion
+        get_subtotal, realiza una suma de todos los subtotales en el carrito
+        """
         total = 0
-        for item in self.order_elems.all():
+        for item in self.order_id.all():
             total += item.get_subtotal()
         return total      
     class Meta:
@@ -54,9 +62,13 @@ class direccion(models.Model):
 class cantidadComidaOrden(models.Model):
     cantidadComida= models.IntegerField(default = 1)
     idComida = models.ForeignKey("comida.Comida",on_delete = models.CASCADE)
-    idOrden = models.ForeignKey("Orden", on_delete = models.CASCADE, related_name = 'order_elems')
+    idOrden = models.ForeignKey("Orden", on_delete = models.CASCADE, related_name = 'order_id')
 
     def get_subtotal(self):
+        """
+        Funcion que realiza el subtotal de un item agregado al carrito
+        multiplica el precio del porducto por la cantidad del mismo
+        """
         return self.cantidadComida * self.idComida.precio
 
     

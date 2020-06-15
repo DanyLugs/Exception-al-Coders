@@ -39,9 +39,16 @@ class CartAddProductForm(forms.Form):
             (True) = la cantidad existente debe ser actualizada con la cantidad dada por el usuario
     """
     model = cantidadComidaOrden
-    cantidadComida = forms.TypedChoiceField(
+    cantidad = forms.TypedChoiceField(
                                 choices = PRODUCT_QUANTITY_CHOICES,
                                 coerce = int)
     update = forms.BooleanField(required = False,
                                 initial = False,
-                                widget = forms.HiddenInput) # No queremos que el usuario vea el campo update
+                                widget = forms.HiddenInput()) # No queremos que el usuario vea el campo update
+
+    class Meta:
+        fields = ('cantidad','update')
+        labels = {
+            'cantidad' : ('Cantidad'),
+            'update':(''),
+        }                            
