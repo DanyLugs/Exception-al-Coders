@@ -7,6 +7,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from pages.views import HomePage
 
 
 # Views
@@ -14,7 +15,7 @@ from . import views
 
 app_name = "comida"
 urlpatterns = [
-    path('', views.ComidaVista.as_view(), name = 'comidaHome'),
+    path('', HomePage.as_view(), name = 'comidaHome'),
     path('agregar-categoria/', views.AgregarCategoria.as_view(), name='agregar-categoria'),
     path('agregar-comida/', views.AgregarComida.as_view(), name='agregar-comida'),
     path('categorias/', views.CategoriaVista.as_view(), name = 'categorias'),

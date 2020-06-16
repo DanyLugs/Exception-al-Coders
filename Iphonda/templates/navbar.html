@@ -40,9 +40,14 @@
             <span class="text-uppercase text-expanded" style="color: white;">
                 <a href="/admin">{{ user }}</a>
             </span>
+
+            <li class="nav-item {% if request.path == "/comida/carrito/" %}active{% endif %} px-lg-4">
+                <a class="nav-link text-uppercase text-expanded" href="/comida/carrito">Carrito</a>
+            </li>
             <a class="nav-link text-uppercase text-expanded" href="/logout">Salir</a>
             {% else %}
             <a class="nav-link text-uppercase text-expanded" href="/login">Entrar</a>
+
             {% endif %}
         </div>
     </div>
