@@ -21,7 +21,7 @@
                     <a class="nav-link text-uppercase text-expanded" href="/comida/categorias">Menú</a>
                 </li>
 
-                {% if user.is_authenticated %}
+                {% if grupo == "admin" %}
                 <li class="nav-item {% if request.path == "/comida/agregar-categoria/" %}active{% endif %} px-lg-4">
                     <a class="nav-link text-uppercase text-expanded" href="/comida/agregar-categoria">Agregar Categorías</a>
                 </li>
@@ -38,7 +38,13 @@
             {% if user.is_authenticated %}
             <!-- <a class="nav-link text-uppercase text-expanded" href="/admin">{{ user }}</a> -->
             <span class="text-uppercase text-expanded" style="color: white;">
+                {% if grupo == "admin" %}
                 <a href="/admin">{{ user }}</a>
+                {% elif grupo == "repartidor" %}
+                <a href="/repartidor">{{ user }}</a>
+                {% else %}
+                <a href="/usuario">{{ user }}</a>
+                {% endif %}
             </span>
             <a class="nav-link text-uppercase text-expanded" href="/logout">Salir</a>
             {% else %}
