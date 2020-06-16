@@ -26,7 +26,9 @@ urlpatterns = [
     path('add_to_cart/<int:comida_id>', views.AddToCart.as_view(), name = 'add_to_cart'),
     path('carrito/', views.CartView.as_view(), name = 'cart'),
     path('delete-cart-food/<int:comida_id>', views.DeleteFromCart.as_view(), name = 'element_cart_delete'),
-    path('ordenar/<int:orden_id>', views.Ordenar.as_view(), name = 'ordenar'),
+    path('ord-dir/<int:orden_id>', views.Direccion.as_view() , name = 'direccion'),
+    path('ordenar/<int:orden_id>-<int:dir_id>', views.Ordenar.as_view(), name = 'ordenar'),
+
     # path('carrito/', views.cart_detail, name='cart_detail'),
     # path('add/<int:comida_id>/', views.cart_add, name = 'cart_add'),
     # path('remove/<int:comida_id>/', views.cart_remove, name = 'cart_remove'),

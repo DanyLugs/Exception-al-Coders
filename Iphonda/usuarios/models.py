@@ -21,7 +21,8 @@ class Orden(models.Model):
     fecha   = models.DateField(null=True)
     estado  = models.CharField(choices=ORDER_STATES, max_length=2)
     califi  = models.IntegerField(null=True)
-    dirr    = models.ForeignKey('direccion',on_delete=models.PROTECT)
+    dirr    = models.ForeignKey('direccion',on_delete=models.PROTECT , null = True)
+
     def add_item(self, new_item, cantidadComida):
         """
         Funcion que agrega la comida seleccionada de la visa de comida al carrito

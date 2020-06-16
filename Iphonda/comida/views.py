@@ -281,9 +281,71 @@ class DeleteFromCart(LoginRequiredMixin, DeleteView):
 # FIN clases de la vista carrito
 
 class Ordenar(View):
-    def get(self,request,orden_id):
+    def get(self,request,orden_id,dir_id):
         orden = Orden.objects.get(id = orden_id)
         orden.estado = 'PD'
         orden.fecha = datetime.datetime.now()
+        orden.dirr = direccion.objects.get(id = dir_id)
         orden.save()
         return redirect( reverse_lazy('comida:categorias'))
+
+class Direccion(View):
+
+    template = "comida/direccion.html"
+
+    def get(self, request, orden_id):
+        """GET method."""
+        direcciones = direccion.objects.filter(email = request.user)
+        orden = Orden.objects.get(id = orden_id)
+        form = DireccionForm()
+        context = {
+            "direcciones": direcciones,
+            "orden" : orden ,
+            "title": "Elige tu direccion",
+            "form": form,
+        }
+        return render(request, self.template, context)
+
+    def post(self, request, orden_id):
+        form = DireccionForm(request.POST)
+
+        try:
+            if form.is_valid():
+                texto = form.cleaned_data['dir']
+                direccion_nueva = direccion.objects.create(email = request.user , dirrec = texto)
+                direccion_nueva.save()
+                messages.success(request, 'Direccion Agregada !')
+                direcciones = direccion.objects.filter(email = request.user)
+                orden = Orden.objects.get(id = orden_id)
+                form = DireccionForm()
+                context = {
+                    "direcciones": direcciones,
+                    "orden" : orden ,
+                    "title": "Elige tu direccion",
+                    "form": form,
+                }
+                return render(request, self.template, context)
+
+            direcciones = direccion.objects.filter(email = request.user)
+            orden = Orden.objects.get(id = orden_id)
+            form = DireccionForm()
+            context = {
+                "direcciones": direcciones,
+                "orden" : orden ,
+                "title": "Elige tu direccion",
+                "form": form,
+            }
+            return render(request, self.template, context)
+
+        except:
+            messages.success(request, 'Hubo un error agregando la Categoria')
+            direcciones = direccion.objects.filter(email = request.user)
+            orden = Orden.objects.get(id = orden_id)
+            form = DireccionForm()
+            context = {
+                "direcciones": direcciones,
+                "orden" : orden ,
+                "title": "Elige tu direccion",
+                "form": form,
+            }
+            return render(request, self.template, context)

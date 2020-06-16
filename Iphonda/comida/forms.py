@@ -52,3 +52,6 @@ class CartAddProductForm(forms.Form):
             'cantidad' : ('Cantidad'),
             'update':(''),
         }
+
+class DireccionForm(forms.Form):
+    dir = forms.CharField()
