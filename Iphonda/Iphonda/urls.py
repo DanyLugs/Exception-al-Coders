@@ -26,6 +26,8 @@ urlpatterns = [
     path('django/', admin.site.urls),
     path('comida/', include('comida.urls')),
     path('admin/', include('usuarios.admin-urls')),
+    path('repartidor/', Repartidor.as_view()),
+    path('usuario/', Cliente.as_view()),
     path('login/', Login.as_view()),
     path('logout/', Logout.as_view()),
     path('signup/', Signup.as_view()),

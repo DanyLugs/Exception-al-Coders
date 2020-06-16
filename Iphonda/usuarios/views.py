@@ -18,69 +18,7 @@ from .mixins import *
 class Admin(LoginRequiredMixin,AdminMixin,View):
     """ Home del administrador """
     login_url = '/login/'
-
-    def get(self, request):
-        context = {
-            "title": "Administrador"
-        }
-        return render(request, "admin-dashboard.html", context)
-
-class AgregarRepartidor(LoginRequiredMixin,AdminMixin,View):
-    """ Vista para agregar un nuevo repartidor """
-    login_url = '/login/'
-
-    def get(self, request):
-
-        context = {
-            "repartidores": User.objects.filter(groups__name="repartidor"),
-            "clientes": User.objects.filter(groups__name="cliente"),
-            "title": "Agregar repartidor"
-        }
-        return render(request, "agregar-repartidor.html", context)
-
-class AgregarRepartidorConId(AdminMixin,View):
-    """ Actualiza el usuario con el id seleccionado para ser repartidor """
-
-    def get(self, request, idUser):
-        try:
-            usuario = User.objects.get(id=idUser)
-            grupoClientes = Group.objects.get(name="cliente")
-            grupoRepartidores = Group.objects.get(name="repartidor")
-            usuario.groups.remove(grupoClientes)
-            usuario.groups.add(grupoRepartidores)
-            msj = "Haz agregado a " + str(usuario.username) + " como repartidor."
-            messages.add_message(request,messages.SUCCESS, msj)
-        except:
-            msj = "El usuario seleccionado es inválido o no existe."
-            messages.add_message(request,messages.ERROR, msj)
-        finally:
-            return redirect('/admin')
-
-class QuitarRepartidorConId(AdminMixin,View):
-    """ Actualiza el usuario con el id seleccionado para ya no ser repartidor """
-
-    def get(self, request, idUser):
-        try:
-            usuario = User.objects.get(id=idUser)
-            grupoClientes = Group.objects.get(name="cliente")
-            grupoRepartidores = Group.objects.get(name="repartidor")
-            usuario.groups.add(grupoClientes)
-            usuario.groups.remove(grupoRepartidores)
-            msj = "Haz eliminado a " + str(usuario.username) + " como repartidor."
-            messages.add_message(request,messages.SUCCESS, msj)
-        except:
-            msj = "El usuario seleccionado es inválido o no existe."
-            messages.add_message(request,messages.ERROR, msj)
-        finally:
-            return redirect('/admin')
-
-from .forms import SignUpForm
-from .models import Orden
-from .mixins import *
-
-class Admin(LoginRequiredMixin,AdminMixin,View):
-    """ Home del administrador """
-    login_url = '/login/'
+    redirect_url = '/'
 
     def get(self, request):
         context = {
@@ -93,13 +31,13 @@ class AgregarRepartidor(LoginRequiredMixin,AdminMixin,View):
     """ Vista para agregar un nuevo repartidor """
     login_url = '/login/'
 
-
     def get(self, request):
 
         context = {
             "repartidores": User.objects.filter(groups__name="repartidor"),
             "clientes": User.objects.filter(groups__name="cliente"),
-            "title": "Agregar repartidor"
+            "title": "Agregar repartidor",
+            "grupo": str(request.user.groups.all().first())
         }
         return render(request, "agregar-repartidor.html", context)
 
@@ -114,6 +52,48 @@ class AgregarRepartidorConId(AdminMixin,View):
             usuario.groups.remove(grupoClientes)
             usuario.groups.add(grupoRepartidores)
             msj = "Haz agregado a " + str(usuario.username) + " como repartidor."
+            messages.add_message(request,messages.SUCCESS, msj)
+        except:
+            msj = "El usuario seleccionado es inválido o no existe."
+            messages.add_message(request,messages.ERROR, msj)
+        finally:
+            return redirect('/admin')
+
+class Cliente(LoginRequiredMixin,AdminMixin,View):
+    """ Home del cliente """
+    login_url = '/login/'
+    redirect_url = '/'
+
+    def get(self, request):
+        context = {
+            "title": "Cliente",
+            "grupo": str(request.user.groups.all().first())
+        }
+        return render(request, "cliente-dashboard.html", context)
+
+class Repartidor(LoginRequiredMixin,AdminMixin,View):
+    """ Home del repartidor """
+    login_url = '/login/'
+    redirect_url = '/'
+
+    def get(self, request):
+        context = {
+            "title": "Repartidor",
+            "grupo": str(request.user.groups.all().first())
+        }
+        return render(request, "repartidor-dashboard.html", context)
+
+class QuitarRepartidorConId(AdminMixin,View):
+    """ Actualiza el usuario con el id seleccionado para ya no ser repartidor """
+
+    def get(self, request, idUser):
+        try:
+            usuario = User.objects.get(id=idUser)
+            grupoClientes = Group.objects.get(name="cliente")
+            grupoRepartidores = Group.objects.get(name="repartidor")
+            usuario.groups.add(grupoClientes)
+            usuario.groups.remove(grupoRepartidores)
+            msj = "Haz eliminado a " + str(usuario.username) + " como repartidor."
             messages.add_message(request,messages.SUCCESS, msj)
         except:
             msj = "El usuario seleccionado es inválido o no existe."
@@ -127,30 +107,15 @@ class CalificarServicio(View):
         usuario = User.objects.get(id=orden.usuario_id)
         if orden.usuario_id != request.user.id:
             return redirect('/')
-        return render(request, "calificar-servicio.html", {"title": "Calificar servicio"})
+        return render(request, "calificar-servicio.html", {
+            "title": "Calificar servicio",
+            "grupo": str(request.user.groups.all().first())
+        })
 
     def post(self, request, idOrden):
         orden = Orden.objects.get(id=idOrden)
         calif = int(request.POST['calif'])
         return None
-
-class QuitarRepartidorConId(AdminMixin,View):
-    """ Actualiza el usuario con el id seleccionado para ya no ser repartidor """
-
-    def get(self, request, idUser):
-        try:
-            usuario = User.objects.get(id=idUser)
-            grupoClientes = Group.objects.get(name="cliente")
-            grupoRepartidores = Group.objects.get(name="repartidor")
-            usuario.groups.add(grupoClientes)
-            usuario.groups.remove(grupoRepartidores)
-            msj = "Haz eliminado a " + str(usuario.username) + " como repartidor."
-            messages.add_message(request,messages.SUCCESS, msj)
-        except:
-            msj = "El usuario seleccionado es inválido o no existe."
-            messages.add_message(request,messages.ERROR, msj)
-        finally:
-            return redirect('/admin')
 
 class Login(View):
     def get(self, request):
@@ -207,7 +172,7 @@ class Pedidos(View):
             'lista_pedidos':pedidos,
             'lisCom':lista_cantidad,
             "title": "Pedidos",
-
+            "grupo": str(request.user.groups.all().first())
         }
         return render(request,"pedidos.html",context)
 

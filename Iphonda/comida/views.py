@@ -58,7 +58,8 @@ class AgregarCategoria(LoginRequiredMixin,AdminMixin,View):
         form = Nueva_Categoria()
         context = {
             "form": form,
-            "title": self.title
+            "title": self.title,
+            "grupo": str(request.user.groups.all().first())
         }
         return render(request, self.template, context)
 
@@ -98,7 +99,8 @@ class AgregarComida(View):
         form = Nueva_Comida()
         context = {
             "form": form,
-            "title": self.title
+            "title": self.title,
+            "grupo": str(request.user.groups.all().first())
         }
 
         return render(request, self.template, context)
@@ -168,7 +170,8 @@ class EditarComida(View):
         form = Nueva_Comida(instance = comidaMod)
         context = {
             "form": form,
-            "title": "Editar comida " + comidaMod.nombre
+            "title": "Editar comida " + comidaMod.nombre,
+            "grupo": str(request.user.groups.all().first())
         }
         return render(request, "comida/editarComida.html", context)
 
@@ -177,7 +180,8 @@ class EditarComida(View):
         form = Nueva_Comida(request.POST, request.FILES , instance=comidaMod)
         context = {
             "form": form,
-            "title": "Editar comida " + comidaMod.nombre
+            "title": "Editar comida " + comidaMod.nombre,
+            "grupo": str(request.user.groups.all().first())
         }
         if(form.is_valid()):
             comidaMod=form.save(commit=False)
@@ -191,7 +195,8 @@ class EditarCategoria(View):
         form = Nueva_Categoria(instance=categoriaMod)
         context = {
             "form": form,
-            "title": "Editar categoría " + categoriaMod.nombre
+            "title": "Editar categoría " + categoriaMod.nombre,
+            "grupo": str(request.user.groups.all().first())
         }
         return render(request,"categoria/editarCategoria.html", context)
 
@@ -200,7 +205,8 @@ class EditarCategoria(View):
         form =Nueva_Categoria(request.POST, request.FILES, instance=categoriaMod)
         context = {
             "form": form,
-            "title": "Editar categoría " + categoriaMod.nombre
+            "title": "Editar categoría " + categoriaMod.nombre,
+            "grupo": str(request.user.groups.all().first())
         }
         if(form.is_valid()):
             categoriaMod=form.save(commit=False)
