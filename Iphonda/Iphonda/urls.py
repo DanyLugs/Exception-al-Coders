@@ -33,7 +33,8 @@ urlpatterns = [
     path('pedidos-usuarios/', Pedidos_usuarios.as_view()),
     path('pedidos-repartidor/', Pedidos_repartidor.as_view(),name="pedido_rep"),
     path('pedido_proceso/<int:ordenid>',Proceso.as_view(),name= 'proceso'),
-    path('pedido_entrega/<int:ordenid>',Entrega.as_view(),name= 'entrega')
+    path('pedido_entrega/<int:ordenid>',Entrega.as_view(),name= 'entrega'),
+    path('calificar-servicio/<int:idOrden>', CalificarServicio.as_view()),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:

@@ -3,7 +3,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import Group, User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .models import Orden,cantidadComidaOrden
 
 from django.shortcuts import render, redirect
 from django.views import View
@@ -13,7 +12,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 
 from .forms import SignUpForm
-from .models import Orden
+from .models import Orden,cantidadComidaOrden
 from .mixins import *
 
 class Admin(LoginRequiredMixin,AdminMixin,View):
@@ -75,7 +74,84 @@ class QuitarRepartidorConId(AdminMixin,View):
         finally:
             return redirect('/admin')
 
-# Create your views here.
+from .forms import SignUpForm
+from .models import Orden
+from .mixins import *
+
+class Admin(LoginRequiredMixin,AdminMixin,View):
+    """ Home del administrador """
+    login_url = '/login/'
+
+    def get(self, request):
+        context = {
+            "title": "Administrador",
+            "grupo": str(request.user.groups.all().first())
+        }
+        return render(request, "admin-dashboard.html", context)
+
+class AgregarRepartidor(LoginRequiredMixin,AdminMixin,View):
+    """ Vista para agregar un nuevo repartidor """
+    login_url = '/login/'
+
+
+    def get(self, request):
+
+        context = {
+            "repartidores": User.objects.filter(groups__name="repartidor"),
+            "clientes": User.objects.filter(groups__name="cliente"),
+            "title": "Agregar repartidor"
+        }
+        return render(request, "agregar-repartidor.html", context)
+
+class AgregarRepartidorConId(AdminMixin,View):
+    """ Actualiza el usuario con el id seleccionado para ser repartidor """
+
+    def get(self, request, idUser):
+        try:
+            usuario = User.objects.get(id=idUser)
+            grupoClientes = Group.objects.get(name="cliente")
+            grupoRepartidores = Group.objects.get(name="repartidor")
+            usuario.groups.remove(grupoClientes)
+            usuario.groups.add(grupoRepartidores)
+            msj = "Haz agregado a " + str(usuario.username) + " como repartidor."
+            messages.add_message(request,messages.SUCCESS, msj)
+        except:
+            msj = "El usuario seleccionado es inválido o no existe."
+            messages.add_message(request,messages.ERROR, msj)
+        finally:
+            return redirect('/admin')
+
+class CalificarServicio(View):
+    def get(self, request, idOrden):
+        orden = Orden.objects.get(id=idOrden)
+        usuario = User.objects.get(id=orden.usuario_id)
+        if orden.usuario_id != request.user.id:
+            return redirect('/')
+        return render(request, "calificar-servicio.html", {"title": "Calificar servicio"})
+
+    def post(self, request, idOrden):
+        orden = Orden.objects.get(id=idOrden)
+        calif = int(request.POST['calif'])
+        return None
+
+class QuitarRepartidorConId(AdminMixin,View):
+    """ Actualiza el usuario con el id seleccionado para ya no ser repartidor """
+
+    def get(self, request, idUser):
+        try:
+            usuario = User.objects.get(id=idUser)
+            grupoClientes = Group.objects.get(name="cliente")
+            grupoRepartidores = Group.objects.get(name="repartidor")
+            usuario.groups.add(grupoClientes)
+            usuario.groups.remove(grupoRepartidores)
+            msj = "Haz eliminado a " + str(usuario.username) + " como repartidor."
+            messages.add_message(request,messages.SUCCESS, msj)
+        except:
+            msj = "El usuario seleccionado es inválido o no existe."
+            messages.add_message(request,messages.ERROR, msj)
+        finally:
+            return redirect('/admin')
+
 class Login(View):
     def get(self, request):
         form = AuthenticationForm()
@@ -206,9 +282,6 @@ class Pedidos_repartidor(View):
 
     def post(self, request):
         return HttpResponse("<h1> no debiste llegar aqui </h1>")
-
-
-
 
 class Signup(View):
     def get(self, request):

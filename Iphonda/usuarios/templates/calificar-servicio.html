@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block main%}
+    <div class="container">
+        <div class="card" id="dashboard">
+            <h4 class="card-header">Calificar servicio</h4>
+            <div class="card-body">
+                <form method="post" id="calif-service-form">
+                    {% csrf_token %}
+                    <p class="lead">
+                        Tu opinión nos importa, por favor califica el servicio recibido en tu última orden.
+                    </p>
+                    <div id="estrellas">
+                        <label>
+                            <input type="radio" name="calif" class="calif-service-radio" value="1" data-label="Lamentable" required>
+                            <img src="{% static 'img/star-unchk.png' %}" id="str1">
+                        </label>
+                        <label>
+                            <input type="radio" name="calif" class="calif-service-radio" value="2" data-label="Malo">
+                            <img src="{% static 'img/star-unchk.png' %}" id="str2">
+                        </label>
+                        <label>
+                            <input type="radio" name="calif" class="calif-service-radio" value="3" data-label="Normal">
+                            <img src="{% static 'img/star-unchk.png' %}" id="str3">
+                        </label>
+                        <label>
+                            <input type="radio" name="calif" class="calif-service-radio" value="4" data-label="Bueno">
+                            <img src="{% static 'img/star-unchk.png' %}" id="str4">
+                        </label>
+                        <label>
+                            <input type="radio" name="calif" class="calif-service-radio" value="5" data-label="Excelente">
+                            <img src="{% static 'img/star-unchk.png' %}" id="str5">
+                        </label>
+                    </div>
+                    <p id="etiqueta">&nbsp;</p>
+                    <p>
+                        <input class="btn btn-primary" type="submit" value="Calificar">
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock main%}
+
+{% block js %}
+<script>
+    const radios = document.getElementsByClassName('calif-service-radio');
+    const stars = [
+        document.getElementById('str1'),
+        document.getElementById('str2'),
+        document.getElementById('str3'),
+        document.getElementById('str4'),
+        document.getElementById('str5')
+    ]
+    const etiqueta = document.getElementById('etiqueta');
+    let calif = 0;
+
+    for(let i = 0; i < radios.length; i++) {
+        radios.item(i).addEventListener('click', evt => {
+            calif = parseInt(evt.target.value);
+            uncheckAll();
+            check(calif);
+            etiqueta.innerText = evt.target.dataset.label;
+        });
+    }
+
+    function uncheckAll() {
+        stars.forEach(star => {
+            star.setAttribute('src', '{% static "img/star-unchk.png" %}')
+        })
+    }
+
+    function check(n) {
+        for(let i = 0; i < n; i++)
+            stars[i].setAttribute('src', '{% static "img/star.png" %}')
+    }
+</script>
+{% endblock js %}

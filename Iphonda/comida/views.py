@@ -18,6 +18,7 @@ from django.views.generic.detail import DetailView
 
 from .models import *
 from .forms import *
+from .mixins import *
 
 #Models
 from .models import Comida, Categoria
@@ -46,7 +47,9 @@ class ComidaVista(View):
         }
         return render(request, self.template, context)
 
-class AgregarCategoria(View):
+class AgregarCategoria(LoginRequiredMixin,AdminMixin,View):
+    login_url = '/login/'
+    redirect_url = '/comida/categorias/'
 
     template ="categoria/agregar_categoria.html"
     title = "Agregar categorías"
