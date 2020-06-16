@@ -124,6 +124,7 @@ class Pedidos(View):
                 "usuario":pedido.usuario,
                 "comidas": cantidad,
                 "estado": pedido.estado,
+                "dirrecion":pedido.dirr.dirrec
             }
             pedidos.append(diCo)
         context = {
@@ -159,6 +160,7 @@ class Pedidos_usuarios(View):
                 "usuario":pedido.usuario,
                 "comidas": cantidad,
                 "estado": pedido.estado,
+                "dirrecion":pedido.dirr.dirrec,
             }
             pedidos.append(diCo)
 
@@ -191,6 +193,7 @@ class Pedidos_repartidor(View):
                 "usuario":pedido.usuario,
                 "comidas": cantidad,
                 "estado": pedido.estado,
+                "dirrecion":pedido.dirr.dirrec,
             }
             pedidos.append(diCo)
         context = {
