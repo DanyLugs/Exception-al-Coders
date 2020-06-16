@@ -211,6 +211,32 @@ label {
   cursor: pointer;
 }
 
+#calif-service-form {
+  display: block;
+  text-align: center;
+}
+
+#calif-service-form #estrellas {
+  height: 60px;
+}
+
+#calif-service-form label {
+  width: 45px;
+}
+
+#calif-service-form label > img {
+  max-width: 35px;
+  transition: all 0.2s;
+}
+
+#calif-service-form label > img:hover {
+  max-width: 45px;
+}
+
+#calif-service-form .calif-service-radio {
+  display: none;
+}
+
 .cta {
   padding-top: 5rem;
   padding-bottom: 5rem;

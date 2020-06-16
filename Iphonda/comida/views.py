@@ -4,6 +4,7 @@ from django.views import View
 from django.http import HttpResponse
 from django.contrib import messages
 from django.template.defaultfilters import slugify
+from .mixins import *
 
 #Models
 from .models import Comida, Categoria
@@ -27,7 +28,7 @@ class ComidaVista(View):
         }
         return render(request, self.template, context)
 
-class AgregarCategoria(View):
+class AgregarCategoria(AdminMixin,View):
 
     template ="categoria/agregar_categoria.html"
     title = "Agregar categorías"

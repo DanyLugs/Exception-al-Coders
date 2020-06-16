@@ -54,6 +54,10 @@ class AgregarRepartidorConId(AdminMixin,View):
         finally:
             return redirect('/admin')
 
+class CalificarServicio(View):
+    def get(self, request, idOrden):
+        return render(request, "calificar-servicio.html", {"title": "Calificar servicio"})
+
 class QuitarRepartidorConId(AdminMixin,View):
     """ Actualiza el usuario con el id seleccionado para ya no ser repartidor """
 
@@ -135,7 +139,6 @@ class Pedidos(View):
 
     def post(self, request):
         return HttpResponse("<h1> no debiste llegar aqui </h1>")
-
 
 class Signup(View):
     def get(self, request):
