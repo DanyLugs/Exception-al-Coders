@@ -659,3 +659,110 @@ body .well-block .dish-price {
 .c-error input, .c-error select {
   border: 1px solid #c51244 !important;
 }
+
+table.Carrito {
+  font-family: Tahoma, Geneva, sans-serif;
+  border: 1px solid #1C6EA4;
+  background-color: #EEEEEE;
+  width: 100%;
+  text-align: center;
+  border-collapse: collapse;
+}
+
+table.Carrito td, table.Carrito th {
+  border: 1px solid #AAAAAA;
+  padding: 3px 2px;
+}
+
+table.Carrito tbody td {
+  font-size: 25px;
+}
+
+table.Carrito tr:nth-child(even) {
+  background: #D0E4F5;
+}
+
+table.Carrito thead {
+  background: #1C6EA4;
+  background: linear-gradient(to bottom, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+  border-bottom: 2px solid #444444;
+}
+
+table.Carrito thead th {
+  font-size: 20px;
+  text-align: center;
+  font-weight: bold;
+  color: #FFFFFF;
+  border-left: 2px solid #D0E4F5;
+}
+
+table.Carrito thead th:first-child {
+  border-left: none;
+}
+
+table.Carrito tfoot {
+  font-size: 14px;
+  font-weight: bold;
+  color: #FFFFFF;
+  background: #D0E4F5;
+  background: linear-gradient(to bottom, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+  border-top: 2px solid #444444;
+}
+
+table.Carrito tfoot td {
+  font-size: 20px;
+}
+
+.button {
+  background-color: #4CAF50;
+  /* Green */
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.button2 {
+  background-color: white;
+  color: black;
+  border: 2px solid #008CBA;
+}
+
+.button2:hover {
+  background-color: #008CBA;
+  color: white;
+}
+
+.button1 {
+  background-color: #4CAF50;
+  /* Green */
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.button3 {
+  background-color: #a0d3d6;
+  color: black;
+  border: 2px solid #008CBA;
+}
+
+.button3:hover {
+  background-color: #008CBA;
+  color: white;
+}

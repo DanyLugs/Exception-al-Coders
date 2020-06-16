@@ -8,18 +8,22 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.template import loader
 from django.http import HttpResponse
+from django.contrib.auth.models import User
+from django.urls import reverse_lazy
 
 from .forms import SignUpForm
-from .models import Orden
+from .models import Orden,cantidadComidaOrden
 from .mixins import *
 
 class Admin(LoginRequiredMixin,AdminMixin,View):
     """ Home del administrador """
     login_url = '/login/'
+    redirect_url = '/'
 
     def get(self, request):
         context = {
-            "title": "Administrador"
+            "title": "Administrador",
+            "grupo": str(request.user.groups.all().first())
         }
         return render(request, "admin-dashboard.html", context)
 
@@ -27,13 +31,13 @@ class AgregarRepartidor(LoginRequiredMixin,AdminMixin,View):
     """ Vista para agregar un nuevo repartidor """
     login_url = '/login/'
 
-
     def get(self, request):
 
         context = {
             "repartidores": User.objects.filter(groups__name="repartidor"),
             "clientes": User.objects.filter(groups__name="cliente"),
-            "title": "Agregar repartidor"
+            "title": "Agregar repartidor",
+            "grupo": str(request.user.groups.all().first())
         }
         return render(request, "agregar-repartidor.html", context)
 
@@ -55,18 +59,29 @@ class AgregarRepartidorConId(AdminMixin,View):
         finally:
             return redirect('/admin')
 
-class CalificarServicio(View):
-    def get(self, request, idOrden):
-        orden = Orden.objects.get(id=idOrden)
-        usuario = User.objects.get(id=orden.usuario_id)
-        if orden.usuario_id != request.user.id:
-            return redirect('/')
-        return render(request, "calificar-servicio.html", {"title": "Calificar servicio"})
+class Cliente(LoginRequiredMixin,AdminMixin,View):
+    """ Home del cliente """
+    login_url = '/login/'
+    redirect_url = '/'
 
-    def post(self, request, idOrden):
-        orden = Orden.objects.get(id=idOrden)
-        calif = int(request.POST['calif'])
-        return None
+    def get(self, request):
+        context = {
+            "title": "Cliente",
+            "grupo": str(request.user.groups.all().first())
+        }
+        return render(request, "cliente-dashboard.html", context)
+
+class Repartidor(LoginRequiredMixin,AdminMixin,View):
+    """ Home del repartidor """
+    login_url = '/login/'
+    redirect_url = '/'
+
+    def get(self, request):
+        context = {
+            "title": "Repartidor",
+            "grupo": str(request.user.groups.all().first())
+        }
+        return render(request, "repartidor-dashboard.html", context)
 
 class QuitarRepartidorConId(AdminMixin,View):
     """ Actualiza el usuario con el id seleccionado para ya no ser repartidor """
@@ -85,6 +100,22 @@ class QuitarRepartidorConId(AdminMixin,View):
             messages.add_message(request,messages.ERROR, msj)
         finally:
             return redirect('/admin')
+
+class CalificarServicio(View):
+    def get(self, request, idOrden):
+        orden = Orden.objects.get(id=idOrden)
+        usuario = User.objects.get(id=orden.usuario_id)
+        if orden.usuario_id != request.user.id:
+            return redirect('/')
+        return render(request, "calificar-servicio.html", {
+            "title": "Calificar servicio",
+            "grupo": str(request.user.groups.all().first())
+        })
+
+    def post(self, request, idOrden):
+        orden = Orden.objects.get(id=idOrden)
+        calif = int(request.POST['calif'])
+        return None
 
 class Login(View):
     def get(self, request):
@@ -120,31 +151,99 @@ class Logout(View):
 
 class Pedidos(View):
     """docstring forPedidos."""
-
     def get(self,request):
-        template = loader.get_template("pedidos.html")
-        lista_pedidos = Orden.objects.all()
+        lista_cantidad =cantidadComidaOrden.objects.all()
+        lista_entrega=Orden.objects.filter(estado="PD")
+        cantidades=[]
         pedidos=[]
-        for pedido in lista_pedidos:
+        for pedido in lista_entrega:
             lisCom=[]
-            for comida in pedido.comida.all():
-                lisCom.append(comida)
+            cantidad=cantidadComidaOrden.objects.filter(idOrden=pedido.id)
             diCo={
                 "id": pedido.id,
                 "fecha": pedido.fecha,
                 "usuario":pedido.usuario,
-                "comidas": lisCom
+                "comidas": cantidad,
+                "estado": pedido.estado,
+                "dirrecion":pedido.dirr.dirrec
+            }
+            pedidos.append(diCo)
+        context = {
+            'lista_pedidos':pedidos,
+            'lisCom':lista_cantidad,
+            "title": "Pedidos",
+            "grupo": str(request.user.groups.all().first())
+        }
+        return render(request,"pedidos.html",context)
+
+    def post(self, request):
+        return HttpResponse("<h1> no debiste llegar aqui </h1>")
+
+class Pedidos_usuarios(View):
+    """docstring forPedidos."""
+
+    def get(self,request):
+        lista_pedidos = Orden.objects.all()
+        lista_cantidad =cantidadComidaOrden.objects.all()
+        cantidades=[]
+        pedidos=[]
+        cliente=request.user
+        print(cliente.id)
+        historial=Orden.objects.filter(usuario=cliente.id)
+        print(historial)
+        #pedido_cliente=lista_pedidos.objects.filter(id=)
+        for pedido in historial:
+            lisCom=[]
+            cantidad=cantidadComidaOrden.objects.filter(idOrden=pedido.id)
+            diCo={
+                "id": pedido.id,
+                "fecha": pedido.fecha,
+                "usuario":pedido.usuario,
+                "comidas": cantidad,
+                "estado": pedido.estado,
+                "dirrecion":pedido.dirr.dirrec,
             }
             pedidos.append(diCo)
 
 
         context = {
-            'lista_pedidos':lista_pedidos,
-            'lista_comida':pedidos,
-            "title": "Pedidos"
+            'lista_pedidos':pedidos,
+            'lisCom':lista_cantidad,
+            "title": "Pedidos",
         }
 
-        return render(request,"pedidos.html",context)
+        return render(request,"pedido_cliente.html",context)
+
+    def post(self, request):
+        return HttpResponse("<h1> no debiste llegar aqui </h1>")
+
+
+class Pedidos_repartidor(View):
+    """docstring forPedidos."""
+    def get(self,request):
+        lista_cantidad =cantidadComidaOrden.objects.all()
+        lista_entrega=Orden.objects.filter(estado="LT")
+        cantidades=[]
+        pedidos=[]
+        for pedido in lista_entrega:
+            lisCom=[]
+            cantidad=cantidadComidaOrden.objects.filter(idOrden=pedido.id)
+            diCo={
+                "id": pedido.id,
+                "fecha": pedido.fecha,
+                "usuario":pedido.usuario,
+                "comidas": cantidad,
+                "estado": pedido.estado,
+                "dirrecion":pedido.dirr.dirrec,
+            }
+            pedidos.append(diCo)
+        context = {
+            'lista_pedidos':pedidos,
+            'lisCom':lista_cantidad,
+            "title": "Pedidos",
+
+        }
+        return render(request,"pedidos_reapartidor.html",context)
 
     def post(self, request):
         return HttpResponse("<h1> no debiste llegar aqui </h1>")
@@ -173,3 +272,20 @@ class Signup(View):
             'title': 'Registro de usuarios'
         }
         return render(request, "signup.html", context)
+
+class Proceso(View):
+    """docstring forProceso."""
+    def get(self,request,ordenid):
+        orden = Orden.objects.get(id = ordenid)
+        orden.estado = 'LT'
+        orden.save()
+        return redirect( reverse_lazy('pedido_admin'))
+
+
+class Entrega(View):
+    """docstring forProceso."""
+    def get(self,request,ordenid):
+        orden = Orden.objects.get(id = ordenid)
+        orden.estado = 'ET'
+        orden.save()
+        return redirect(reverse_lazy('pedido_rep') )

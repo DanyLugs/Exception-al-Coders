@@ -4,7 +4,7 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Muli:wght@300&display=swap" rel="stylesheet">
 <h1 class="site-heading text-center text-white d-none d-lg-block">
-    <span class="site-heading-upper text-primary mb-3">Vea los pedidos que faltan</span>
+    <span class="site-heading-upper text-primary mb-3">Vea los pedidos que estan pendientes</span>
     <!--span class="site-heading-lower">Business Casual</span-->
   </h1>
 
@@ -25,7 +25,7 @@
                 <div class="pedido">
                  <br>
                   <li>Este es el pedio: {{pedido.id}}, lo solicito: {{pedido.usuario}}, La fecha fue en: {{pedido.fecha}}, su estado es {{pedido.estado}} <br>
-                  <li> Esta es la dirrecion {{pedido.dirrecion}}  
+                  <li> Esta es la dirrecion {{pedido.dirrecion}}
                   <b>su pedido es</b> :</li>
                   {%for comida in pedido.comidas %}
                   <div class="comida">
@@ -37,12 +37,12 @@
                     <br>
                   </div>
                 {% endfor %}
-                  <a href="{% url 'proceso' pedido.id %}" class="button button2">Listo para enviar</a>
+                  <a href="{% url 'entrega' pedido.id %}" class="button button2">Entregado al cliente</a>
               </div>
               {% endfor %}
               </ul>
               {%else%}
-              <p> No tienes ningun pedido :) </p>
+              <p> No hay pedidos en Fila :C </p>
               {% endif %}
               <style type="text/css">
                .comida{

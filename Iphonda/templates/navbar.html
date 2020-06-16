@@ -30,8 +30,8 @@
                     <a class="nav-link text-uppercase text-expanded" href="/comida/agregar-comida">Agregar Comida</a>
                 </li>
 
-                <li class="nav-item {% if request.path == "/pedidos/" %}active{% endif %} px-lg-4">
-                    <a class="nav-link text-uppercase text-expanded" href="/pedidos">Ver pedidos</a>
+                <li class="nav-item {% if request.path == "/pedidos-administrador/" %}active{% endif %} px-lg-4">
+                    <a class="nav-link text-uppercase text-expanded" href="/pedidos-administrador">Ver pedidos</a>
                 </li>
                 {% endif %}
             </ul>
@@ -43,12 +43,14 @@
                 {% elif grupo == "repartidor" %}
                 <a href="/repartidor">{{ user }}</a>
                 {% else %}
+                <a href="/comida/carrito">Carrito</a>
                 <a href="/usuario">{{ user }}</a>
                 {% endif %}
             </span>
             <a class="nav-link text-uppercase text-expanded" href="/logout">Salir</a>
             {% else %}
             <a class="nav-link text-uppercase text-expanded" href="/login">Entrar</a>
+
             {% endif %}
         </div>
     </div>

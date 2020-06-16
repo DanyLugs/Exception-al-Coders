@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Carrito{% endblock title %}
+
+
+{% block main %}
+<!-- <h1>Tu carrito de compras</h1>
+<table class="cart">
+    <thead>
+        <tr>
+            <th>Imagen</th>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Quitar</th>
+            <th>Precio unitario</th>
+            <th>Precio</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for comida in objetos %}
+         <tr>
+             <td>
+                <a href="{{ comida.idComida.get_absolute_url }}">
+                    <div class="crop">
+                    <img class="w-100" src="{{ comida.idComida.imagen.url }}">
+                    </div>
+                </a>
+            </td>
+            <td>{{ comida.idComida }}</td>
+            <td>{{ comida.cantidadComida }}</td>
+            <td> <a href="{% url 'comida:element_cart_delete' comida.id %}">Quitar</a></td>
+            <td class="num">${{ comida.idComida.precio }}</td>
+            <td class="num">${{ comida.get_subtotal }}</td>
+         </tr>
+        {% endfor %}
+        <tr class="total">
+            <td>Total</td>
+            <td colspan="4"></td>
+            <td class="num">${{ comida.get_total_price }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<p class="text-right">
+    <a href="{% url 'comida:comidaHome' %}" class="button light">Continuar comprando</a>
+    <a href="#" class="button">Ordenar</a>
+</p> -->
+
+
+<h1 class="site-heading text-center text-white d-none d-lg-block">
+    <span class="site-heading-upper text-primary mb-3">Tu carrito de compras </span>
+</h1><table class="Carrito">
+<thead>
+    <tr>
+        <th>Imagen</th>
+        <th>Producto</th>
+        <th>Cantidad</th>
+        <th>Quitar</th>
+        <th>Precio unitario</th>
+        <th>Subtotal</th>
+    </tr>
+</thead>
+<tbody>
+    {% if objetos %}
+      {% for comida in objetos %}
+       <tr>
+           <td>
+              <a href="{{ comida.idComida.get_absolute_url }}">
+                  <div>
+                  <img class="crop" src="{{ comida.idComida.imagen.url }}" style="width: 100px">
+                  </div>
+              </a>
+          </td>
+          <td>{{ comida.idComida }}</td>
+          <td>{{ comida.cantidadComida }}</td>
+          <td> <a href="{% url 'comida:element_cart_delete' comida.id %}" class="button1 button3">Quitar</a></td>
+          <td class="num">${{ comida.idComida.precio }}</td>
+          <td class="num">${{ comida.get_subtotal }}</td>
+       </tr>
+      {% endfor %}
+      <tr class="total">
+        <td>Total</td>
+        <td colspan="4"></td>
+        <td class="num">${{ orden.get_total_price }}</td>
+    </tr>
+    {% endif %}
+</tbody>
+</table>
+
+<p class="text-right">
+
+<a href="{% url 'comida:categorias' %}" class="button button2">Continuar comprando</a>
+{% if objetos %}
+<a href="{% url 'comida:direccion' orden.id %}" class="button button2">Ordenar</a>
+{% else %}
+
+{% endif %}
+
+</p>
+
+{% endblock main %}
