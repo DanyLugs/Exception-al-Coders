@@ -27,6 +27,7 @@ class AgregarRepartidor(LoginRequiredMixin,AdminMixin,View):
     """ Vista para agregar un nuevo repartidor """
     login_url = '/login/'
 
+
     def get(self, request):
 
         context = {
@@ -56,7 +57,16 @@ class AgregarRepartidorConId(AdminMixin,View):
 
 class CalificarServicio(View):
     def get(self, request, idOrden):
+        orden = Orden.objects.get(id=idOrden)
+        usuario = User.objects.get(id=orden.usuario_id)
+        if orden.usuario_id != request.user.id:
+            return redirect('/')
         return render(request, "calificar-servicio.html", {"title": "Calificar servicio"})
+
+    def post(self, request, idOrden):
+        orden = Orden.objects.get(id=idOrden)
+        calif = int(request.POST['calif'])
+        return None
 
 class QuitarRepartidorConId(AdminMixin,View):
     """ Actualiza el usuario con el id seleccionado para ya no ser repartidor """
@@ -76,7 +86,6 @@ class QuitarRepartidorConId(AdminMixin,View):
         finally:
             return redirect('/admin')
 
-# Create your views here.
 class Login(View):
     def get(self, request):
         form = AuthenticationForm()

@@ -4,6 +4,7 @@ from django.views import View
 from django.http import HttpResponse
 from django.contrib import messages
 from django.template.defaultfilters import slugify
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .mixins import *
 
 #Models
@@ -28,7 +29,9 @@ class ComidaVista(View):
         }
         return render(request, self.template, context)
 
-class AgregarCategoria(AdminMixin,View):
+class AgregarCategoria(LoginRequiredMixin,AdminMixin,View):
+    login_url = '/login/'
+    redirect_url = '/comida/categorias/'
 
     template ="categoria/agregar_categoria.html"
     title = "Agregar categorías"
