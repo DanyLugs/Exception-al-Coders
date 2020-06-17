@@ -41,9 +41,11 @@ class CartAddProductForm(forms.Form):
     model = cantidadComidaOrden
     cantidadComida = forms.TypedChoiceField(
                                 choices = PRODUCT_QUANTITY_CHOICES,
-                                coerce = int)
+                                coerce = int,
+                                label='Cantidad')
     update = forms.BooleanField(required = False,
                                 initial = False,
+                                label='',
                                 widget = forms.HiddenInput()) # No queremos que el usuario vea el campo update
 
     class Meta:

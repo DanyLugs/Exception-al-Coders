@@ -43,7 +43,9 @@
                 {% elif grupo == "repartidor" %}
                 <a href="/repartidor">{{ user }}</a>
                 {% else %}
-                <a href="/comida/carrito">Carrito</a>
+                <a href="/comida/carrito">
+                    <img src="{% static 'img/carrito.svg' %}" style="width: 1.5em; margin-right: 1.3rem;">
+                </a>
                 <a href="/usuario">{{ user }}</a>
                 {% endif %}
             </span>

@@ -1,89 +1,85 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block main %}
 
 {% if messages %}
 {% for m in messages %}
 <div class="alert alert-success text-center" role="alert">
-  {{m}}
+    {{m}}
 </div>
 {% endfor %}
 {% endif %}
 
-<link href="https://fonts.googleapis.com/css2?family=Muli:wght@300&display=swap" rel="stylesheet">
-<h1 class="site-heading text-center text-white d-none d-lg-block">
-    <span class="site-heading-upper text-primary mb-3">Ve tu historial</span>
-    <!--span class="site-heading-lower">Business Casual</span-->
-  </h1>
-
-  <section class="page-section about-heading">
     <div class="container">
-      <!-- <img class="img-fluid rounded about-heading-img mb-3 mb-lg-0" src="img/pizza.jpg" alt=""> -->
-      <hr>
-      <div class="about-heading-content">
-        <div class="row">
-          <div class="col-xl-9 col-lg-10 mx-auto">
-            <div class="bg-faded rounded p-5">
-              <h2 class="section-heading mb-4 titulo-pedido">
-                <span class="section-head-ing-upper">Historial</span>
-              </h2>
+        <div class="card mb-4" id="dashboard">
+            <h4 class="card-header">Tus pedidos</h4>
+            <div class="card-body">
+                {% if lista_pedidos %}
+                <table class="table">
+                    <thead>
+                        <th>fecha</th>
+                        <th>pedido</th>
+                        <th>dirección</th>
+                        <th>estado</th>
+                    </thead>
+                    <tbody>
+                        {% for pedido in lista_pedidos %}
+                        <tr>
+                            <td>{{pedido.fecha}}</td>
+                            <td>
+                                <ul class="list-unstyled">
+                                {%for comida in pedido.comidas %}
+                                    <li>
+                                        <span class="badge badge-info">&times;{{comida.cantidadComida}}</span>
+                                        {{comida.idComida}}
+                                    </li>
+                                {% endfor %}
+                                </ul>
+                            </td>
+                            <td>{{pedido.dirrecion}}</td>
+                            <td>
+                                {% if pedido.estado == 'PD' %}   <span class="badge badge-success">Pendiente</span>
+                                {% elif pedido.estado == 'ET' %} <span class="badge badge-success">Entregado</span>
+                                {% elif pedido.estado == 'CF' %} <span class="badge badge-success">Entregado y calificado</span>
+                                {% elif pedido.estado == 'LT' %} <span class="badge badge-success">En camino</span>
+                                {% endif %}
 
-              {% if lista_pedidos %}
-              <ul>
-                {% for pedido in lista_pedidos %}
-                <div class="pedido">
-                 <br>
-                  <li>Este es el pedido: {{pedido.id}}, lo solicito: {{pedido.usuario}}, La fecha fue en: {{pedido.fecha}}, su estado es {% if pedido.estado == 'PD' %} PENDIENTE {% endif %} {% if pedido.estado == 'ET' %} ENTREGADO {% endif %} {% if pedido.estado == 'CF' %} CALIFICADO {% endif %} {% if pedido.estado == 'EC' %} EN CAMINO {% endif %} <br>
-                  <li> Esta es la dirrecion {{pedido.dirrecion}}
-                  <b>su pedido es</b> :</li>
-                  {%for comida in pedido.comidas %}
-                  <div class="comida">
-                    <br>
-                    <ul>
-                      {{comida.idComida}},
-                      {{comida.cantidadComida}} Piezas
-                    </ul>
-                    <br>
-                  </div>
-                {% endfor %}
-                {% if pedido.estado == 'ET' %}
-                 <div>
-                   <a href="/calificar-servicio/{{pedido.id}}" class="btn btn-primary mt-2 mb-2">
-                    Calificar servicio
-                  </a>
-                 </div>
-                 {% endif %}
-              </div>
-              {% endfor %}
-              </ul>
-              {%else%}
-
-              <p> No has hecho ningún pedido :) </p>
-              {% endif %}
-              <style type="text/css">
-               .comida{
-                 border-width: medium;
-                 border-style:solid;
-                 border-color: tomato;
-                 margin-top: 5%;
-                 text-align: center;
-                 font-family: 'Muli', sans-serif;
-                 font-size: 1.5em;
-               }
-
-               .pedido{
-                font-size: 1.2em;
-                 text-align: center;
-                 border-width: medium;
-                 border-style:solid;
-                 margin-top: 5%;
-                 border-color: #C0C73C;
-               }
-              </style>
+                                {% if pedido.estado == 'ET' %}
+                                <a href="/calificar-servicio/{{pedido.id}}" class="btn btn-primary btn-sm btn-block pt-0 pb-0">
+                                    Calificar servicio
+                                </a>
+                                {% elif pedido.estado == 'CF' %}
+                                <div class="stars" data-stars="{{pedido.califi}}"></div>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <p class="lead">
+                    Aún no tienes nungún pedido.
+                </p>
+                {% endif %}
             </div>
-
-          </div>
         </div>
-      </div>
     </div>
-  </section>
-  {% endblock main %}
+{% endblock main %}
+
+{% block js %}
+<script>
+const collection = document.getElementsByClassName('stars');
+
+for (let i = 0; i < collection.length; i++) {
+    const el = collection[i];
+    console.log(el);
+    console.log(el.dataset.stars);
+    for (let j = 0; j < el.dataset.stars; j++) {
+        const star = document.createElement('img')
+        star.setAttribute('src', "{% static 'img/star.png' %}");
+        star.setAttribute('width', '15px');
+        el.appendChild(star);
+    }
+}
+</script>
+{% endblock js %}

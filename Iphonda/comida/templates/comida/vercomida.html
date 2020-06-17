@@ -13,7 +13,7 @@
 </div>
 
 {% for comida in comidas %}
-<div class="card">
+<div class="card" style="margin: 1rem;">
     <!-- <figure><img src="{{ MEDIA_URL }}/{{ comida.imagen }}" style="width:100%"/> </figure>  -->
     <figure><img src="{{ comida.imagen.url }}" style="width:100%" /> </figure>
     <h1>{{comida.nombre}}</h1>
@@ -36,7 +36,9 @@
             {{ field }}
 
         {% endfor %}
-        <input type="submit" value="Add to cart">
+        <p>
+            <input class="btn btn-primary mb-2" type="submit" value="Agregar al carrito">
+        </p>
     </form>
     {% endif %}
 
