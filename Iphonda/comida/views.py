@@ -43,7 +43,8 @@ class ComidaVista(View):
         context = {
             "comidas": comidas,
             "title": id.nombre,
-            "form": form
+            "form": form,
+            "grupo": str(request.user.groups.all().first())
         }
         return render(request, self.template, context)
 
@@ -73,24 +74,29 @@ class AgregarCategoria(LoginRequiredMixin,AdminMixin,View):
                 messages.success(request, 'Categoria Agregada !')
                 context = {
                     "form": Nueva_Categoria(),
-                    "title": self.title
+                    "title": self.title,
+                    "grupo": str(request.user.groups.all().first())
                 }
                 return render(request, self.template, context)
 
             context = {
                 "form": form,
-                "title": self.title
+                "title": self.title,
+                "grupo": str(request.user.groups.all().first())
             }
             return render(request, self.template, context)
         except:
             messages.success(request, 'Hubo un error agregando la Categoria')
             context = {
                 "form": form,
-                "title": self.title
+                "title": self.title,
+                "grupo": str(request.user.groups.all().first())
             }
             return render(request, self.template, context)
 
-class AgregarComida(View):
+class AgregarComida(LoginRequiredMixin,AdminMixin,View):
+    login_url = '/login/'
+    redirect_url = '/comida/categorias/'
 
     template ="comida/agregar_comida.html"
     title = "Agregar comida"
@@ -115,13 +121,15 @@ class AgregarComida(View):
                 messages.success(request, 'Comida Agregada !')
                 context = {
                     "form": Nueva_Comida(),
-                    "title": self.title
+                    "title": self.title,
+                    "grupo": str(request.user.groups.all().first())
                 }
                 return render(request, self.template, context)
 
             context = {
                 "form": form,
-                "title": self.title
+                "title": self.title,
+                "grupo": str(request.user.groups.all().first())
             }
             return render(request, self.template, context)
 
@@ -129,7 +137,8 @@ class AgregarComida(View):
             messages.success(request, 'Hubo un error agregando la Comida')
             context = {
                 "form": form,
-                "title": self.title
+                "title": self.title,
+                "grupo": str(request.user.groups.all().first())
             }
             return render(request, self.template, context)
 
@@ -143,7 +152,8 @@ class CategoriaVista(View):
         categorias = Categoria.objects.all()
         context = {
             "categorias": categorias,
-            "title": "Explora nuestro menú"
+            "title": "Explora nuestro menú",
+            "grupo": str(request.user.groups.all().first())
         }
         return render(request, self.template, context)
 
@@ -164,7 +174,10 @@ class EliminarCategoria(View):
         return redirect(url)
 
 
-class EditarComida(View):
+class EditarComida(LoginRequiredMixin,AdminMixin,View):
+    login_url = '/login/'
+    redirect_url = '/comida/categorias/'
+
     def get(self, request, comida_id):
         comidaMod = Comida.objects.get(id = comida_id)
         form = Nueva_Comida(instance = comidaMod)
@@ -189,7 +202,10 @@ class EditarComida(View):
             return redirect("/comida/categorias/" + slugify(comidaMod.categoria) + "/")
         return render(request,"comida/editarComida.html", context)
 
-class EditarCategoria(View):
+class EditarCategoria(LoginRequiredMixin,AdminMixin,View):
+    login_url = '/login/'
+    redirect_url = '/comida/categorias/'
+
     def get(self, request, categoria_id):
         categoriaMod = Categoria.objects.get(id=categoria_id)
         form = Nueva_Categoria(instance=categoriaMod)
@@ -217,10 +233,12 @@ class EditarCategoria(View):
 
 # INICIA clases de la vista carrito
 
-class CartView(LoginRequiredMixin,ListView):
+class CartView(LoginRequiredMixin,ClienteMixin,ListView):
     """
     Clase CartView, regresa la vista del carrito.
     """
+    login_url = '/login/'
+    redirect_url = '/'
 
     model = cantidadComidaOrden
     template= 'comida/carrito.html'
@@ -235,11 +253,13 @@ class CartView(LoginRequiredMixin,ListView):
 
             context = {
                 "objetos": objetos,
+                "title":"carrito",
                 "orden" : orden
                 }
         else:
             context = {
-                "objectos": objetos
+                "objectos": objetos,
+                "title":"carrito",
             }
 
         return render(request, self.template, context)
@@ -249,7 +269,7 @@ class AddToCart(LoginRequiredMixin, View):
     Clase AddToCart, se encarga de la cantidad del alimento en la vista de las comidas
     """
     template_name = 'comida/vercomida.html'
-    login_url = 'user:login'
+    login_url = '/login/'
 
     def post(self, request, *args, **kwargs):
         """
@@ -278,7 +298,7 @@ class DeleteFromCart(LoginRequiredMixin, DeleteView):
     por lo tanto lo elimina de la tabla del carrito
     """
 
-    login_url = 'users:login'
+    login_url = '/login/'
     model = cantidadComidaOrden
     success_url = reverse_lazy('comida:cart')
     slug_url_kwarg = 'comida_id'
@@ -298,7 +318,9 @@ class Ordenar(View):
         orden.save()
         return redirect( reverse_lazy('comida:categorias'))
 
-class Direccion(View):
+class Direccion(LoginRequiredMixin,ClienteMixin,View):
+    login_url = '/login/'
+    redirect_url = '/'
 
     template = "comida/direccion.html"
 

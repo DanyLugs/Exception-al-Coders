@@ -20,6 +20,7 @@
     <p class="price">${{comida.precio}}</p>
     <p>{{comida.descripcion}}</p>
     <!-- <a href="/comida/add_to_cart/{{comida.id}}" class="btn btn-warning">Add to cart</a> -->
+    {% if grupo == "cliente" %}
     <form action="{% url 'comida:add_to_cart' comida.id %}" method="POST">
         {% csrf_token %}
 
@@ -32,8 +33,9 @@
         {% endfor %}    
         <input type="submit" value="Add to cart">
     </form>
+    {% endif %}
 
-    {% if user.is_authenticated %}
+    {% if grupo == "admin" %}
     <div class="admin-options">
         <a class="btn btn-primary" href="/comida/editarComida/{{comida.id}}">Editar</a>
         <a class="btn btn-danger" data-toggle="modal" data-target="#borrar-{{comida.id}}" href="#">Eliminar</a>
@@ -55,8 +57,6 @@
             </div>
         </div>
     </div>
-    {% else %}
-    <p><button>Añadir al carito</button></p>
     {% endif %}
 </div>
 
