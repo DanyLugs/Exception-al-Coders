@@ -3,6 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import Group, User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.db.models import Q
 
 from django.shortcuts import render, redirect
 from django.views import View
@@ -209,7 +210,7 @@ class Pedidos_usuarios(LoginRequiredMixin, ClienteMixin, View):
 
 
     def get(self,request):
-        lista_pedidos = Orden.objects.all()
+        # lista_pedidos = Orden.objects.filter(estado = 'CT')
         lista_cantidad =cantidadComidaOrden.objects.all()
         cantidades=[]
         pedidos=[]
@@ -223,7 +224,7 @@ class Pedidos_usuarios(LoginRequiredMixin, ClienteMixin, View):
         ]
         cliente=request.user
         print(cliente.id)
-        historial=Orden.objects.filter(usuario=cliente.id)
+        historial=Orden.objects.filter(usuario=cliente.id).filter(~Q(estado = 'CT'))
         print(historial)
         #pedido_cliente=lista_pedidos.objects.filter(id=)
         for pedido in historial:
