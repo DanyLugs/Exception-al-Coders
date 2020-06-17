@@ -24,7 +24,7 @@
                 {% for pedido in lista_pedidos %}
                 <div class="pedido">
                  <br>
-                  <li>Este es el pedio: {{pedido.id}}, lo solicito: {{pedido.usuario}}, La fecha fue en: {{pedido.fecha}}, su estado es {{pedido.estado}} <br>
+                  <li>Este es el pedio: {{pedido.id}}, lo solicito: {{pedido.usuario}}, La fecha fue en: {{pedido.fecha}}, su estado es {{pedido.estado}} = PENDIENTE <br>
                   <li> Esta es la dirrecion {{pedido.dirrecion}}  
                   <b>su pedido es</b> :</li>
                   {%for comida in pedido.comidas %}
