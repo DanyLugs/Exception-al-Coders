@@ -20,6 +20,11 @@
     <p class="price">${{comida.precio}}</p>
     <p>{{comida.descripcion}}</p>
     <!-- <a href="/comida/add_to_cart/{{comida.id}}" class="btn btn-warning">Add to cart</a> -->
+    {% if not user.is_authenticated %}
+    <a href="/login" class="btn btn-primary mb-2">
+        Ingresa para comprar
+    </a>
+    {% endif %}
     {% if grupo == "cliente" %}
     <form action="{% url 'comida:add_to_cart' comida.id %}" method="POST">
         {% csrf_token %}
