@@ -236,7 +236,7 @@ class Pedidos_usuarios(LoginRequiredMixin, ClienteMixin, View):
                 "comidas": cantidad,
                 "estado": pedido.estado,
                 "califi": pedido.califi,
-                "dirrecion":pedido.dirr.dirrec,
+                "dirrecion": pedido.dirr.dirrec if pedido.dirr else '',
             }
             pedidos.append(diCo)
 
