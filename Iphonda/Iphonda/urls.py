@@ -23,17 +23,21 @@ from pages.views import HomePage
 
 urlpatterns = [
     path('', HomePage.as_view()),
-    path('admin/', admin.site.urls),
+    path('django/', admin.site.urls),
     path('comida/', include('comida.urls')),
+    path('admin/', include('usuarios.admin-urls')),
+    path('repartidor/', Repartidor.as_view()),
+    path('usuario/', Cliente.as_view()),
     path('login/', Login.as_view()),
     path('logout/', Logout.as_view()),
     path('signup/', Signup.as_view()),
-    path('pedidos/', Pedidos.as_view()),
+    path('pedidos-administrador/', Pedidos.as_view(),name='pedido_admin'),
+    path('pedidos-usuarios/', Pedidos_usuarios.as_view()),
+    path('pedidos-repartidor/', Pedidos_repartidor.as_view(),name="pedido_rep"),
+    path('pedido_proceso/<int:ordenid>',Proceso.as_view(),name= 'proceso'),
+    path('pedido_entrega/<int:ordenid>',Entrega.as_view(),name= 'entrega'),
+    path('calificar-servicio/<int:idOrden>', CalificarServicio.as_view()),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:
         urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-        
-
- 
-

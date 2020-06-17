@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block main %}
+
+{% if messages %}
+{% for m in messages %}
+<div class="alert alert-success text-center" role="alert">
+    {{m}}
+</div>
+{% endfor %}
+{% endif %}
+
+    <div class="container">
+        <div class="card mb-4" id="dashboard">
+            <h4 class="card-header">Tus pedidos</h4>
+            <div class="card-body">
+                {% if lista_pedidos %}
+                <table class="table">
+                    <thead>
+                        <th>fecha</th>
+                        <th>pedido</th>
+                        <th>dirección</th>
+                        <th>estado</th>
+                    </thead>
+                    <tbody>
+                        {% for pedido in lista_pedidos %}
+                        <tr>
+                            <td>{{pedido.fecha}}</td>
+                            <td>
+                                <ul class="list-unstyled">
+                                {%for comida in pedido.comidas %}
+                                    <li>
+                                        <span class="badge badge-info">&times;{{comida.cantidadComida}}</span>
+                                        {{comida.idComida}}
+                                    </li>
+                                {% endfor %}
+                                </ul>
+                            </td>
+                            <td>{{pedido.dirrecion}}</td>
+                            <td>
+                                {% if pedido.estado == 'PD' %}   <span class="badge badge-success">Pendiente</span>
+                                {% elif pedido.estado == 'ET' %} <span class="badge badge-success">Entregado</span>
+                                {% elif pedido.estado == 'CF' %} <span class="badge badge-success">Entregado y calificado</span>
+                                {% elif pedido.estado == 'LT' %} <span class="badge badge-success">En camino</span>
+                                {% endif %}
+
+                                {% if pedido.estado == 'ET' %}
+                                <a href="/calificar-servicio/{{pedido.id}}" class="btn btn-primary btn-sm btn-block pt-0 pb-0">
+                                    Calificar servicio
+                                </a>
+                                {% elif pedido.estado == 'CF' %}
+                                <div class="stars" data-stars="{{pedido.califi}}"></div>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <p class="lead">
+                    Aún no tienes nungún pedido.
+                </p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock main %}
+
+{% block js %}
+<script>
+const collection = document.getElementsByClassName('stars');
+
+for (let i = 0; i < collection.length; i++) {
+    const el = collection[i];
+    console.log(el);
+    console.log(el.dataset.stars);
+    for (let j = 0; j < el.dataset.stars; j++) {
+        const star = document.createElement('img')
+        star.setAttribute('src', "{% static 'img/star.png' %}");
+        star.setAttribute('width', '15px');
+        el.appendChild(star);
+    }
+}
+</script>
+{% endblock js %}

@@ -1,3 +1,27 @@
 label {
     cursor: pointer;
 }
+
+#calif-service-form {
+    display: block;
+    text-align: center;
+
+    #estrellas{
+        height: 60px;
+    }
+
+    label {
+        width: 45px;
+        &>img {
+            max-width: 35px;
+            transition: all 0.2s;
+            &:hover {
+                max-width: 45px;
+            }
+        }
+    }
+
+    .calif-service-radio {
+        display: none;
+    }
+}

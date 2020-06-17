@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<div class="page-section cta">
+    <div class="container">
+        <div class="cta-inner text-center rounded">
+            {% if messages %}
+            {% for message in messages %}
+            <div{% if message.tags == "success" %} class="alert alert-success" role="alert" {% endif %}> {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        <h2 class="section-heading mb-4">
+            <span class="section-heading-upper"> Selecciona a dónde enviar tu pedido. </span>
+        </h2>
+        {% if direcciones %}
+        <table class="table">
+            <thead>
+                <th>Dirección</th>
+                <th>&nbsp;</th>
+            </thead>
+            <tbody>
+                {% for direccion in direcciones %}
+                <tr>
+                    <td>{{direccion.dirrec}}</td>
+                    <td>
+                        <a href="{% url 'comida:ordenar' orden.id direccion.id %}" class="btn btn-primary">Enviar
+                            aquí</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <span class="section-heading-upper"> NO HAY DIRECCIONES PUEDES AGREGAR UNA ABAJO </span>
+        {% endif %}
+
+
+        <span class="section-heading-upper"> -Agrega una nueva Direccion- </span>
+        <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+            {{ field.errors}}
+            {{ field.label_tag}}
+            {{ field}}
+            {% endfor %}
+            <input class="btn btn-primary btn-sm" value="Agregar" type="submit">
+        </form>
+    </div>
+</div>
+</div>
+{% endblock main %}
