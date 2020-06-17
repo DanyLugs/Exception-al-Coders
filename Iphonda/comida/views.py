@@ -73,20 +73,23 @@ class AgregarCategoria(LoginRequiredMixin,AdminMixin,View):
                 messages.success(request, 'Categoria Agregada !')
                 context = {
                     "form": Nueva_Categoria(),
-                    "title": self.title
+                    "title": self.title,
+                    "grupo": str(request.user.groups.all().first())
                 }
                 return render(request, self.template, context)
 
             context = {
                 "form": form,
-                "title": self.title
+                "title": self.title,
+                "grupo": str(request.user.groups.all().first())
             }
             return render(request, self.template, context)
         except:
             messages.success(request, 'Hubo un error agregando la Categoria')
             context = {
                 "form": form,
-                "title": self.title
+                "title": self.title,
+                "grupo": str(request.user.groups.all().first())
             }
             return render(request, self.template, context)
 
@@ -115,13 +118,15 @@ class AgregarComida(View):
                 messages.success(request, 'Comida Agregada !')
                 context = {
                     "form": Nueva_Comida(),
-                    "title": self.title
+                    "title": self.title,
+                    "grupo": str(request.user.groups.all().first())
                 }
                 return render(request, self.template, context)
 
             context = {
                 "form": form,
-                "title": self.title
+                "title": self.title,
+                "grupo": str(request.user.groups.all().first())
             }
             return render(request, self.template, context)
 
@@ -129,7 +134,8 @@ class AgregarComida(View):
             messages.success(request, 'Hubo un error agregando la Comida')
             context = {
                 "form": form,
-                "title": self.title
+                "title": self.title,
+                "grupo": str(request.user.groups.all().first())
             }
             return render(request, self.template, context)
 
