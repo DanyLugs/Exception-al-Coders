@@ -102,12 +102,15 @@ class QuitarRepartidorConId(AdminMixin,View):
         finally:
             return redirect('/admin')
 
-class CalificarServicio(View):
+class CalificarServicio(LoginRequiredMixin,ClienteMixin,View):
+    login_url = '/login/'
+    redirect_url = '/pedidos-usuarios/'
+
     def get(self, request, idOrden):
         orden = Orden.objects.get(id=idOrden)
         usuario = User.objects.get(id=orden.usuario_id)
         if orden.usuario_id != request.user.id:
-            return redirect('/')
+            return redirect(self.redirect_url)
         return render(request, "calificar-servicio.html", {
             "title": "Calificar servicio",
             "grupo": str(request.user.groups.all().first())
@@ -115,8 +118,15 @@ class CalificarServicio(View):
 
     def post(self, request, idOrden):
         orden = Orden.objects.get(id=idOrden)
+        if orden.usuario_id != request.user.id:
+            return redirect(self.redirect_url)
+
         calif = int(request.POST['calif'])
-        return None
+        orden.califi = calif
+        orden.estado = 'CF'
+        orden.save()
+        messages.add_message(request,messages.SUCCESS, "Gracias por tu calificación.")
+        return redirect(self.redirect_url)
 
 class Login(View):
     def get(self, request):
@@ -249,7 +259,7 @@ class Pedidos_repartidor(LoginRequiredMixin, RepartidorMixin, View):
     """docstring forPedidos."""
     login_url = '/login/'
     redirect_url = '/'
-    
+
     def get(self,request):
         lista_cantidad =cantidadComidaOrden.objects.all()
         lista_entrega=Orden.objects.filter(estado="LT")
