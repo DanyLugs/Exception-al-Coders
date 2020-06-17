@@ -122,7 +122,9 @@ class CalificarServicio(LoginRequiredMixin,ClienteMixin,View):
 
         calif = int(request.POST['calif'])
         orden.califi = calif
+        orden.estado = 'CF'
         orden.save()
+        messages.add_message(request,messages.SUCCESS, "Gracias por tu calificación.")
         return redirect(self.redirect_url)
 
 class Login(View):
